@@ -5,6 +5,6 @@
                       Title="ChooseMatchingMoviePart" Height="300" Width="300"
                       Style="{DynamicResource VSWindowStyleKey}">
     <Grid>
-        <ListBox Name="MoviePartsList" />
+        <ListBox Name="MoviePartsList" MouseDoubleClick="MoviePartsList_OnMouseDoubleClick" />
     </Grid>
 </controls:MetroWindow>

@@ -3,6 +3,7 @@ using System.Linq;
 using TMDbLib.Client;
 using TMDbLib.Objects.Collections;
 using TMDbLib.Objects.General;
+using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
 
 namespace Movie.TMDbAPI
@@ -14,6 +15,8 @@ namespace Movie.TMDbAPI
         public TmDb()
         {
             _client = new TMDbClient(GetApiKeyFromRegistry());
+            _client.DefaultCountry = "de";
+            _client.DefaultLanguage = "de";
         }
 
         //public Part GetMoviePart(string query)
@@ -36,14 +39,22 @@ namespace Movie.TMDbAPI
             return _client.SearchMovie(title);
         }
 
+        public AlternativeTitles GetGermanTitleById(int id)
+        {
+            return _client.GetMovieAlternativeTitles(id, "de");
+        }
+
         internal string GetApiKeyFromRegistry()
         {
-            RegistryKey movieKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi\Movie",
+            var movieKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi\Movie",
                 RegistryKeyPermissionCheck.ReadSubTree);
 
-            if (movieKey == null) return "";
+            if (movieKey == null)
+            {
+                return "";
+            }
             using (
-                RegistryKey settingsKey = movieKey.OpenSubKey("Program Settings",
+                var settingsKey = movieKey.OpenSubKey("Program Settings",
                     RegistryKeyPermissionCheck.ReadSubTree))
             {
                 return settingsKey != null ? settingsKey.GetValue("ApiKey", "").ToString() : "";

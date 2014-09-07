@@ -10,7 +10,7 @@ namespace Movie
     /// </summary>
     // ReSharper disable RedundantExtendsListEntry
     public partial class AddEditMovie : MetroWindow
-    // ReSharper restore RedundantExtendsListEntry
+        // ReSharper restore RedundantExtendsListEntry
     {
         private readonly TmDb _tmDb;
 
@@ -37,6 +37,7 @@ namespace Movie
             {
                 var seachCollection = _tmDb.GetMovieSearchCollection(Name.Text);
 
+                ChooseMatchingMoviePart.TmDb = _tmDb;
                 ChooseMatchingMoviePart.MovieParts = seachCollection.Parts;
                 new ChooseMatchingMoviePart().Show();
             }
