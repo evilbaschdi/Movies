@@ -1,0 +1,10 @@
+﻿<controls:MetroWindow x:Class="Movie.ChooseMatchingMoviePart"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Title="ChooseMatchingMoviePart" Height="300" Width="300"
+                      Style="{DynamicResource VSWindowStyleKey}">
+    <Grid>
+        <ListBox Name="MoviePartsList" />
+    </Grid>
+</controls:MetroWindow>

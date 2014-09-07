@@ -1,0 +1,22 @@
+﻿<controls:MetroWindow x:Class="Movie.AddEditMovie"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Title="Add Edit Movie" Height="300" Width="525"
+                      Style="{DynamicResource VSWindowStyleKey}">
+    <Grid>
+        <!--TextBox-->
+        <TextBox Name="Name" Margin="90,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400"
+                 LostFocus="Name_OnLostFocus" />
+        <TextBox Name="Year" Margin="90,33,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" />
+        <TextBox Name="Format" Margin="90,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" />
+
+        <!--Label-->
+        <Label Content="Title" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top"
+               Foreground="{StaticResource Foreground}" />
+        <Label Content="Year" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"
+               Foreground="{StaticResource Foreground}" />
+        <Label Content="Format" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top"
+               Foreground="{StaticResource Foreground}" />
+    </Grid>
+</controls:MetroWindow>
