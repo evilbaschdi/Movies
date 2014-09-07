@@ -9,7 +9,7 @@ namespace Movie
     /// </summary>
     // ReSharper disable RedundantExtendsListEntry
     public partial class ChooseMatchingMoviePart : MetroWindow
-        // ReSharper restore RedundantExtendsListEntry
+    // ReSharper restore RedundantExtendsListEntry
     {
         public ChooseMatchingMoviePart()
         {

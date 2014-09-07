@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Microsoft.Win32;
+using System.Linq;
 using TMDbLib.Client;
 using TMDbLib.Objects.Collections;
 using TMDbLib.Objects.General;
@@ -12,7 +13,7 @@ namespace Movie.TMDbAPI
 
         public TmDb()
         {
-            _client = new TMDbClient("c6b31d1cdad6a56a23f0c913e2482a31"); //Todo: eigenen Key anfordern
+            _client = new TMDbClient(GetApiKeyFromRegistry());
         }
 
         //public Part GetMoviePart(string query)
@@ -33,6 +34,20 @@ namespace Movie.TMDbAPI
         public SearchContainer<SearchMovie> GetMovieByTitle(string title)
         {
             return _client.SearchMovie(title);
+        }
+
+        internal string GetApiKeyFromRegistry()
+        {
+            RegistryKey movieKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi\Movie",
+                RegistryKeyPermissionCheck.ReadSubTree);
+
+            if (movieKey == null) return "";
+            using (
+                RegistryKey settingsKey = movieKey.OpenSubKey("Program Settings",
+                    RegistryKeyPermissionCheck.ReadSubTree))
+            {
+                return settingsKey != null ? settingsKey.GetValue("ApiKey", "").ToString() : "";
+            }
         }
     }
 }
