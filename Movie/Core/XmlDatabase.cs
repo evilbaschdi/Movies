@@ -20,7 +20,7 @@ namespace Movie.Core
 
         public static void Insert(string id, string name, string year, string format)
         {
-            DataRow dataRow = _dataView.Table.NewRow();
+            var dataRow = _dataView.Table.NewRow();
             dataRow[0] = Guid.NewGuid();
             dataRow[1] = name;
             dataRow[2] = year;
@@ -30,11 +30,11 @@ namespace Movie.Core
         }
 
         /// <summary>
-        ///     Updates a record in the Category table.
+        ///     Updates a record in the movie table.
         /// </summary>
         public static void Update(string id, string name, string year, string format)
         {
-            DataRow dataRow = Select(id);
+            var dataRow = SelectById(id);
             dataRow[1] = name;
             dataRow[2] = year;
             dataRow[3] = format;
@@ -42,7 +42,7 @@ namespace Movie.Core
         }
 
         /// <summary>
-        ///     Deletes a record from the Category table by a composite primary key.
+        ///     Deletes a record from the movie table by a composite primary key.
         /// </summary>
         public static void Delete(string id)
         {
@@ -54,14 +54,14 @@ namespace Movie.Core
         }
 
         /// <summary>
-        ///     Selects a single record from the Category table.
+        ///     Selects a single record from the movie table by a composite primary key.
         /// </summary>
-        public static DataRow Select(string id)
+        public static DataRow SelectById(string id)
         {
             _dataView.RowFilter = string.Format("Id='{0}'", id);
             _dataView.Sort = "Id";
             DataRow dataRow = null;
-            if (_dataView.Count > 0)
+            if(_dataView.Count > 0)
             {
                 dataRow = _dataView[0].Row;
             }
@@ -70,7 +70,23 @@ namespace Movie.Core
         }
 
         /// <summary>
-        ///     Selects all records from the Category table.
+        ///     Selects a single record from the movie table by a movie name.
+        /// </summary>
+        public static DataRow SelectByName(string name)
+        {
+            _dataView.RowFilter = string.Format("Name='{0}'", name);
+            _dataView.Sort = "Name";
+            DataRow dataRow = null;
+            if(_dataView.Count > 0)
+            {
+                dataRow = _dataView[0].Row;
+            }
+            _dataView.RowFilter = "";
+            return dataRow;
+        }
+
+        /// <summary>
+        ///     Selects all records from the movie table.
         /// </summary>
         public static DataView SelectAll()
         {

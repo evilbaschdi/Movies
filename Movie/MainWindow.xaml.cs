@@ -16,11 +16,9 @@ namespace Movie
     public partial class MainWindow : MetroWindow
         // ReSharper restore RedundantExtendsListEntry
     {
-        private string _action;
         private string _currentId;
         private string _exception;
         private MovieRecord _movie;
-        private bool _result;
 
         public MainWindow()
         {
@@ -28,17 +26,17 @@ namespace Movie
             Populate();
         }
 
-        private void Populate()
+        public void Populate()
         {
-            //MovieGrid.ItemsSource = List.MovieList();
-            //Sorting();
+            MovieGrid.ItemsSource = List.MovieList();
+            Sorting();
         }
 
         private void Sorting()
         {
             //create a collection view for the datasoruce binded with grid
 
-            ICollectionView dataView = CollectionViewSource.GetDefaultView(MovieGrid.ItemsSource);
+            var dataView = CollectionViewSource.GetDefaultView(MovieGrid.ItemsSource);
             //clear the existing sort order
             dataView.SortDescriptions.Clear();
             //create a new sort order for the sorting that is done lastly
@@ -49,83 +47,45 @@ namespace Movie
 
         private void LoadData(string id)
         {
-            _movie = List.GetMovie(id);
-            if (_movie != null)
+            _movie = List.GetMovieById(id);
+            if(_movie != null)
             {
                 _currentId = _movie.Id;
-                txtName.Text = _movie.Name;
-                txtYear.Text = _movie.Year;
-                txtFormat.Text = _movie.Format;
             }
         }
 
-        private void MovieGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MovieGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (MovieGrid.SelectedItem == null) return;
+            if(MovieGrid.SelectedItem == null)
+            {
+                return;
+            }
             var dataRowView = (DataRowView) MovieGrid.SelectedItem;
 
-            string id = dataRowView.Row["Id"].ToString();
+            var id = dataRowView.Row["Id"].ToString();
 
             LoadData(id);
-        }
-
-        private void IsAlreadyExist()
-        {
-            _movie = List.GetMovie(_currentId);
-            _action = _movie != null ? "update" : "insert";
-        }
-
-        private bool IsValidate()
-        {
-            return txtName.Text != string.Empty;
-        }
-
-        private void ClearForm()
-        {
-            txtName.Text = "";
-            txtYear.Text = "";
-            txtFormat.Text = "";
-        }
-
-        public void CancelData()
-        {
-            ClearForm();
-        }
-
-        public void CloseForm()
-        {
-            Close();
         }
 
         public void DeleteData()
         {
             try
             {
-                MessageBoxResult rslt =
-                    MessageBox.Show(string.Format("Are sure want to delete this record movie: {0} ?", txtName.Text),
-                        "[Confirmation]", MessageBoxButton.YesNo);
-                if (rslt == MessageBoxResult.Yes)
+                var delete =
+                    MessageBox.Show(string.Format("Are sure want to delete this movie: {0} ?", _movie.Name),
+                        "", MessageBoxButton.YesNo);
+                if(delete == MessageBoxResult.Yes)
                 {
                     List.Delete(_currentId);
-                    _result = true;
                 }
             }
-            catch (Exception exp)
+            catch(Exception exp)
             {
-                _result = false;
-                _exception = string.Format("Record {0} failed delete to datasource\n Message : {1}",
-                    txtName.Text.Trim(), exp.Message);
-                MessageBox.Show(_exception, "[Status Dialog]", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                _exception = string.Format("Record {0} failed delete to database\n Message : {1}",
+                    _movie.Name.Trim(), exp.Message);
+                MessageBox.Show(_exception, "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             Populate();
-            ClearForm();
-        }
-
-        public void NewEntry()
-        {
-            ClearForm();
-            _movie = null;
-            txtName.Focus();
         }
 
         public void PrintReport()
@@ -136,87 +96,24 @@ namespace Movie
             //s.GenerateReport();
         }
 
-        public void RefreshData()
+        private void NewClick(object sender, EventArgs e)
         {
-            ClearForm();
-            Populate();
-        }
-
-        public void SaveOrUpdateData()
-        {
-            if (!IsValidate()) return;
-            IsAlreadyExist();
-            SaveOrUpdateAction();
-            MessageBox.Show(_exception, "[Modified Dialog]", MessageBoxButton.OK,
-                !_result ? MessageBoxImage.Exclamation : MessageBoxImage.Information);
-        }
-
-        public void SaveOrUpdateAction()
-        {
-            _movie = new MovieRecord
-            {
-                Id = _currentId,
-                Name = txtName.Text,
-                Year = txtYear.Text,
-                Format = txtFormat.Text
-            };
-            if (_action.Equals("insert"))
-            {
-                try
-                {
-                    List.Insert(_movie);
-                    _result = true;
-                    _exception = string.Format("'{0}' successfully insert to datasource", txtName.Text);
-                }
-                catch (Exception exp)
-                {
-                    _result = false;
-                    _exception = string.Format("'{0}' failed insert to datasource\n Message : {1}",
-                        _movie.Id.Trim(), exp.Message);
-                }
-            }
-            else
-            {
-                try
-                {
-                    List.Update(_movie);
-                    _result = true;
-                    _exception = string.Format("'{0}' successfully update to datasource", txtName.Text);
-                }
-                catch (Exception exp)
-                {
-                    _result = false;
-                    _exception = string.Format("'{0}' failed update to datasource\n Message : {1}",
-                        txtName.Text, exp.Message);
-                }
-            }
-            Populate();
-        }
-
-        private void btnNew_Click(object sender, EventArgs e)
-        {
-            //AddEditMovie.connstring = p_connstring();
-
+            AddEditMovie.CurrentId = null;
             new AddEditMovie().Show();
-            //NewEntry();
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void EditClick(object sender, RoutedEventArgs e)
         {
-            SaveOrUpdateData();
+            AddEditMovie.CurrentId = _currentId;
+            new AddEditMovie().Show();
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            CancelData();
-        }
-
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void DeleteClick(object sender, EventArgs e)
         {
             DeleteData();
         }
 
-        private void btnExport_OnClick(object sender, RoutedEventArgs e)
+        private void ExportClick(object sender, RoutedEventArgs e)
         {
             PrintReport();
         }
@@ -225,7 +122,7 @@ namespace Movie
         {
             var propertyDescriptor = (PropertyDescriptor) e.PropertyDescriptor;
             e.Column.Header = propertyDescriptor.DisplayName;
-            if (propertyDescriptor.DisplayName == "Id")
+            if(propertyDescriptor.DisplayName == "Id")
             {
                 e.Cancel = true;
             }
