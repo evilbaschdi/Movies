@@ -13,6 +13,7 @@ namespace Movie
         // ReSharper restore RedundantExtendsListEntry
     {
         private string _action;
+        private readonly string _mode;
         private string _exception;
         private MovieRecord _movie;
         private readonly MainWindow _mainWindow;
@@ -26,10 +27,12 @@ namespace Movie
             if(string.IsNullOrWhiteSpace(CurrentId))
             {
                 Title = "Add Movie";
+                _mode = "add";
             }
             else
             {
                 Title = "Edit Movie";
+                _mode = "edit";
                 LoadData();
             }
         }
@@ -145,7 +148,7 @@ namespace Movie
 
         private bool IsDuplicate()
         {
-            return List.GetMovieByName(Name.Text) != null;
+            return List.GetMovieByName(Name.Text) != null && _mode == "add";
         }
 
         private bool IsValidate()
