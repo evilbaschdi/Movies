@@ -6,15 +6,14 @@
                       Style="{DynamicResource VSWindowStyleKey}">
     <Grid>
         <!--DataGrid-->
-        <DataGrid Name="MovieGrid" IsReadOnly="True" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*"
-                  AutoGeneratingColumn="OnAutoGeneratingColumn"
-                  GridLinesVisibility="Horizontal"
-                  SelectionChanged="MovieGridSelectionChanged"
-                  CanUserDeleteRows="False" Margin="10,60,10,10">
+        <DataGrid Name="MovieGrid" IsReadOnly="True" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" AutoGeneratingColumn="OnAutoGeneratingColumn"
+                  GridLinesVisibility="Horizontal" MouseDoubleClick="MovieGridOnMouseDoubleClick" SelectionChanged="MovieGridSelectionChanged" CanUserDeleteRows="False" Margin="10,60,10,10">
             <DataGrid.ContextMenu>
-                <ContextMenu Name="StoryMenu" StaysOpen="True">
+                <ContextMenu Name="MovieContextMenu" StaysOpen="True">
 
-                    <MenuItem Header="Edit" Click="EditClick" />
+                    <MenuItem Name="EditMenuItem" Header="Edit" Click="EditClick" />
+                    <MenuItem Name="DistributeMenuItem" Header="Distribute that film" Click="DistributeClick" IsEnabled="True" />
+                    <MenuItem Name="GotBackMenuItem" Header="Got back" Click="GotBackClick" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

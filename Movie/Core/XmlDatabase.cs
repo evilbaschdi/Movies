@@ -29,15 +29,28 @@ namespace Movie.Core
             Save();
         }
 
+        public static void Insert(string id, string name, string year, string format, string distributed)
+        {
+            var dataRow = _dataView.Table.NewRow();
+            dataRow[0] = Guid.NewGuid();
+            dataRow[1] = name;
+            dataRow[2] = year;
+            dataRow[3] = format;
+            dataRow[4] = distributed;
+            _dataView.Table.Rows.Add(dataRow);
+            Save();
+        }
+
         /// <summary>
         ///     Updates a record in the movie table.
         /// </summary>
-        public static void Update(string id, string name, string year, string format)
+        public static void Update(string id, string name, string year, string format, string distributed)
         {
             var dataRow = SelectById(id);
             dataRow[1] = name;
             dataRow[2] = year;
             dataRow[3] = format;
+            dataRow[4] = distributed;
             Save();
         }
 

@@ -12,5 +12,7 @@ namespace Movie.Core
         public string Year { get; set; }
 
         public string Format { get; set; }
+
+        public string Distributed { get; set; }
     }
 }

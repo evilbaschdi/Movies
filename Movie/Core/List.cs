@@ -19,7 +19,8 @@ namespace Movie.Core
                     Id = dataRow[0] != DBNull.Value ? dataRow[0].ToString() : string.Empty,
                     Name = dataRow[1] != DBNull.Value ? dataRow[1].ToString() : string.Empty,
                     Year = dataRow[2] != DBNull.Value ? dataRow[2].ToString() : string.Empty,
-                    Format = dataRow[3] != DBNull.Value ? dataRow[3].ToString() : string.Empty
+                    Format = dataRow[3] != DBNull.Value ? dataRow[3].ToString() : string.Empty,
+                    Distributed = dataRow[4] != DBNull.Value ? dataRow[3].ToString() : string.Empty
                 };
             }
             return _movieRecord;
@@ -37,7 +38,8 @@ namespace Movie.Core
                     Id = dataRow[0] != DBNull.Value ? dataRow[0].ToString() : string.Empty,
                     Name = dataRow[1] != DBNull.Value ? dataRow[1].ToString() : string.Empty,
                     Year = dataRow[2] != DBNull.Value ? dataRow[2].ToString() : string.Empty,
-                    Format = dataRow[3] != DBNull.Value ? dataRow[3].ToString() : string.Empty
+                    Format = dataRow[3] != DBNull.Value ? dataRow[3].ToString() : string.Empty,
+                    Distributed = dataRow[4] != DBNull.Value ? dataRow[3].ToString() : string.Empty
                 };
             }
             return _movieRecord;
@@ -51,12 +53,14 @@ namespace Movie.Core
 
         public static void Update(MovieRecord movieRecord)
         {
-            XmlDatabase.Update(movieRecord.Id, movieRecord.Name, movieRecord.Year, movieRecord.Format);
+            XmlDatabase.Update(movieRecord.Id, movieRecord.Name, movieRecord.Year, movieRecord.Format,
+                movieRecord.Distributed);
         }
 
         public static void Insert(MovieRecord movieRecord)
         {
-            XmlDatabase.Insert(movieRecord.Id, movieRecord.Name, movieRecord.Year, movieRecord.Format);
+            XmlDatabase.Insert(movieRecord.Id, movieRecord.Name, movieRecord.Year, movieRecord.Format,
+                movieRecord.Distributed);
         }
 
         public static void Delete(string id)

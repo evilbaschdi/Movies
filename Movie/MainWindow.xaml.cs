@@ -4,6 +4,7 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using MahApps.Metro.Controls;
 using Movie.Core;
 
@@ -63,8 +64,12 @@ namespace Movie
             var dataRowView = (DataRowView) MovieGrid.SelectedItem;
 
             var id = dataRowView.Row["Id"].ToString();
+            var distributed = dataRowView.Row["Distributed"].ToString();
 
             LoadData(id);
+
+            DistributeMenuItem.IsEnabled = distributed != "True";
+            GotBackMenuItem.IsEnabled = distributed == "True";
         }
 
         public void DeleteData()
@@ -104,6 +109,16 @@ namespace Movie
 
         private void EditClick(object sender, RoutedEventArgs e)
         {
+            Edit();
+        }
+
+        private void MovieGridOnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Edit();
+        }
+
+        private void Edit()
+        {
             AddEditMovie.CurrentId = _currentId;
             new AddEditMovie().Show();
         }
@@ -122,10 +137,40 @@ namespace Movie
         {
             var propertyDescriptor = (PropertyDescriptor) e.PropertyDescriptor;
             e.Column.Header = propertyDescriptor.DisplayName;
-            if(propertyDescriptor.DisplayName == "Id")
+            switch(propertyDescriptor.DisplayName)
             {
-                e.Cancel = true;
+                case "Id":
+                    e.Cancel = true;
+                    break;
+
+                case "Distributed":
+                {
+                    var checkBoxColumn = new DataGridCheckBoxColumn
+                    {
+                        Header = e.Column.Header,
+                        Binding = new Binding(e.PropertyName),
+                        IsThreeState = true
+                    };
+
+                    // Replace the auto-generated column with the checkBoxColumn.
+                    e.Column = checkBoxColumn;
+                }
+                    break;
             }
+        }
+
+        private void DistributeClick(object sender, RoutedEventArgs e)
+        {
+            _movie.Distributed = "True";
+            List.Update(_movie);
+            MovieGrid.SelectedItem = null;
+        }
+
+        private void GotBackClick(object sender, RoutedEventArgs e)
+        {
+            _movie.Distributed = "False";
+            List.Update(_movie);
+            MovieGrid.SelectedItem = null;
         }
     }
 }

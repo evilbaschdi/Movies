@@ -2,12 +2,12 @@
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      Title="Add Edit Movie" Height="300" Width="600" Icon="b.ico"
+                      Title="Add Edit Movie" Height="125" Width="600" Icon="b.ico"
                       Style="{DynamicResource VSWindowStyleKey}" ResizeMode="NoResize" ShowCloseButton="False">
     <Grid>
         <!--Button-->
         <Button Name="Save" Click="SaveClick" Content="Save" Height="20" Width="75" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
-        <Button Name="SaveAndNew" Click="SaveAndNewClick" Content="Save / New" Height="20" Width="75" Margin="0,35,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
+        <Button Name="SaveAndNew" Click="SaveAndNewClick" Content="Save &amp; new" Height="20" Width="75" Margin="0,35,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
         <Button Name="Cancel" Click="CancelClick" Content="Cancel" Height="20" Width="75" Margin="0,60,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
 
         <!--TextBox-->
