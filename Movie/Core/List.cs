@@ -1,18 +1,20 @@
 using System;
 using System.Collections;
-using System.Data;
 
 namespace Movie.Core
 {
     public class List
     {
-        public static MovieRecord GetMovie(string id)
+        private static MovieRecord _movieRecord;
+
+        public static MovieRecord GetMovieById(string id)
         {
-            DataRow dataRow = XmlDatabase.Select(id);
-            MovieRecord movieRecord = null;
-            if (dataRow != null)
+            _movieRecord = null;
+
+            var dataRow = XmlDatabase.SelectById(id);
+            if(dataRow != null)
             {
-                movieRecord = new MovieRecord
+                _movieRecord = new MovieRecord
                 {
                     Id = dataRow[0] != DBNull.Value ? dataRow[0].ToString() : string.Empty,
                     Name = dataRow[1] != DBNull.Value ? dataRow[1].ToString() : string.Empty,
@@ -20,12 +22,30 @@ namespace Movie.Core
                     Format = dataRow[3] != DBNull.Value ? dataRow[3].ToString() : string.Empty
                 };
             }
-            return movieRecord;
+            return _movieRecord;
+        }
+
+        public static MovieRecord GetMovieByName(string name)
+        {
+            _movieRecord = null;
+
+            var dataRow = XmlDatabase.SelectByName(name);
+            if(dataRow != null)
+            {
+                _movieRecord = new MovieRecord
+                {
+                    Id = dataRow[0] != DBNull.Value ? dataRow[0].ToString() : string.Empty,
+                    Name = dataRow[1] != DBNull.Value ? dataRow[1].ToString() : string.Empty,
+                    Year = dataRow[2] != DBNull.Value ? dataRow[2].ToString() : string.Empty,
+                    Format = dataRow[3] != DBNull.Value ? dataRow[3].ToString() : string.Empty
+                };
+            }
+            return _movieRecord;
         }
 
         public static IList MovieList()
         {
-            DataView dataView = XmlDatabase.SelectAll();
+            var dataView = XmlDatabase.SelectAll();
             return dataView;
         }
 

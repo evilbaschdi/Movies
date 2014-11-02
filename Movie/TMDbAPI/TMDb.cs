@@ -1,5 +1,5 @@
-﻿using Microsoft.Win32;
-using System.Linq;
+﻿using System.Linq;
+using Microsoft.Win32;
 using TMDbLib.Client;
 using TMDbLib.Objects.Collections;
 using TMDbLib.Objects.General;
@@ -14,9 +14,11 @@ namespace Movie.TMDbAPI
 
         public TmDb()
         {
-            _client = new TMDbClient(GetApiKeyFromRegistry());
-            _client.DefaultCountry = "de";
-            _client.DefaultLanguage = "de";
+            _client = new TMDbClient(GetApiKeyFromRegistry())
+            {
+                DefaultCountry = "de",
+                DefaultLanguage = "de"
+            };
         }
 
         //public Part GetMoviePart(string query)
@@ -49,11 +51,11 @@ namespace Movie.TMDbAPI
             var movieKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi\Movie",
                 RegistryKeyPermissionCheck.ReadSubTree);
 
-            if (movieKey == null)
+            if(movieKey == null)
             {
                 return "";
             }
-            using (
+            using(
                 var settingsKey = movieKey.OpenSubKey("Program Settings",
                     RegistryKeyPermissionCheck.ReadSubTree))
             {

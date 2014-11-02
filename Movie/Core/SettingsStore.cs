@@ -14,12 +14,15 @@ namespace Movie.Core
 
         internal string LoadFromRegistry()
         {
-            RegistryKey movieKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi\Movie",
+            var movieKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi\Movie",
                 RegistryKeyPermissionCheck.ReadSubTree);
 
-            if (movieKey == null) return "";
-            using (
-                RegistryKey settingsKey = movieKey.OpenSubKey("Program Settings",
+            if(movieKey == null)
+            {
+                return "";
+            }
+            using(
+                var settingsKey = movieKey.OpenSubKey("Program Settings",
                     RegistryKeyPermissionCheck.ReadSubTree))
             {
                 return settingsKey != null ? settingsKey.GetValue("XmlFilePath", "").ToString() : "";
@@ -28,29 +31,41 @@ namespace Movie.Core
 
         internal void SaveToRegistry(string path)
         {
-            RegistryKey softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
-            if (softwareKey == null) return;
+            var softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
+            if(softwareKey == null)
+            {
+                return;
+            }
 
-            RegistryKey evilBaschdiKey = softwareKey.CreateSubKey("EvilBaschdi",
+            var evilBaschdiKey = softwareKey.CreateSubKey("EvilBaschdi",
                 RegistryKeyPermissionCheck.ReadWriteSubTree);
-            if (evilBaschdiKey == null) return;
+            if(evilBaschdiKey == null)
+            {
+                return;
+            }
 
-            RegistryKey movieKey = evilBaschdiKey.CreateSubKey("Movie",
+            var movieKey = evilBaschdiKey.CreateSubKey("Movie",
                 RegistryKeyPermissionCheck.ReadWriteSubTree);
-            if (movieKey == null) return;
+            if(movieKey == null)
+            {
+                return;
+            }
 
-            using (
-                RegistryKey settingsKey = movieKey.CreateSubKey("Program Settings",
+            using(
+                var settingsKey = movieKey.CreateSubKey("Program Settings",
                     RegistryKeyPermissionCheck.ReadWriteSubTree))
             {
-                if (settingsKey == null) return;
+                if(settingsKey == null)
+                {
+                    return;
+                }
                 settingsKey.SetValue("XmlFilePath", path);
             }
         }
 
         internal void CheckRegistrySettings()
         {
-            if (string.IsNullOrWhiteSpace(LoadFromRegistry()))
+            if(string.IsNullOrWhiteSpace(LoadFromRegistry()))
             {
                 //ToDo: Dialog for choosing Path + Copy Default XML
 

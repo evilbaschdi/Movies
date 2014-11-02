@@ -37,18 +37,18 @@ namespace Movie.Style
             _children = new ObservableCollection<AppTreeNode>();
             _enablePreview = enablePreview;
 
-            if (_enablePreview)
+            if(_enablePreview)
             {
                 PropertyChanged += (sender, args) =>
                 {
-                    if (args.PropertyName != "IsSelected")
+                    if(args.PropertyName != "IsSelected")
                     {
                         return;
                     }
 
-                    if (!IsSelected)
+                    if(!IsSelected)
                     {
-                        foreach (var item in Children)
+                        foreach(var item in Children)
                         {
                             item.IsSelected = false;
                         }
@@ -80,7 +80,7 @@ namespace Movie.Style
             item.Parent = this;
             _children.Add(item);
 
-            if (_enablePreview)
+            if(_enablePreview)
             {
                 UpdatePreview();
             }
@@ -92,7 +92,7 @@ namespace Movie.Style
             item.Parent = null;
             var result = _children.Remove(item);
 
-            if (_enablePreview)
+            if(_enablePreview)
             {
                 UpdatePreview();
             }
@@ -101,12 +101,12 @@ namespace Movie.Style
 
         private void UpdatePreview()
         {
-            if (_previewChild != null)
+            if(_previewChild != null)
             {
                 _previewChild.PropertyChanged -= PreviewPropertyChanged;
             }
 
-            if (_children.Count == 0)
+            if(_children.Count == 0)
             {
                 Icon = null;
                 OnPropertyChanged("Icon");
@@ -117,7 +117,7 @@ namespace Movie.Style
             _previewChild = _children.First();
             _previewChild.PropertyChanged += PreviewPropertyChanged;
 
-            if (IsSelected)
+            if(IsSelected)
             {
                 Icon = null;
                 OnPropertyChanged("Icon");
@@ -131,7 +131,7 @@ namespace Movie.Style
 
         private void PreviewPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName == "Icon")
+            if(args.PropertyName == "Icon")
             {
                 UpdatePreview();
             }
@@ -149,16 +149,16 @@ namespace Movie.Style
         {
             var root = new AppTreeContainer("root", "root");
 
-            foreach (var item in dataProviders.Where(el => el.CanBeDisplayed))
+            foreach(var item in dataProviders.Where(el => el.CanBeDisplayed))
             {
                 var path = item.Path.Split('/');
                 var lastContainer = root;
 
                 int i;
-                for (i = 0; i < path.Length; i++)
+                for(i = 0; i < path.Length; i++)
                 {
                     var container = lastContainer.ContainerChildren.FirstOrDefault(el => el.Header == path[i]);
-                    if (container == null)
+                    if(container == null)
                     {
                         container = new AppTreeContainer(i.ToString("D"), path[i], enablePreview);
                         lastContainer.AddChild(container);
@@ -205,11 +205,11 @@ namespace Movie.Style
             _group = selectionGroup;
             Header = header;
 
-            if (icon == null)
+            if(icon == null)
             {
                 return;
             }
-            using (var memory = new MemoryStream())
+            using(var memory = new MemoryStream())
             {
                 icon.Save(memory, ImageFormat.Png);
                 memory.Position = 0;
@@ -237,7 +237,7 @@ namespace Movie.Style
                 _isSelected = value;
                 OnPropertyChanged("IsSelected");
 
-                if (value)
+                if(value)
                 {
                     OnSelectionChanged(this);
                 }
@@ -260,7 +260,7 @@ namespace Movie.Style
             IsSelected = true;
             OnSelectionChanged(this);
 
-            if (Parent != null)
+            if(Parent != null)
             {
                 Parent.Select();
             }
@@ -268,7 +268,7 @@ namespace Movie.Style
 
         protected void OnSelectionChanged(AppTreeNode sender)
         {
-            if (SelectionChanged != null)
+            if(SelectionChanged != null)
             {
                 SelectionChanged(sender);
             }
@@ -276,7 +276,7 @@ namespace Movie.Style
 
         protected void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null)
+            if(PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
@@ -295,7 +295,7 @@ namespace Movie.Style
         #region Constructors
 
         /// <summary>
-        /// Creates a new command that can always execute.
+        ///     Creates a new command that can always execute.
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         public RelayCommand(Action<object> execute)
@@ -304,13 +304,13 @@ namespace Movie.Style
         }
 
         /// <summary>
-        /// Creates a new command.
+        ///     Creates a new command.
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            if (execute == null)
+            if(execute == null)
             {
                 throw new ArgumentNullException("execute");
             }

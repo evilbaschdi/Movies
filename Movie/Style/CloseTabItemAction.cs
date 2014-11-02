@@ -7,11 +7,11 @@ namespace Movie.Style
     public class CloseTabItemAction : TriggerAction<DependencyObject>
     {
         public static readonly DependencyProperty TabControlProperty =
-            DependencyProperty.Register("TabControl", typeof (TabControl), typeof (CloseTabItemAction),
+            DependencyProperty.Register("TabControl", typeof(TabControl), typeof(CloseTabItemAction),
                 new PropertyMetadata(default(TabControl)));
 
         public static readonly DependencyProperty TabItemProperty =
-            DependencyProperty.Register("TabItem", typeof (TabItem), typeof (CloseTabItemAction),
+            DependencyProperty.Register("TabItem", typeof(TabItem), typeof(CloseTabItemAction),
                 new PropertyMetadata(default(TabItem)));
 
         public TabControl TabControl

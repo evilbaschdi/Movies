@@ -1,41 +1,27 @@
 ﻿<controls:MetroWindow x:Class="Movie.MainWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" Icon="b.ico"
-                      Title="Movies" Width="800" Height="600" Style="{DynamicResource VSWindowStyleKey}">
+                      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      Title="Movies" Width="800" Height="600" Icon="b.ico"
+                      Style="{DynamicResource VSWindowStyleKey}">
     <Grid>
-
+        <!--DataGrid-->
         <DataGrid Name="MovieGrid" IsReadOnly="True" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*"
                   AutoGeneratingColumn="OnAutoGeneratingColumn"
                   GridLinesVisibility="Horizontal"
-                  SelectionChanged="MovieGrid_OnSelectionChanged"
-                  CanUserDeleteRows="False" Margin="10,90,10,10">
-            <!--<DataGrid.ContextMenu>
+                  SelectionChanged="MovieGridSelectionChanged"
+                  CanUserDeleteRows="False" Margin="10,60,10,10">
+            <DataGrid.ContextMenu>
                 <ContextMenu Name="StoryMenu" StaysOpen="True">
 
-                    <MenuItem Header="Edit" Click="SelectMovieClick" />
+                    <MenuItem Header="Edit" Click="EditClick" />
                 </ContextMenu>
-            </DataGrid.ContextMenu>-->
+            </DataGrid.ContextMenu>
         </DataGrid>
-        <Button Name="New" Click="btnNew_Click" Content="New" Width="75" Height="20" Margin="627,33,0,0"
-                HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <Button Name="Save" Click="btnSave_Click" Content="Save" Width="75" Height="20" Margin="627,10,0,0"
-                HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <Button Name="Cancel" Click="btnCancel_Click" Content="Cancel" Width="75" Height="20"
-                Margin="707,33,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <Button Name="Delete" Click="btnDelete_Click" Content="Delete" Width="75" Height="20"
-                Margin="707,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <TextBox Name="txtName" Margin="90,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="532" />
-        <TextBox Name="txtYear" Margin="90,33,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="532" />
-        <TextBox Name="txtFormat" Margin="90,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="532" />
-        <Label Content="Title" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top"
-               Foreground="{StaticResource Foreground}" />
-        <Label Content="Year" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"
-               Foreground="{StaticResource Foreground}" />
-        <Label Content="Format" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top"
-               Foreground="{StaticResource Foreground}" />
-        <Button Content="Export to Excel" Name="btnExport" Click="btnExport_OnClick" HorizontalAlignment="Left"
-                IsEnabled="False"
-                Margin="627,58,0,0" VerticalAlignment="Top" Width="155" />
+
+        <!--Button-->
+        <Button Name="New" Click="NewClick" Content="New" Height="20" Width="75" Margin="0,10,90,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
+        <Button Name="Delete" Click="DeleteClick" Content="Delete" Height="20" Width="75" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
+        <Button Name="Export" Click="ExportClick" Content="Export to Excel" Height="20" Width="155" Margin="0,35,10,0" VerticalAlignment="Top" HorizontalAlignment="Right"  IsEnabled="False" />
     </Grid>
 </controls:MetroWindow>
