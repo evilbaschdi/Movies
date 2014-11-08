@@ -17,7 +17,7 @@
         <!--ComboBox-->
         <ComboBox Name="Format" Margin="90,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400">
             <ComboBoxItem Content="DVD" />
-            <ComboBoxItem Content="BluRay" />
+            <ComboBoxItem Content="Blu-ray" />
             <ComboBoxItem Content="VHS" />
             <ComboBoxItem Content="MP4" />
             <ComboBoxItem Content="MKV" />
