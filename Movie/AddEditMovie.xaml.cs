@@ -107,7 +107,8 @@ namespace Movie
                 Id = CurrentId,
                 Name = Name.Text,
                 Year = Year.Text,
-                Format = Format.Text
+                Format = Format.Text,
+                Distributed = "False"
             };
 
             try

@@ -145,11 +145,16 @@ namespace Movie
 
                 case "Distributed":
                 {
+                    //var checkboxStyle = new System.Windows.Style();
+                    //Style style = new Style();
                     var checkBoxColumn = new DataGridCheckBoxColumn
                     {
                         Header = e.Column.Header,
                         Binding = new Binding(e.PropertyName),
-                        IsThreeState = true
+                        IsThreeState = true,
+                        //ElementStyle = (System.Windows.Style) Resources["{DynamicResource MetroDataGridCheckBox}"],
+                        //EditingElementStyle =
+                        //    (System.Windows.Style) Resources["{DynamicResource MetroDataGridCheckBox}"]
                     };
 
                     // Replace the auto-generated column with the checkBoxColumn.

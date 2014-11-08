@@ -13,7 +13,20 @@
         <!--TextBox-->
         <TextBox Name="Name" Margin="90,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" />
         <TextBox Name="Year" Margin="90,33,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" />
-        <TextBox Name="Format" Margin="90,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" />
+
+        <!--ComboBox-->
+        <ComboBox Name="Format" Margin="90,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400">
+            <ComboBoxItem Content="DVD" />
+            <ComboBoxItem Content="BluRay" />
+            <ComboBoxItem Content="VHS" />
+            <ComboBoxItem Content="MP4" />
+            <ComboBoxItem Content="MKV" />
+            <ComboBoxItem Content="MPEG" />
+            <ComboBoxItem Content="AVI" />
+            <ComboBoxItem Content="ISO" />
+            <ComboBoxItem Content="FLV" />
+            <ComboBoxItem Content="OGG" />
+        </ComboBox>
 
         <!--Label-->
         <Label Content="Title" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top"
