@@ -6,12 +6,21 @@ namespace Movie.Core
     public class List
     {
         private static MovieRecord _movieRecord;
+        private readonly XmlDatabase _xmlDatabase;
 
-        public static MovieRecord GetMovieById(string id)
+        /// <summary>
+        ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
+        /// </summary>
+        public List()
+        {
+            _xmlDatabase = new XmlDatabase();
+        }
+
+        public MovieRecord GetMovieById(string id)
         {
             _movieRecord = null;
 
-            var dataRow = XmlDatabase.SelectById(id);
+            var dataRow = _xmlDatabase.SelectById(id);
             if(dataRow != null)
             {
                 _movieRecord = new MovieRecord
@@ -26,11 +35,11 @@ namespace Movie.Core
             return _movieRecord;
         }
 
-        public static MovieRecord GetMovieByName(string name)
+        public MovieRecord GetMovieByName(string name)
         {
             _movieRecord = null;
 
-            var dataRow = XmlDatabase.SelectByName(name);
+            var dataRow = _xmlDatabase.SelectByName(name);
             if(dataRow != null)
             {
                 _movieRecord = new MovieRecord
@@ -45,27 +54,33 @@ namespace Movie.Core
             return _movieRecord;
         }
 
-        public static IList MovieList()
+        public IList MovieList()
         {
-            var dataView = XmlDatabase.SelectAll();
+            var dataView = _xmlDatabase.SelectAll();
             return dataView;
         }
 
-        public static void Update(MovieRecord movieRecord)
+        public IList MovieList(string filter, string category)
         {
-            XmlDatabase.Update(movieRecord.Id, movieRecord.Name, movieRecord.Year, movieRecord.Format,
+            var dataView = _xmlDatabase.SelectFiltered(filter, category);
+            return dataView;
+        }
+
+        public void Update(MovieRecord movieRecord)
+        {
+            _xmlDatabase.Update(movieRecord.Id, movieRecord.Name, movieRecord.Year, movieRecord.Format,
                 movieRecord.Distributed);
         }
 
-        public static void Insert(MovieRecord movieRecord)
+        public void Insert(MovieRecord movieRecord)
         {
-            XmlDatabase.Insert(movieRecord.Id, movieRecord.Name, movieRecord.Year, movieRecord.Format,
+            _xmlDatabase.Insert(movieRecord.Name, movieRecord.Year, movieRecord.Format,
                 movieRecord.Distributed);
         }
 
-        public static void Delete(string id)
+        public void Delete(string id)
         {
-            XmlDatabase.Delete(id);
+            _xmlDatabase.Delete(id);
         }
     }
 }

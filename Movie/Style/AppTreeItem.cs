@@ -140,12 +140,7 @@ namespace Movie.Style
 
     public class AppTreeGenerator
     {
-        public AppTreeContainer Generate(IEnumerable<IAppTreeDataProvider> dataProviders)
-        {
-            return Generate(dataProviders, false);
-        }
-
-        public AppTreeContainer Generate(IEnumerable<IAppTreeDataProvider> dataProviders, bool enablePreview)
+        public AppTreeContainer Generate(IEnumerable<IAppTreeDataProvider> dataProviders, bool enablePreview = false)
         {
             var root = new AppTreeContainer("root", "root");
 
@@ -191,7 +186,7 @@ namespace Movie.Style
 
     public abstract class AppTreeNode : INotifyPropertyChanged
     {
-        protected string _group;
+        protected readonly string _group;
         private bool _isSelected;
 
         public AppTreeNode(string selectionGroup, string header)
@@ -295,20 +290,11 @@ namespace Movie.Style
         #region Constructors
 
         /// <summary>
-        ///     Creates a new command that can always execute.
-        /// </summary>
-        /// <param name="execute">The execution logic.</param>
-        public RelayCommand(Action<object> execute)
-            : this(execute, null)
-        {
-        }
-
-        /// <summary>
         ///     Creates a new command.
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
         {
             if(execute == null)
             {

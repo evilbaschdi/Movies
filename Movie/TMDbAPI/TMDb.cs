@@ -46,7 +46,7 @@ namespace Movie.TMDbAPI
             return _client.GetMovieAlternativeTitles(id, "de");
         }
 
-        internal string GetApiKeyFromRegistry()
+        private string GetApiKeyFromRegistry()
         {
             var movieKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi\Movie",
                 RegistryKeyPermissionCheck.ReadSubTree);

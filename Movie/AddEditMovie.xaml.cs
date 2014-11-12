@@ -16,6 +16,7 @@ namespace Movie
         private readonly string _mode;
         private string _exception;
         private MovieRecord _movie;
+        private List _list;
         private readonly MainWindow _mainWindow;
         public static string CurrentId;
 
@@ -23,6 +24,7 @@ namespace Movie
         {
             InitializeComponent();
             _mainWindow = new MainWindow();
+            _list = new List();
 
             if(string.IsNullOrWhiteSpace(CurrentId))
             {
@@ -39,7 +41,7 @@ namespace Movie
 
         private void LoadData()
         {
-            _movie = List.GetMovieById(CurrentId);
+            _movie = _list.GetMovieById(CurrentId);
             if(_movie != null)
             {
                 Name.Text = _movie.Name;
@@ -91,7 +93,7 @@ namespace Movie
             Format.Text = "";
         }
 
-        public void SaveOrUpdateData()
+        private void SaveOrUpdateData()
         {
             if(IsValidate())
             {
@@ -100,7 +102,7 @@ namespace Movie
             }
         }
 
-        public void InsertOrUpdateAction()
+        private void InsertOrUpdateAction()
         {
             _movie = new MovieRecord
             {
@@ -116,11 +118,11 @@ namespace Movie
                 switch(_action)
                 {
                     case "insert":
-                        List.Insert(_movie);
+                        _list.Insert(_movie);
                         break;
 
                     case "update":
-                        List.Update(_movie);
+                        _list.Update(_movie);
                         break;
                 }
             }
@@ -134,7 +136,7 @@ namespace Movie
             _mainWindow.Populate();
         }
 
-        public void NewEntry()
+        private void NewEntry()
         {
             ClearForm();
             _movie = null;
@@ -143,13 +145,13 @@ namespace Movie
 
         private void InsertOrUpdate()
         {
-            _movie = List.GetMovieById(CurrentId);
+            _movie = _list.GetMovieById(CurrentId);
             _action = _movie != null ? "update" : "insert";
         }
 
         private bool IsDuplicate()
         {
-            return List.GetMovieByName(Name.Text) != null && _mode == "add";
+            return _list.GetMovieByName(Name.Text) != null && _mode == "add";
         }
 
         private bool IsValidate()

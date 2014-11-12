@@ -20,16 +20,25 @@ namespace Movie
         private string _currentId;
         private string _exception;
         private MovieRecord _movie;
+        private readonly List _list;
 
         public MainWindow()
         {
             InitializeComponent();
+            _list = new List();
+            SearchCategory.Text = "Name";
             Populate();
+        }
+
+        private void Populate(string searchText)
+        {
+            MovieGrid.ItemsSource = _list.MovieList(searchText, SearchCategory.Text);
+            Sorting();
         }
 
         public void Populate()
         {
-            MovieGrid.ItemsSource = List.MovieList();
+            MovieGrid.ItemsSource = _list.MovieList();
             Sorting();
         }
 
@@ -48,7 +57,7 @@ namespace Movie
 
         private void LoadData(string id)
         {
-            _movie = List.GetMovieById(id);
+            _movie = _list.GetMovieById(id);
             if(_movie != null)
             {
                 _currentId = _movie.Id;
@@ -72,7 +81,7 @@ namespace Movie
             GotBackMenuItem.IsEnabled = distributed == "True";
         }
 
-        public void DeleteData()
+        private void DeleteData()
         {
             try
             {
@@ -81,7 +90,7 @@ namespace Movie
                         "", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if(delete == MessageBoxResult.Yes)
                 {
-                    List.Delete(_currentId);
+                    _list.Delete(_currentId);
                 }
             }
             catch(Exception exp)
@@ -101,7 +110,7 @@ namespace Movie
             //s.GenerateReport();
         }
 
-        private void NewClick(object sender, EventArgs e)
+        private void NewClick(object sender, RoutedEventArgs e)
         {
             AddEditMovie.CurrentId = null;
             new AddEditMovie().Show();
@@ -123,14 +132,17 @@ namespace Movie
             new AddEditMovie().Show();
         }
 
-        private void DeleteClick(object sender, EventArgs e)
+        private void DeleteClick(object sender, RoutedEventArgs e)
         {
             DeleteData();
         }
 
         private void ExportClick(object sender, RoutedEventArgs e)
         {
-            PrintReport();
+            //PrintReport();
+            //SettingFlyout.AnimateOnPositionChange = true;
+            //SettingFlyout.CloseButtonVisibility = Visibility.Visible;
+            //SettingFlyout.Visibility = Visibility.Visible;
         }
 
         private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -167,15 +179,26 @@ namespace Movie
         private void DistributeClick(object sender, RoutedEventArgs e)
         {
             _movie.Distributed = "True";
-            List.Update(_movie);
+            _list.Update(_movie);
             MovieGrid.SelectedItem = null;
         }
 
         private void GotBackClick(object sender, RoutedEventArgs e)
         {
             _movie.Distributed = "False";
-            List.Update(_movie);
+            _list.Update(_movie);
             MovieGrid.SelectedItem = null;
+        }
+
+        private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            Populate(SearchFilter.Text);
+        }
+
+        private void SearchResetClick(object sender, RoutedEventArgs e)
+        {
+            SearchFilter.Clear();
+            Populate();
         }
     }
 }

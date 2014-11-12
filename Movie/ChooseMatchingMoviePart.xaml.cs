@@ -21,9 +21,9 @@ namespace Movie
             SetMoviePartListItems();
         }
 
-        public static List<Part> MovieParts { get; set; }
+        private static List<Part> MovieParts { get; set; }
 
-        public static TmDb TmDb { get; set; }
+        private static TmDb TmDb { get; set; }
 
         private void SetMoviePartListItems()
         {

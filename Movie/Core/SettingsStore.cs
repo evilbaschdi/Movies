@@ -5,14 +5,14 @@ namespace Movie.Core
 {
     public class SettingsStore
     {
-        internal string XmlFilePath { get; set; }
+        internal string XmlFilePath { get; private set; }
 
         internal string StartupPath()
         {
             return AppDomain.CurrentDomain.BaseDirectory;
         }
 
-        internal string LoadFromRegistry()
+        private string LoadFromRegistry()
         {
             var movieKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi\Movie",
                 RegistryKeyPermissionCheck.ReadSubTree);
@@ -29,7 +29,7 @@ namespace Movie.Core
             }
         }
 
-        internal void SaveToRegistry(string path)
+        private void SaveToRegistry(string path)
         {
             var softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
             if(softwareKey == null)
