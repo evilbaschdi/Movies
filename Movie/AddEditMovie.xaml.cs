@@ -16,7 +16,7 @@ namespace Movie
         private readonly string _mode;
         private string _exception;
         private MovieRecord _movie;
-        private List _list;
+        private readonly List _list;
         private readonly MainWindow _mainWindow;
         public static string CurrentId;
 

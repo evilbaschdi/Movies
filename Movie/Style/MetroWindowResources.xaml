@@ -11,7 +11,7 @@
     <!--20%-->
     <Color x:Key="AccentColor4">#33119EDA</Color>
 
-    <Color x:Key="AccentColor">#2D2D30</Color>
+    <Color x:Key="AccentColor">#880000</Color>
     <Color x:Key="WhiteColor">#2D2D30</Color>
     <Color x:Key="BlackColor">#FFFFFFFF</Color>
 

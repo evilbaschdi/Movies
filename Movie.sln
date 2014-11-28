@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 13.00
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie", "Movie\Movie.csproj", "{C7CADCC8-6535-4126-AD01-4B3B5DFD8719}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BBBF1801-7FEF-4484-9FF7-9BFD269DF7A5}"
@@ -9,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BBBF18
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Core", "Movie.Core\Movie.Core.csproj", "{45BEE335-54F9-42F1-96E0-588047D3CBDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +24,10 @@ Global
 		{C7CADCC8-6535-4126-AD01-4B3B5DFD8719}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7CADCC8-6535-4126-AD01-4B3B5DFD8719}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7CADCC8-6535-4126-AD01-4B3B5DFD8719}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45BEE335-54F9-42F1-96E0-588047D3CBDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45BEE335-54F9-42F1-96E0-588047D3CBDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45BEE335-54F9-42F1-96E0-588047D3CBDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45BEE335-54F9-42F1-96E0-588047D3CBDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
