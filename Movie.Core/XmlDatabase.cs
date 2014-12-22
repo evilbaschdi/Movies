@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Movie.Core
 {
-    public class XmlDatabase
+    public class XmlDatabase : IXmlDatabase
     {
         private static readonly DataSet DataSet = new DataSet();
         private static DataView _dataView = new DataView();
@@ -13,9 +13,8 @@ namespace Movie.Core
         /// </summary>
         private static void Save()
         {
-            var settings = new SettingsStore();
-            settings.CheckRegistrySettings();
-            DataSet.WriteXml(settings.XmlFilePath, XmlWriteMode.WriteSchema);
+            var settings = new XmlSettings();
+            DataSet.WriteXml(settings.FilePath, XmlWriteMode.WriteSchema);
         }
 
         public void Insert(string name, string year, string format, string distributed)
@@ -93,9 +92,8 @@ namespace Movie.Core
         public DataView SelectAll()
         {
             DataSet.Clear();
-            var settings = new SettingsStore();
-            settings.CheckRegistrySettings();
-            DataSet.ReadXml(settings.XmlFilePath, XmlReadMode.ReadSchema);
+            var settings = new XmlSettings();
+            DataSet.ReadXml(settings.FilePath, XmlReadMode.ReadSchema);
             _dataView = DataSet.Tables[0].DefaultView;
             return _dataView;
         }
@@ -103,9 +101,8 @@ namespace Movie.Core
         public DataView SelectFiltered(string filter, string category)
         {
             DataSet.Clear();
-            var settings = new SettingsStore();
-            settings.CheckRegistrySettings();
-            DataSet.ReadXml(settings.XmlFilePath, XmlReadMode.ReadSchema);
+            var settings = new XmlSettings();
+            DataSet.ReadXml(settings.FilePath, XmlReadMode.ReadSchema);
             _dataView = DataSet.Tables[0].DefaultView;
             _dataView.RowFilter = string.Format("{0} LIKE '%{1}%'", category, filter);
             return _dataView;

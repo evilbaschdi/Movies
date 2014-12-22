@@ -3,11 +3,38 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       Title="Movies" Width="1000" Height="700" Icon="b.ico"
-                      Style="{DynamicResource VSWindowStyleKey}">
+                      EnableDWMDropShadow="True"
+                      GlowBrush="{DynamicResource AccentColorBrush}">
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <!--Search-->
+            <TextBox Name="SearchFilter" Height="20" TextWrapping="Wrap" TextChanged="SearchOnTextChanged" Width="300" controls:TextBoxHelper.ClearTextButton="True" controls:TextBoxHelper.Watermark="enter search term" />
+            <ComboBox Name="SearchCategory" Width="100" Height="20">
+                <ComboBoxItem Content="Name" />
+                <ComboBoxItem Content="Year" />
+                <ComboBoxItem Content="Format" />
+            </ComboBox>
+
+            <!--Button-->
+            <Button Name="New" Click="NewClick" Content="Add new movie" />
+            <Button Content="Settings" Click="SettingsClick" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
     <Grid>
         <!--DataGrid-->
-        <DataGrid Name="MovieGrid" IsReadOnly="True" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" AutoGeneratingColumn="OnAutoGeneratingColumn"
-                  GridLinesVisibility="Horizontal" MouseDoubleClick="MovieGridOnMouseDoubleClick" SelectionChanged="MovieGridSelectionChanged" CanUserDeleteRows="False" Margin="10,60,10,10">
+        <!-- ReSharper disable MemberCanBePrivate.Global -->
+        <DataGrid Name="MovieGrid" IsReadOnly="True" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" AutoGenerateColumns="False"
+                  GridLinesVisibility="Horizontal" MouseDoubleClick="MovieGridOnMouseDoubleClick" SelectionChanged="MovieGridSelectionChanged" CanUserDeleteRows="False" Margin="10,10,10,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Year" Binding="{Binding Year}" Width="100" CanUserResize="False" />
+                <DataGridTextColumn Header="Format" Binding="{Binding Format}" Width="100" CanUserResize="False" />
+                <DataGridCheckBoxColumn Header="Distributed" Binding="{Binding Distributed}" Width="100" CanUserResize="False"
+                                        ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}" />
+            </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu Name="MovieContextMenu" StaysOpen="True">
                     <MenuItem Name="EditMenuItem" Header="Edit" Click="EditClick" />
@@ -17,22 +44,5 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-
-        <!--Button-->
-        <Button Name="New" Click="NewClick" Content="Add new movie" Height="20" Width="155" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
-        <Button Name="Export" Click="ExportClick" Content="Export to Excel" Height="20" Width="155" Margin="0,35,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False" />
-
-        <!--Search-->
-        <TextBox Name="SearchFilter" Height="20" Margin="10,10,0,0" TextWrapping="Wrap" TextChanged="SearchOnTextChanged" VerticalAlignment="Top" Width="400" HorizontalAlignment="Left" />
-        <Button Name="SearchReset" Click="SearchResetClick" Content="Reset" Height="20" Width="50" Margin="260,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
-        <ComboBox Name="SearchCategory" Height="20" Margin="310,10,0,0" VerticalAlignment="Top" Width="100" HorizontalAlignment="Left">
-            <ComboBoxItem Content="Name" />
-            <ComboBoxItem Content="Year" />
-            <ComboBoxItem Content="Format" />
-        </ComboBox>
-
-        <!--<controls:Flyout Name="SettingFlyout" Background="Black" Position="Right" Margin="400,0,0,0">
-        <Grid Name="Setting" />
-        </controls:Flyout>-->
     </Grid>
 </controls:MetroWindow>

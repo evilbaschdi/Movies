@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
 
 namespace Movie
@@ -19,26 +20,28 @@ namespace Movie
     {
         private string _currentId;
         private string _exception;
-        private MovieRecord _movie;
-        private readonly List _list;
+        private IXmlSettings _xmlSettings;
+        private IMovieRecord _movieRecord;
+        private IMovies _movies;
 
+        /// <summary>
+        ///     MainWindows.
+        ///     Gets a new movie list instance.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
-            _list = new List();
-            SearchCategory.Text = "Name";
-            Populate();
+            ValidateSettings();
         }
 
-        private void Populate(string searchText)
-        {
-            MovieGrid.ItemsSource = _list.MovieList(searchText, SearchCategory.Text);
-            Sorting();
-        }
+        #region DataGrid Logic
 
+        /// <summary>
+        ///     (Re)Loads movie datasource to grid ans calls sorting.
+        /// </summary>
         public void Populate()
         {
-            MovieGrid.ItemsSource = _list.MovieList();
+            MovieGrid.ItemsSource = _movies.MovieDataView();
             Sorting();
         }
 
@@ -57,10 +60,10 @@ namespace Movie
 
         private void LoadData(string id)
         {
-            _movie = _list.GetMovieById(id);
-            if(_movie != null)
+            _movieRecord = _movies.GetMovieById(id);
+            if(_movieRecord != null)
             {
-                _currentId = _movie.Id;
+                _currentId = _movieRecord.Id;
             }
         }
 
@@ -81,38 +84,49 @@ namespace Movie
             GotBackMenuItem.IsEnabled = distributed == "True";
         }
 
-        private void DeleteData()
+        #endregion DataGrid Logic
+
+        #region Settings
+
+        private void ValidateSettings()
         {
-            try
+            _xmlSettings = new XmlSettings();
+            if(!string.IsNullOrWhiteSpace(_xmlSettings.FilePath))
             {
-                var delete =
-                    MessageBox.Show(string.Format("Are sure want to delete this movie: '{0}' ?", _movie.Name),
-                        "", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if(delete == MessageBoxResult.Yes)
-                {
-                    _list.Delete(_currentId);
-                }
+                SearchCategory.IsEnabled = true;
+                SearchFilter.IsEnabled = true;
+                New.IsEnabled = true;
+                _movies = new Movies();
+                SearchCategory.Text = "Name";
+                Populate();
             }
-            catch(Exception exp)
+            else
             {
-                _exception = string.Format("Record {0} failed delete to database\n Message : {1}",
-                    _movie.Name.Trim(), exp.Message);
-                MessageBox.Show(_exception, "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                new Settings().Show();
+                SearchCategory.IsEnabled = false;
+                SearchFilter.IsEnabled = false;
+                New.IsEnabled = false;
             }
-            Populate();
         }
 
-        public void PrintReport()
+        private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            //var s = new ExportToExcel<MovieRecord>();
-            //ICollectionView view = CollectionViewSource.GetDefaultView(MovieGrid.ItemsSource);
-            //s.DataToPrint = view.SourceCollection as List<MovieRecord>;
-            //s.GenerateReport();
+            new Settings().Show();
         }
+
+        #endregion Settings
+
+        #region Add Edit Movie
 
         private void NewClick(object sender, RoutedEventArgs e)
         {
             AddEditMovie.CurrentId = null;
+            new AddEditMovie().Show();
+        }
+
+        private void Edit()
+        {
+            AddEditMovie.CurrentId = _currentId;
             new AddEditMovie().Show();
         }
 
@@ -126,79 +140,80 @@ namespace Movie
             Edit();
         }
 
-        private void Edit()
-        {
-            AddEditMovie.CurrentId = _currentId;
-            new AddEditMovie().Show();
-        }
+        #endregion Add Edit Movie
+
+        #region Delete Movie
 
         private void DeleteClick(object sender, RoutedEventArgs e)
         {
             DeleteData();
         }
 
-        private void ExportClick(object sender, RoutedEventArgs e)
+        private async void DeleteData()
         {
-            //PrintReport();
-            //SettingFlyout.AnimateOnPositionChange = true;
-            //SettingFlyout.CloseButtonVisibility = Visibility.Visible;
-            //SettingFlyout.Visibility = Visibility.Visible;
-        }
-
-        private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
-        {
-            var propertyDescriptor = (PropertyDescriptor) e.PropertyDescriptor;
-            e.Column.Header = propertyDescriptor.DisplayName;
-            switch(propertyDescriptor.DisplayName)
+            var options = new MetroDialogSettings
             {
-                case "Id":
-                    e.Cancel = true;
-                    break;
+                ColorScheme = MetroDialogColorScheme.Theme
+            };
 
-                case "Distributed":
+            MetroDialogOptions = options;
+            try
+
+            {
+                var delete =
+                    await
+                        this.ShowMessageAsync("You are about to delete",
+                            string.Format("'{0}'", _movieRecord.Name),
+                            MessageDialogStyle.AffirmativeAndNegative, options);
+
+                if(delete == MessageDialogResult.Affirmative)
                 {
-                    //var checkboxStyle = new System.Windows.Style();
-                    //Style style = new Style();
-                    var checkBoxColumn = new DataGridCheckBoxColumn
-                    {
-                        Header = e.Column.Header,
-                        Binding = new Binding(e.PropertyName),
-                        IsThreeState = true,
-                        //ElementStyle = (System.Windows.Style) Resources["{DynamicResource MetroDataGridCheckBox}"],
-                        //EditingElementStyle =
-                        //    (System.Windows.Style) Resources["{DynamicResource MetroDataGridCheckBox}"]
-                    };
-
-                    // Replace the auto-generated column with the checkBoxColumn.
-                    e.Column = checkBoxColumn;
+                    _movies.Delete(_currentId);
                 }
-                    break;
             }
+            catch(Exception exp)
+            {
+                _exception = string.Format("Record {0} failed delete to database\n Message : {1}",
+                    _movieRecord.Name.Trim(), exp.Message);
+
+                MessageBox.Show(_exception, "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+            Populate();
         }
+
+        #endregion Delete Movie
+
+        #region Distribution
 
         private void DistributeClick(object sender, RoutedEventArgs e)
         {
-            _movie.Distributed = "True";
-            _list.Update(_movie);
+            _movieRecord.Distributed = "True";
+            _movies.Update(_movieRecord);
             MovieGrid.SelectedItem = null;
         }
 
         private void GotBackClick(object sender, RoutedEventArgs e)
         {
-            _movie.Distributed = "False";
-            _list.Update(_movie);
+            _movieRecord.Distributed = "False";
+            _movies.Update(_movieRecord);
             MovieGrid.SelectedItem = null;
         }
+
+        #endregion Distribution
+
+        #region Search
 
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
         {
             Populate(SearchFilter.Text);
         }
 
-        private void SearchResetClick(object sender, RoutedEventArgs e)
+        private void Populate(string searchText)
         {
-            SearchFilter.Clear();
-            Populate();
+            MovieGrid.ItemsSource = _movies.MovieDataView(searchText, SearchCategory.Text);
+            Sorting();
         }
+
+        #endregion Search
     }
 }

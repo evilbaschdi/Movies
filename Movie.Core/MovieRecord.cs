@@ -1,9 +1,9 @@
 namespace Movie.Core
 {
     /// <summary>
-    ///     Summary description for Category.
+    ///     Description for MovieRecord.
     /// </summary>
-    public class MovieRecord
+    public class MovieRecord : IMovieRecord
     {
         public string Id { get; set; }
 

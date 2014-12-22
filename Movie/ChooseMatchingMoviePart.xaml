@@ -3,7 +3,8 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       Title="ChooseMatchingMoviePart" Height="300" Width="300" Icon="b.ico"
-                      Style="{DynamicResource VSWindowStyleKey}">
+                      EnableDWMDropShadow="True"
+                      GlowBrush="{DynamicResource AccentColorBrush}">
     <Grid>
         <ListBox Name="MoviePartsList" MouseDoubleClick="MoviePartsList_OnMouseDoubleClick" />
     </Grid>
