@@ -3,19 +3,22 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       Title="Add Edit Movie" Height="125" Width="600" Icon="b.ico"
-                      Style="{DynamicResource VSWindowStyleKey}" ResizeMode="NoResize" ShowCloseButton="False">
+                      EnableDWMDropShadow="True"
+                      GlowBrush="{DynamicResource AccentColorBrush}" ResizeMode="NoResize" ShowCloseButton="False">
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Name="Save" Click="SaveClick" Content="Save" />
+            <Button Name="SaveAndNew" Click="SaveAndNewClick" Content="Save &amp; new" />
+            <Button Name="Cancel" Click="CancelClick" Content="Cancel" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <!--Button-->
-        <Button Name="Save" Click="SaveClick" Content="Save" Height="20" Width="75" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
-        <Button Name="SaveAndNew" Click="SaveAndNewClick" Content="Save &amp; new" Height="20" Width="75" Margin="0,35,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
-        <Button Name="Cancel" Click="CancelClick" Content="Cancel" Height="20" Width="75" Margin="0,60,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
-
-        <!--TextBox-->
-        <TextBox Name="Name" Margin="90,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" />
-        <TextBox Name="Year" Margin="90,33,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" />
+       <!--TextBox-->
+        <TextBox Name="Name" Margin="90,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="494" />
+        <TextBox Name="Year" Margin="90,33,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="494" />
 
         <!--ComboBox-->
-        <ComboBox Name="Format" Margin="90,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400">
+        <ComboBox Name="Format" Margin="90,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="494">
             <ComboBoxItem Content="DVD" />
             <ComboBoxItem Content="Blu-ray" />
             <ComboBoxItem Content="VHS" />
@@ -29,11 +32,8 @@
         </ComboBox>
 
         <!--Label-->
-        <Label Content="Title" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top"
-               Foreground="{StaticResource Foreground}" />
-        <Label Content="Year" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"
-               Foreground="{StaticResource Foreground}" />
-        <Label Content="Format" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top"
-               Foreground="{StaticResource Foreground}" />
+        <Label Content="Name" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" />
+        <Label Content="Year" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" />
+        <Label Content="Format" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" />
     </Grid>
 </controls:MetroWindow>

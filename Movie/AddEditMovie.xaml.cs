@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
 
 namespace Movie
@@ -15,16 +16,24 @@ namespace Movie
         private string _action;
         private readonly string _mode;
         private string _exception;
-        private MovieRecord _movie;
-        private readonly List _list;
+        private IMovieRecord _movieRecord;
+        private readonly IMovies _movies;
         private readonly MainWindow _mainWindow;
+
+        /// <summary>
+        ///     Id of the currently selected movie.
+        ///     Is emtpy, if we are not in "edit" mode and does an "add".
+        /// </summary>
         public static string CurrentId;
 
+        /// <summary>
+        ///     Initilalizes the MetroWindows and decides betweed modes "add" and "edit".
+        /// </summary>
         public AddEditMovie()
         {
             InitializeComponent();
             _mainWindow = new MainWindow();
-            _list = new List();
+            _movies = new Movies();
 
             if(string.IsNullOrWhiteSpace(CurrentId))
             {
@@ -41,12 +50,12 @@ namespace Movie
 
         private void LoadData()
         {
-            _movie = _list.GetMovieById(CurrentId);
-            if(_movie != null)
+            _movieRecord = _movies.GetMovieById(CurrentId);
+            if(_movieRecord != null)
             {
-                Name.Text = _movie.Name;
-                Year.Text = _movie.Year;
-                Format.Text = _movie.Format;
+                Name.Text = _movieRecord.Name;
+                Year.Text = _movieRecord.Year;
+                Format.Text = _movieRecord.Format;
             }
         }
 
@@ -60,11 +69,18 @@ namespace Movie
             SaveAndAddNew(true);
         }
 
-        private void SaveAndAddNew(bool addNew)
+        private async void SaveAndAddNew(bool addNew)
         {
             if(IsDuplicate())
             {
-                MessageBox.Show("This movie already exists in the database");
+                var options = new MetroDialogSettings
+                {
+                    ColorScheme = MetroDialogColorScheme.Theme
+                };
+
+                MetroDialogOptions = options;
+                await this.ShowMessageAsync("Already existing!",
+                    string.Format("'{0}'", Name.Text));
             }
             else
             {
@@ -95,7 +111,7 @@ namespace Movie
 
         private void SaveOrUpdateData()
         {
-            if(IsValidate())
+            if(IsValid())
             {
                 InsertOrUpdate();
                 InsertOrUpdateAction();
@@ -104,7 +120,7 @@ namespace Movie
 
         private void InsertOrUpdateAction()
         {
-            _movie = new MovieRecord
+            _movieRecord = new MovieRecord
             {
                 Id = CurrentId,
                 Name = Name.Text,
@@ -118,11 +134,11 @@ namespace Movie
                 switch(_action)
                 {
                     case "insert":
-                        _list.Insert(_movie);
+                        _movies.Insert(_movieRecord);
                         break;
 
                     case "update":
-                        _list.Update(_movie);
+                        _movies.Update(_movieRecord);
                         break;
                 }
             }
@@ -139,22 +155,22 @@ namespace Movie
         private void NewEntry()
         {
             ClearForm();
-            _movie = null;
+            _movieRecord = null;
             Name.Focus();
         }
 
         private void InsertOrUpdate()
         {
-            _movie = _list.GetMovieById(CurrentId);
-            _action = _movie != null ? "update" : "insert";
+            _movieRecord = _movies.GetMovieById(CurrentId);
+            _action = _movieRecord != null ? "update" : "insert";
         }
 
         private bool IsDuplicate()
         {
-            return _list.GetMovieByName(Name.Text) != null && _mode == "add";
+            return _movies.GetMovieByName(Name.Text) != null && _mode == "add";
         }
 
-        private bool IsValidate()
+        private bool IsValid()
         {
             return Name.Text != string.Empty;
         }
