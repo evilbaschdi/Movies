@@ -18,9 +18,9 @@
         <Button Name="Browse" Click="BrowseClick" Content="Browse" Width="75" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
 
         <!--TextBox-->
-        <TextBox Name="Path" Margin="90,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" IsReadOnly="True" />
+        <TextBox Name="Path" Margin="70,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="434" IsReadOnly="True" />
 
         <!--Label-->
-        <Label Content="Path" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" />
+        <Label Content="Path" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
     </Grid>
 </controls:MetroWindow>

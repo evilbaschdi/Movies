@@ -34,11 +34,13 @@ namespace Movie
             InitializeComponent();
             _mainWindow = new MainWindow();
             _movies = new Movies();
+            Year.Maximum = DateTime.Now.Year;
 
             if(string.IsNullOrWhiteSpace(CurrentId))
             {
                 Title = "Add Movie";
                 _mode = "add";
+                Year.Value = Year.Maximum;
             }
             else
             {
@@ -54,7 +56,7 @@ namespace Movie
             if(_movieRecord != null)
             {
                 Name.Text = _movieRecord.Name;
-                Year.Text = _movieRecord.Year;
+                Year.Value = Convert.ToDouble(_movieRecord.Year);
                 Format.Text = _movieRecord.Format;
             }
         }
@@ -105,7 +107,7 @@ namespace Movie
         private void ClearForm()
         {
             Name.Text = "";
-            Year.Text = "";
+            Year.Value = Year.Maximum;
             Format.Text = "";
         }
 
@@ -124,7 +126,7 @@ namespace Movie
             {
                 Id = CurrentId,
                 Name = Name.Text,
-                Year = Year.Text,
+                Year = Year.Value.ToString(),
                 Format = Format.Text,
                 Distributed = "False"
             };
