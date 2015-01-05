@@ -28,7 +28,7 @@
         <DataGrid Name="MovieGrid" IsReadOnly="True" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" AutoGenerateColumns="False"
                   GridLinesVisibility="Horizontal" MouseDoubleClick="MovieGridOnMouseDoubleClick" SelectionChanged="MovieGridSelectionChanged" CanUserDeleteRows="False" Margin="10,10,10,10">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" CanUserResize="False" />
                 <DataGridTextColumn Header="Year" Binding="{Binding Year}" Width="100" CanUserResize="False" />
                 <DataGridTextColumn Header="Format" Binding="{Binding Format}" Width="100" CanUserResize="False" />
                 <DataGridCheckBoxColumn Header="Distributed" Binding="{Binding Distributed}" Width="100" CanUserResize="False"

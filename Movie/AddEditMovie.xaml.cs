@@ -148,10 +148,21 @@ namespace Movie
             {
                 _exception = string.Format("'{0}' failed {1} to database\n Message : {2}", Name.Text, _action,
                     exception.Message);
-                MessageBox.Show(_exception, "", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowErrorMessage(_exception);
             }
 
             _mainWindow.Populate();
+        }
+
+        private async void ShowErrorMessage(string message)
+        {
+            var options = new MetroDialogSettings
+            {
+                ColorScheme = MetroDialogColorScheme.Theme
+            };
+
+            MetroDialogOptions = options;
+            await this.ShowMessageAsync("Error", message);
         }
 
         private void NewEntry()
