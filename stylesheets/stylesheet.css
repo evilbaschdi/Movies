@@ -4,6 +4,12 @@ by Jason Costello, @jsncostello
 *******************************************************************************/
 
 @import url(pygment_trac.css);
+@font-face {
+  font-family: "Rosario";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Rosario Regular"), local("Rosario-Regular"), url("http://fonts.gstatic.com/s/rosario/v10/w-TkvmAJln05SsRcUypbwA.woff") format("woff");
+}
 
 /*******************************************************************************
 MeyerWeb Reset
@@ -50,10 +56,10 @@ Theme Styles
 
 body {
   box-sizing: border-box;
-  color:#373737;
-  background: #212121;
+  color:#242424;
+  background: #242424;
   font-size: 16px;
-  font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+  font-family: Rosario;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -61,8 +67,8 @@ body {
 h1, h2, h3, h4, h5, h6 {
   margin: 10px 0;
   font-weight: 700;
-  color:#222222;
-  font-family: 'Lucida Grande', 'Calibri', Helvetica, Arial, sans-serif;
+  color:#242424;
+  font-family: Rosario;
   letter-spacing: -1px;
 }
 
@@ -103,7 +109,7 @@ footer p {
 
 a {
   text-decoration: none;
-  color: #007edf;
+  color: #1E73BE;
   text-shadow: none;
 
   transition: color 0.5s ease;
@@ -195,7 +201,6 @@ blockquote {
   border-left: 3px solid #bbb;
 }
 
-
 ul, ol, dl {
   margin-bottom: 15px
 }
@@ -234,7 +239,7 @@ hr {
 }
 
 table {
-  border: 1px solid #373737;
+  border: 1px solid #242424;
   margin-bottom: 20px;
   text-align: left;
  }
@@ -242,17 +247,17 @@ table {
 th {
   font-family: 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 10px;
-  background: #373737;
+  background: #242424;
   color: #fff;
  }
 
 td {
   padding: 10px;
-  border: 1px solid #373737;
+  border: 1px solid #242424;
  }
 
 form {
-  background: #f2f2f2;
+  background: #F5F8FA;
   padding: 20px;
 }
 
@@ -287,12 +292,9 @@ Full-Width Styles
 }
 
 #header_wrap {
-  background: #212121;
-  background: -moz-linear-gradient(top, #373737, #212121);
-  background: -webkit-linear-gradient(top, #373737, #212121);
-  background: -ms-linear-gradient(top, #373737, #212121);
-  background: -o-linear-gradient(top, #373737, #212121);
-  background: linear-gradient(top, #373737, #212121);
+  background: #242424;
+    background-size: 100% auto;
+    background-image: url('../images/key.png');
 }
 
 #header_wrap .inner {
@@ -365,10 +367,8 @@ Full-Width Styles
 }
 
 #footer_wrap {
-  background: #212121;
+  background: #242424;
 }
-
-
 
 /*******************************************************************************
 Small Device Styles
@@ -421,5 +421,4 @@ Small Device Styles
     max-width: 480px;
     font-size: 11px;
   }
-
 }
