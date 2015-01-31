@@ -91,6 +91,10 @@ namespace Movie
         private void ValidateSettings()
         {
             _xmlSettings = new XmlSettings();
+
+            Title = _xmlSettings.DbType == "music" ? "Music" : "Movies";
+            New.Content = "Add new " + _xmlSettings.DbType;
+
             if(!string.IsNullOrWhiteSpace(_xmlSettings.FilePath))
             {
                 SearchCategory.IsEnabled = true;

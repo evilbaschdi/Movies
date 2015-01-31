@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -17,6 +18,7 @@ namespace Movie
         private readonly string _mode;
         private string _exception;
         private IMovieRecord _movieRecord;
+        private readonly IXmlSettings _xmlSettings;
         private readonly IMovies _movies;
         private readonly MainWindow _mainWindow;
 
@@ -33,20 +35,58 @@ namespace Movie
         {
             InitializeComponent();
             _mainWindow = new MainWindow();
+            _xmlSettings = new XmlSettings();
             _movies = new Movies();
             Year.Maximum = DateTime.Now.Year;
+            SetComboBoxItems();
+
+            var dbType = _xmlSettings.DbType == "music" ? "Music" : "Movie";
 
             if(string.IsNullOrWhiteSpace(CurrentId))
             {
-                Title = "Add Movie";
+                Title = string.Format("Add {0}", dbType);
                 _mode = "add";
                 Year.Value = Year.Maximum;
             }
             else
             {
-                Title = "Edit Movie";
+                Title = string.Format("Edit {0}", dbType);
                 _mode = "edit";
                 LoadData();
+            }
+        }
+
+        private void SetComboBoxItems()
+        {
+            switch(_xmlSettings.DbType)
+            {
+                case "movie":
+                    var movieFormats = new ObservableCollection<string>
+                    {
+                        "DVD",
+                        "Blu-ray",
+                        "VHS",
+                        "MP4",
+                        "MKV",
+                        "MPEG",
+                        "AVI",
+                        "ISO",
+                        "FLV",
+                        "OGG"
+                    };
+                    Format.ItemsSource = movieFormats;
+                    break;
+
+                case "music":
+                    var musicFormats = new ObservableCollection<string>
+                    {
+                        "CD",
+                        "MP3",
+                        "Kassette",
+                        "Schallplatte",
+                    };
+                    Format.ItemsSource = musicFormats;
+                    break;
             }
         }
 

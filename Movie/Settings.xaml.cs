@@ -11,11 +11,13 @@ namespace Movie
     /// <summary>
     ///     Interaction logic for Settings.xaml
     /// </summary>
+// ReSharper disable RedundantExtendsListEntry
     public partial class Settings : MetroWindow
+// ReSharper restore RedundantExtendsListEntry
     {
         private IXmlSettings _xmlSettings;
         private readonly ITools _tools;
-        private readonly MainWindow _mainWindow;
+        //private readonly MainWindow _mainWindow;
 
         /// <summary>
         ///     InitializeComponent
@@ -39,6 +41,8 @@ namespace Movie
                     Path.Background = Brushes.Maroon;
                 }
             }
+
+            DbType.Text = !string.IsNullOrWhiteSpace(_xmlSettings.DbType) ? _xmlSettings.DbType : "movie";
         }
 
         private void CancelClick(object sender, RoutedEventArgs routedEventArgs)
@@ -54,7 +58,7 @@ namespace Movie
 
         private void SaveClick(object sender, RoutedEventArgs e)
         {
-            _xmlSettings.SaveToRegistry(Path.Text);
+            _xmlSettings.SaveToRegistry(Path.Text, DbType.Text);
             //_mainWindow.Populate();
         }
 
@@ -100,7 +104,7 @@ namespace Movie
                 if(result == true)
                 {
                     Path.Text = fileDialog.FileName;
-                    _xmlSettings.SaveToRegistry(Path.Text);
+                    _xmlSettings.SaveToRegistry(Path.Text, DbType.Text);
 
                     using(var streamWriter = new StreamWriter(fileDialog.FileName))
                     {

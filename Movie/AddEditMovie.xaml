@@ -18,18 +18,7 @@
         <controls:NumericUpDown Name="Year" Margin="70,41,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="514" Minimum = "1900" />
 
         <!--ComboBox-->
-        <ComboBox Name="Format" Margin="70,72,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="514">
-            <ComboBoxItem Content="DVD" />
-            <ComboBoxItem Content="Blu-ray" />
-            <ComboBoxItem Content="VHS" />
-            <ComboBoxItem Content="MP4" />
-            <ComboBoxItem Content="MKV" />
-            <ComboBoxItem Content="MPEG" />
-            <ComboBoxItem Content="AVI" />
-            <ComboBoxItem Content="ISO" />
-            <ComboBoxItem Content="FLV" />
-            <ComboBoxItem Content="OGG" />
-        </ComboBox>
+        <ComboBox Name="Format" Margin="70,72,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="514" />
 
         <!--Label-->
         <Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />

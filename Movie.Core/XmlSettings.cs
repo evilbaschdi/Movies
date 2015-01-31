@@ -4,7 +4,7 @@ namespace Movie.Core
 {
     public class XmlSettings : IXmlSettings
     {
-        public void SaveToRegistry(string path)
+        public void SaveToRegistry(string path, string dbtype)
         {
             var softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
             if(softwareKey == null)
@@ -35,6 +35,7 @@ namespace Movie.Core
                     return;
                 }
                 settingsKey.SetValue("XmlFilePath", path);
+                settingsKey.SetValue("DbType", dbtype);
             }
         }
 
@@ -62,6 +63,34 @@ namespace Movie.Core
                         RegistryKeyPermissionCheck.ReadSubTree))
                 {
                     return settingsKey != null ? settingsKey.GetValue("XmlFilePath", "").ToString() : "";
+                }
+            }
+        }
+
+        public string DbType
+        {
+            get
+            {
+                var evilBaschdiKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi",
+                    RegistryKeyPermissionCheck.ReadSubTree);
+
+                if(evilBaschdiKey == null)
+                {
+                    return "";
+                }
+
+                var movieKey = evilBaschdiKey.OpenSubKey(@"Movie",
+                    RegistryKeyPermissionCheck.ReadSubTree);
+
+                if(movieKey == null)
+                {
+                    return "";
+                }
+                using(
+                    var settingsKey = movieKey.OpenSubKey("Program Settings",
+                        RegistryKeyPermissionCheck.ReadSubTree))
+                {
+                    return settingsKey != null ? settingsKey.GetValue("DbType", "").ToString() : "movie";
                 }
             }
         }

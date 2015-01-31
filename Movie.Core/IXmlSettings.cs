@@ -4,6 +4,8 @@ namespace Movie.Core
     {
         string FilePath { get; }
 
-        void SaveToRegistry(string path);
+        string DbType { get; }
+
+        void SaveToRegistry(string path, string dbtype);
     }
 }
