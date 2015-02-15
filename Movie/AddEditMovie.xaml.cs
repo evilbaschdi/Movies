@@ -96,7 +96,9 @@ namespace Movie
             if(_movieRecord != null)
             {
                 Name.Text = _movieRecord.Name;
-                Year.Value = Convert.ToDouble(_movieRecord.Year);
+                Year.Value = string.IsNullOrWhiteSpace(_movieRecord.Year)
+                    ? Year.Maximum
+                    : Convert.ToDouble(_movieRecord.Year);
                 Format.Text = _movieRecord.Format;
             }
         }

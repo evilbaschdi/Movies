@@ -41,6 +41,13 @@ namespace Movie
         /// </summary>
         public void Populate()
         {
+            //var listCollectionView = new ListCollectionView(_movies.MovieDataView());
+            //if (listCollectionView.GroupDescriptions != null)
+            //{
+            //    listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Distributed"));
+            //    listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
+            //}
+            //MovieGrid.ItemsSource = listCollectionView;
             MovieGrid.ItemsSource = _movies.MovieDataView();
             Sorting();
         }
@@ -209,13 +216,30 @@ namespace Movie
 
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Populate(SearchFilter.Text);
+            Populate(SearchFilter.Text, SearchCategory.Text);
         }
 
-        private void Populate(string searchText)
+        private void Populate(string searchText, string searchCategory)
         {
-            MovieGrid.ItemsSource = _movies.MovieDataView(searchText, SearchCategory.Text);
+            MovieGrid.ItemsSource = _movies.MovieDataView(searchText, searchCategory);
             Sorting();
+        }
+
+        private void SearchCategoryOnDropDownClosed(object sender, EventArgs e)
+        {
+            if(SearchCategory.Text == "Distributed")
+            {
+                SearchFilter.KeyDown += SearchFilterKeyPress;
+                SearchFilter.MaxLength = 1;
+            }
+        }
+
+        private void SearchFilterKeyPress(object sender, KeyEventArgs e)
+        {
+            if(e.Key != Key.F && e.Key != Key.T)
+            {
+                e.Handled = true;
+            }
         }
 
         #endregion Search
