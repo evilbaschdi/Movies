@@ -1,13 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
+using Movie.Internal;
 
 namespace Movie
 {
@@ -20,9 +23,14 @@ namespace Movie
     {
         private string _currentId;
         private string _exception;
-        private IXmlSettings _xmlSettings;
+        private string _dbType;
+        private readonly IXmlSettings _xmlSettings;
         private IMovieRecord _movieRecord;
-        private IMovies _movies;
+        private readonly IMovies _movies;
+
+        private readonly ApplicationStyle _style;
+        private readonly ApplicationSettings _settings;
+        private readonly AddEdit _addEdit;
 
         /// <summary>
         ///     MainWindows.
@@ -30,8 +38,15 @@ namespace Movie
         /// </summary>
         public MainWindow()
         {
+            _style = new ApplicationStyle(this);
+            _settings = new ApplicationSettings(this);
+            _addEdit = new AddEdit(this);
+            _xmlSettings = new XmlSettings();
+            _movies = new Movies();
             InitializeComponent();
+            _style.Load();
             ValidateSettings();
+            _settings.SetComboBoxItems();
         }
 
         #region DataGrid Logic
@@ -97,23 +112,27 @@ namespace Movie
 
         private void ValidateSettings()
         {
-            _xmlSettings = new XmlSettings();
-
-            Title = _xmlSettings.DbType == "music" ? "Music" : "Movies";
-            New.Content = "Add new " + _xmlSettings.DbType;
+            Year.Maximum = DateTime.Now.Year;
+            _dbType = _xmlSettings.DbType == "music" ? "music" : "movie";
+            DbType.Text = !string.IsNullOrWhiteSpace(_xmlSettings.DbType) ? _xmlSettings.DbType : "movie";
+            Title = _dbType;
+            NewContent.Text = string.Format("add new {0}", _dbType);
 
             if(!string.IsNullOrWhiteSpace(_xmlSettings.FilePath))
             {
                 SearchCategory.IsEnabled = true;
                 SearchFilter.IsEnabled = true;
                 New.IsEnabled = true;
-                _movies = new Movies();
                 SearchCategory.Text = "Name";
+                DbPath.Text = _xmlSettings.FilePath;
+                if(!File.Exists(DbPath.Text))
+                {
+                    DbPath.Background = Brushes.Maroon;
+                }
                 Populate();
             }
             else
             {
-                new Settings().Show();
                 SearchCategory.IsEnabled = false;
                 SearchFilter.IsEnabled = false;
                 New.IsEnabled = false;
@@ -122,7 +141,40 @@ namespace Movie
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            new Settings().Show();
+            ToggleFlyout(0);
+        }
+
+        private void SaveSettingsClick(object sender, RoutedEventArgs e)
+        {
+            _settings.Save();
+            Populate();
+        }
+
+        private void CancelSettingsClick(object sender, RoutedEventArgs e)
+        {
+            ToggleFlyout(0);
+        }
+
+        private void BrowseClick(object sender, RoutedEventArgs e)
+        {
+            _settings.Browse();
+        }
+
+        private void ResetClick(object sender, RoutedEventArgs e)
+        {
+            _settings.Reset();
+        }
+
+        private void ToggleFlyout(int index)
+        {
+            var flyout = (Flyout) Flyouts.Items[index];
+
+            if(flyout == null)
+            {
+                return;
+            }
+
+            flyout.IsOpen = !flyout.IsOpen;
         }
 
         #endregion Settings
@@ -131,14 +183,34 @@ namespace Movie
 
         private void NewClick(object sender, RoutedEventArgs e)
         {
-            AddEditMovie.CurrentId = null;
-            new AddEditMovie().Show();
+            _addEdit.CurrentId = null;
+            _addEdit.Mode = "add";
+            AddEditFlyout.Header = string.Format("add new {0}", _dbType);
+            Year.Value = Year.Maximum;
+            _currentId = string.Empty;
+            ToggleFlyout(1);
         }
 
         private void Edit()
         {
-            AddEditMovie.CurrentId = _currentId;
-            new AddEditMovie().Show();
+            _addEdit.CurrentId = _currentId;
+            _addEdit.Mode = "edit";
+            AddEditFlyout.Header = string.Format("edit {0}", _dbType);
+            LoadCurrentMovieData();
+            ToggleFlyout(1);
+        }
+
+        private void LoadCurrentMovieData()
+        {
+            _movieRecord = _movies.GetMovieById(_currentId);
+            if(_movieRecord != null)
+            {
+                Name.Text = _movieRecord.Name;
+                Year.Value = string.IsNullOrWhiteSpace(_movieRecord.Year)
+                    ? Year.Maximum
+                    : Convert.ToDouble(_movieRecord.Year);
+                Format.Text = _movieRecord.Format;
+            }
         }
 
         private void EditClick(object sender, RoutedEventArgs e)
@@ -149,6 +221,62 @@ namespace Movie
         private void MovieGridOnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Edit();
+        }
+
+        private void SaveClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            _addEdit.MovieData(Name.Text, Year.Value, Format.Text);
+            _addEdit.SaveAndAddNew(false);
+        }
+
+        private void SaveAndNewClick(object sender, RoutedEventArgs e)
+        {
+            _addEdit.MovieData(Name.Text, Year.Value, Format.Text);
+            _addEdit.SaveAndAddNew(true);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="message"></param>
+        public async void ShowErrorMessage(string message)
+        {
+            var options = new MetroDialogSettings
+            {
+                ColorScheme = MetroDialogColorScheme.Theme
+            };
+
+            MetroDialogOptions = options;
+            await this.ShowMessageAsync("Error", message);
+        }
+
+        /// <summary>
+        /// </summary>
+        public void NewEntry()
+        {
+            ClearForm();
+        }
+
+        private void ClearForm()
+        {
+            _movieRecord = null;
+            Name.Focus();
+            Name.Text = "";
+            Year.Value = Year.Maximum;
+            Format.Text = "";
+        }
+
+        private void CancelClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            CleanupAndClose();
+        }
+
+        /// <summary>
+        /// </summary>
+        public void CleanupAndClose()
+        {
+            Name.Clear();
+            _currentId = null;
+            ToggleFlyout(1);
         }
 
         #endregion Add Edit Movie
@@ -243,5 +371,24 @@ namespace Movie
         }
 
         #endregion Search
+
+        #region Style
+
+        private void SaveStyleClick(object sender, RoutedEventArgs e)
+        {
+            _style.SaveStyle();
+        }
+
+        private void Theme(object sender, RoutedEventArgs e)
+        {
+            _style.SetTheme(sender, e);
+        }
+
+        private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _style.SetAccent(sender, e);
+        }
+
+        #endregion Style
     }
 }
