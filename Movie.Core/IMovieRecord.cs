@@ -14,5 +14,7 @@ namespace Movie.Core
         string Format { get; set; }
 
         string Distributed { get; set; }
+
+        string Watched { get; set; }
     }
 }

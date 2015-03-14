@@ -139,7 +139,7 @@ namespace Movie
             }
         }
 
-        private void SettingsClick(object sender, RoutedEventArgs e)
+        private void ToggleSettingsFlyoutClick(object sender, RoutedEventArgs e)
         {
             ToggleFlyout(0);
         }
@@ -165,16 +165,30 @@ namespace Movie
             _settings.Reset();
         }
 
-        private void ToggleFlyout(int index)
+        private void ToggleFlyout(int index, bool stayOpen = false)
         {
-            var flyout = (Flyout) Flyouts.Items[index];
-
-            if(flyout == null)
+            var activeFlyout = (Flyout) Flyouts.Items[index];
+            if(activeFlyout == null)
             {
                 return;
             }
 
-            flyout.IsOpen = !flyout.IsOpen;
+            foreach(Flyout nonactiveFlyout in Flyouts.Items)
+            {
+                if(nonactiveFlyout.IsOpen && nonactiveFlyout.Name != activeFlyout.Name)
+                {
+                    nonactiveFlyout.IsOpen = false;
+                }
+            }
+
+            if(activeFlyout.IsOpen && stayOpen)
+            {
+                activeFlyout.IsOpen = true;
+            }
+            else
+            {
+                activeFlyout.IsOpen = !activeFlyout.IsOpen;
+            }
         }
 
         #endregion Settings
@@ -390,5 +404,40 @@ namespace Movie
         }
 
         #endregion Style
+
+        #region Watched movie
+
+        private void SaveWatchDateClick(object sender, RoutedEventArgs e)
+        {
+            if(LastTimeWatched.SelectedDate.HasValue)
+            {
+                _movieRecord.Watched = LastTimeWatched.SelectedDate.Value.ToShortDateString();
+
+                _movies.Update(_movieRecord);
+                MovieGrid.SelectedItem = null;
+            }
+        }
+
+        private void ToggleWatchedFlyoutClick(object sender, RoutedEventArgs e)
+        {
+            LastTimeWatched.SelectedDate = !string.IsNullOrWhiteSpace(_movieRecord.Watched)
+                ? DateTime.Parse(_movieRecord.Watched)
+                : DateTime.Now;
+
+            WatchedFlyout.Header = string.Format("last time of watching{0}'{1}'", Environment.NewLine, _movieRecord.Name);
+            ToggleFlyout(2, true);
+        }
+
+        private void CommandBindingCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CommandBindingExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ((Calendar) e.Parameter).SelectedDate = DateTime.Now.Date;
+        }
+
+        #endregion Watched movie
     }
 }

@@ -57,9 +57,9 @@
     <ApplicationIcon>b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MahApps.Metro, Version=1.1.2.7, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MahApps.Metro, Version=1.1.3.5, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MahApps.Metro.1.1.2-ALPHA007\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.1.3-ALPHA005\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=105.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -70,7 +70,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.1.2-ALPHA007\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.1.3-ALPHA005\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -98,6 +98,7 @@
     <Compile Include="Internal\AddEdit.cs" />
     <Compile Include="Internal\ApplicationSettings.cs" />
     <Compile Include="Internal\ApplicationStyle.cs" />
+    <Compile Include="Model\Commands.cs" />
     <Compile Include="TMDbAPI\TMDb.cs" />
     <Page Include="ChooseMatchingMoviePart.xaml">
       <SubType>Designer</SubType>

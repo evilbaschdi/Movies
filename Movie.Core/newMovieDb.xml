@@ -12,6 +12,7 @@
                 <xs:element name="Year" type="xs:string" minOccurs="0" />
                 <xs:element name="Format" type="xs:string" minOccurs="0" />
                 <xs:element name="Distributed" type="xs:string" minOccurs="0" />
+                <xs:element name="Watched" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>

@@ -1,7 +1,9 @@
 ﻿<!-- ReSharper disable MemberCanBePrivate.Global -->
 <!-- ReSharper disable UnusedMember.Global -->
-<controls:MetroWindow x:Class="Movie.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+<controls:MetroWindow x:Class="Movie.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:model="clr-namespace:Movie.Model"
                       Title="Movies"
                       Width="1000"
                       Height="700" Icon="b.ico" GlowBrush="{DynamicResource AccentColorBrush}"
@@ -42,7 +44,7 @@
                 </StackPanel>
             </Button>
             <!--  Settings  -->
-            <Button Click="SettingsClick">
+            <Button Click="ToggleSettingsFlyoutClick">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                         <Rectangle.OpacityMask>
@@ -66,17 +68,19 @@
                 <DataGridTextColumn Binding="{Binding Name}" CanUserResize="False" Header="Name" />
                 <DataGridTextColumn Width="100" Binding="{Binding Year}" CanUserResize="False" Header="Year" />
                 <DataGridTextColumn Width="100" Binding="{Binding Format}" CanUserResize="False" Header="Format" />
+                <DataGridTextColumn Width="100" Binding="{Binding Watched}" CanUserResize="False" Header="Watched" />
                 <DataGridCheckBoxColumn Width="100" Binding="{Binding Distributed}" CanUserResize="False" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         ElementStyle="{DynamicResource MetroDataGridCheckBox}" Header="Distributed" />
             </DataGrid.Columns>
             <!--  ContextMenu  -->
             <DataGrid.ContextMenu>
 
-                <ContextMenu Name="MovieContextMenu" StaysOpen="True">
-                    <MenuItem Name="EditMenuItem" Click="EditClick" Header="Edit" />
-                    <MenuItem Name="DeleteMenuItem" Click="DeleteClick" Header="Delete" />
+                <ContextMenu Name="MovieContextMenu" StaysOpen="True" HasDropShadow="True">
+                    <MenuItem Name="WatchedFlyoutMenuItem" Click="ToggleWatchedFlyoutClick" Header="Update date of watching" />
                     <MenuItem Name="DistributeMenuItem" Click="DistributeClick" Header="Distribute this one" IsEnabled="True" />
                     <MenuItem Name="GotBackMenuItem" Click="GotBackClick" Header="Got back" />
+                    <MenuItem Name="EditMenuItem" Click="EditClick" Header="Edit" />
+                    <MenuItem Name="DeleteMenuItem" Click="DeleteClick" Header="Delete" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <!--  GroupStyle  -->
@@ -205,8 +209,8 @@
                 </StackPanel>
             </controls:Flyout>
             <!--  AddEdit Flyout  -->
-            <controls:Flyout Name="AddEditFlyout" Height="200" AnimateOnPositionChange="True" AnimateOpacity="True" Header="add new " Position="Top" Theme="Accent">
-                <StackPanel>
+            <controls:Flyout Name="AddEditFlyout" Height="350" AnimateOnPositionChange="True" AnimateOpacity="True" Header="add new " Position="Bottom" Theme="Accent">
+                <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Vertical">
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Name" />
                         <TextBox Name="Name" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top" />
@@ -215,6 +219,7 @@
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Format" />
                         <ComboBox Name="Format" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     </StackPanel>
+                    <!-- Buttons -->
                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                         <Button Name="Save" Click="SaveClick">
                             <StackPanel Orientation="Horizontal">
@@ -244,6 +249,47 @@
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="cancel" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </controls:Flyout>
+            <!--  Watched Flyout  -->
+            <controls:Flyout Name="WatchedFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True" Header="last time of watching" Position="Left" Theme="Accent">
+                <StackPanel>
+            <!-- Date -->
+                    <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
+                        <Label Width="60" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Watched" />
+                        <DatePicker Name="LastTimeWatched" Width="405" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsTodayHighlighted="True">
+                            <DatePicker.CommandBindings>
+                                <CommandBinding Command="model:Commands.SelectToday" CanExecute="CommandBindingCanExecute" Executed="CommandBindingExecuted" />
+                            </DatePicker.CommandBindings>
+                            <DatePicker.CalendarStyle>
+                                <Style TargetType="{x:Type Calendar}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Calendar}">
+                                                <StackPanel Name="PART_Root" HorizontalAlignment="Center">
+                                                    <CalendarItem Name="PART_CalendarItem" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" Style="{TemplateBinding Calendar.CalendarItemStyle}" />
+                                                    <Button Content="Today" Command="model:Commands.SelectToday" CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.CalendarStyle>
+                        </DatePicker>
+                    </StackPanel>
+            <!-- SaveSettings -->
+                    <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
+                        <Button Name="SaveWatchDate" Width="100" Margin="5,5,0,0" Click="SaveWatchDateClick">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save" />
                             </StackPanel>
                         </Button>
                     </StackPanel>

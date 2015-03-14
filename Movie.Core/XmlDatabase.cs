@@ -17,7 +17,7 @@ namespace Movie.Core
             DataSet.WriteXml(settings.FilePath, XmlWriteMode.WriteSchema);
         }
 
-        public void Insert(string name, string year, string format, string distributed)
+        public void Insert(string name, string year, string format, string distributed, string watched)
         {
             var dataRow = _dataView.Table.NewRow();
             dataRow[0] = Guid.NewGuid();
@@ -25,6 +25,7 @@ namespace Movie.Core
             dataRow[2] = year;
             dataRow[3] = format;
             dataRow[4] = distributed;
+            dataRow[5] = watched;
             _dataView.Table.Rows.Add(dataRow);
             Save();
         }
@@ -32,13 +33,14 @@ namespace Movie.Core
         /// <summary>
         ///     Updates a record in the movie table.
         /// </summary>
-        public void Update(string id, string name, string year, string format, string distributed)
+        public void Update(string id, string name, string year, string format, string distributed, string watched)
         {
             var dataRow = SelectById(id);
             dataRow[1] = name;
             dataRow[2] = year;
             dataRow[3] = format;
             dataRow[4] = distributed;
+            dataRow[5] = watched;
             Save();
         }
 

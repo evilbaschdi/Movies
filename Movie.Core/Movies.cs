@@ -29,7 +29,8 @@ namespace Movie.Core
                     Name = dataRow[1] != DBNull.Value ? dataRow[1].ToString() : string.Empty,
                     Year = dataRow[2] != DBNull.Value ? dataRow[2].ToString() : string.Empty,
                     Format = dataRow[3] != DBNull.Value ? dataRow[3].ToString() : string.Empty,
-                    Distributed = dataRow[4] != DBNull.Value ? dataRow[3].ToString() : string.Empty
+                    Distributed = dataRow[4] != DBNull.Value ? dataRow[4].ToString() : string.Empty,
+                    Watched = dataRow[5] != DBNull.Value ? dataRow[5].ToString() : string.Empty
                 };
             }
             return _movieRecord;
@@ -48,7 +49,8 @@ namespace Movie.Core
                     Name = dataRow[1] != DBNull.Value ? dataRow[1].ToString() : string.Empty,
                     Year = dataRow[2] != DBNull.Value ? dataRow[2].ToString() : string.Empty,
                     Format = dataRow[3] != DBNull.Value ? dataRow[3].ToString() : string.Empty,
-                    Distributed = dataRow[4] != DBNull.Value ? dataRow[3].ToString() : string.Empty
+                    Distributed = dataRow[4] != DBNull.Value ? dataRow[4].ToString() : string.Empty,
+                    Watched = dataRow[5] != DBNull.Value ? dataRow[5].ToString() : string.Empty
                 };
             }
             return _movieRecord;
@@ -69,13 +71,13 @@ namespace Movie.Core
         public void Update(IMovieRecord movieRecord)
         {
             _xmlDatabase.Update(movieRecord.Id, movieRecord.Name, movieRecord.Year, movieRecord.Format,
-                movieRecord.Distributed);
+                movieRecord.Distributed, movieRecord.Watched);
         }
 
         public void Insert(IMovieRecord movieRecord)
         {
             _xmlDatabase.Insert(movieRecord.Name, movieRecord.Year, movieRecord.Format,
-                movieRecord.Distributed);
+                movieRecord.Distributed, movieRecord.Watched);
         }
 
         public void Delete(string id)
