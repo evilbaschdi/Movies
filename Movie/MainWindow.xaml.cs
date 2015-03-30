@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -173,12 +174,12 @@ namespace Movie
                 return;
             }
 
-            foreach(Flyout nonactiveFlyout in Flyouts.Items)
+            foreach(
+                var nonactiveFlyout in
+                    Flyouts.Items.Cast<Flyout>()
+                        .Where(nonactiveFlyout => nonactiveFlyout.IsOpen && nonactiveFlyout.Name != activeFlyout.Name))
             {
-                if(nonactiveFlyout.IsOpen && nonactiveFlyout.Name != activeFlyout.Name)
-                {
-                    nonactiveFlyout.IsOpen = false;
-                }
+                nonactiveFlyout.IsOpen = false;
             }
 
             if(activeFlyout.IsOpen && stayOpen)

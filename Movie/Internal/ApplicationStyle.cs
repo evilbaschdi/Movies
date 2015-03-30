@@ -77,12 +77,22 @@ namespace Movie.Internal
             ThemeManager.ChangeAppStyle(Application.Current, _styleAccent, _styleTheme);
         }
 
+        /// <summary>
+        ///     Accent of application style.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void SetAccent(object sender, SelectionChangedEventArgs e)
         {
             _styleAccent = ThemeManager.GetAccent(_mainWindow.Accent.SelectedValue.ToString());
             SetStyle();
         }
 
+        /// <summary>
+        ///     Theme of application style.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="routedEventArgs"></param>
         public void SetTheme(object sender, RoutedEventArgs routedEventArgs)
         {
             // get the theme from the current application
