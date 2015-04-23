@@ -134,6 +134,7 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
+                    <!-- Horizontal Line -->
                     <StackPanel Margin="0,10,0,0" Orientation="Vertical">
                         <Rectangle Width="470" VerticalAlignment="Stretch" Stroke="{DynamicResource AccentColorBrush}" />
                     </StackPanel>
