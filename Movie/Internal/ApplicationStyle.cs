@@ -29,7 +29,7 @@ namespace Movie.Internal
         {
             if(mainWindow == null)
             {
-                throw new ArgumentNullException("mainWindow");
+                throw new ArgumentNullException(nameof(mainWindow));
             }
             _mainWindow = mainWindow;
         }

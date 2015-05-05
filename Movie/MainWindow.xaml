@@ -125,12 +125,12 @@
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Button Name="SaveStyle" Width="415" Margin="60,5,0,0" Click="SaveStyleClick">
                             <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="16" Height="16" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save style" />
+                                <Rectangle Width="16" Height="16" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save style" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -250,12 +250,14 @@
             <!--  Watched Flyout  -->
             <controls:Flyout Name="WatchedFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True" Header="last time of watching" Position="Left" Theme="Accent">
                 <StackPanel>
-            <!-- Date -->
+                    <!-- Date -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Label Width="60" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Watched" />
                         <DatePicker Name="LastTimeWatched" Width="405" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsTodayHighlighted="True">
                             <DatePicker.CommandBindings>
-                                <CommandBinding Command="model:Commands.SelectToday" CanExecute="CommandBindingCanExecute" Executed="CommandBindingExecuted" />
+                                <CommandBinding CanExecute="CommandBindingCanExecute" Executed="CommandBindingExecuted">
+                                    <CommandBinding.Command>model:Commands.SelectToday</CommandBinding.Command>
+                                </CommandBinding>
                             </DatePicker.CommandBindings>
                             <DatePicker.CalendarStyle>
                                 <Style TargetType="{x:Type Calendar}">
@@ -263,8 +265,12 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Calendar}">
                                                 <StackPanel Name="PART_Root" HorizontalAlignment="Center">
-                                                    <CalendarItem Name="PART_CalendarItem" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" Style="{TemplateBinding Calendar.CalendarItemStyle}" />
-                                                    <Button Content="Today" Command="model:Commands.SelectToday" CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                                    <CalendarItem Name="PART_CalendarItem" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}"
+                                                                  BorderThickness="{TemplateBinding Control.BorderThickness}" Style="{TemplateBinding Calendar.CalendarItemStyle}" />
+                                                    <Button Content="Today"
+                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                        <Button.Command>model:Commands.SelectToday</Button.Command>
+                                                    </Button>
                                                 </StackPanel>
                                             </ControlTemplate>
                                         </Setter.Value>
@@ -273,7 +279,7 @@
                             </DatePicker.CalendarStyle>
                         </DatePicker>
                     </StackPanel>
-            <!-- SaveSettings -->
+                    <!-- SaveSettings -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Button Name="SaveWatchDate" Width="100" Margin="5,5,0,0" Click="SaveWatchDateClick">
                             <StackPanel Orientation="Horizontal">

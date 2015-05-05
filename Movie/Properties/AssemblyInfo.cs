@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Movie")]
-[assembly: AssemblyCopyright("Copyright © evil.baschdi 2014")]
+[assembly: AssemblyCopyright("Copyright © evil.baschdi 2014 - 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -117,7 +117,7 @@ namespace Movie
             _dbType = _xmlSettings.DbType == "music" ? "music" : "movie";
             DbType.Text = !string.IsNullOrWhiteSpace(_xmlSettings.DbType) ? _xmlSettings.DbType : "movie";
             Title = _dbType;
-            NewContent.Text = string.Format("add new {0}", _dbType);
+            NewContent.Text = $"add new {_dbType}";
 
             if(!string.IsNullOrWhiteSpace(_xmlSettings.FilePath))
             {
@@ -200,7 +200,7 @@ namespace Movie
         {
             _addEdit.CurrentId = null;
             _addEdit.Mode = "add";
-            AddEditFlyout.Header = string.Format("add new {0}", _dbType);
+            AddEditFlyout.Header = $"add new {_dbType}";
             Year.Value = Year.Maximum;
             _currentId = string.Empty;
             ToggleFlyout(1);
@@ -210,7 +210,7 @@ namespace Movie
         {
             _addEdit.CurrentId = _currentId;
             _addEdit.Mode = "edit";
-            AddEditFlyout.Header = string.Format("edit {0}", _dbType);
+            AddEditFlyout.Header = $"edit {_dbType}";
             LoadCurrentMovieData();
             ToggleFlyout(1);
         }
@@ -317,7 +317,7 @@ namespace Movie
                 var delete =
                     await
                         this.ShowMessageAsync("You are about to delete",
-                            string.Format("'{0}'", _movieRecord.Name),
+                            $"'{_movieRecord.Name}'",
                             MessageDialogStyle.AffirmativeAndNegative, options);
 
                 if(delete == MessageDialogResult.Affirmative)
@@ -327,8 +327,8 @@ namespace Movie
             }
             catch(Exception exp)
             {
-                _exception = string.Format("Record {0} failed delete to database\n Message : {1}",
-                    _movieRecord.Name.Trim(), exp.Message);
+                _exception =
+                    $"failed to delete record {_movieRecord.Name.Trim()} from database\n Message : {exp.Message}";
 
                 MessageBox.Show(_exception, "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
@@ -425,7 +425,7 @@ namespace Movie
                 ? DateTime.Parse(_movieRecord.Watched)
                 : DateTime.Now;
 
-            WatchedFlyout.Header = string.Format("last time of watching{0}'{1}'", Environment.NewLine, _movieRecord.Name);
+            WatchedFlyout.Header = $"last time of watching{Environment.NewLine}'{_movieRecord.Name}'";
             ToggleFlyout(2, true);
         }
 

@@ -49,7 +49,7 @@ namespace Movie.Core
         /// </summary>
         public void Delete(string id)
         {
-            _dataView.RowFilter = string.Format("Id='{0}'", id);
+            _dataView.RowFilter = $"Id='{id}'";
             _dataView.Sort = "Id";
             _dataView.Delete(0);
             _dataView.RowFilter = "";
@@ -61,7 +61,7 @@ namespace Movie.Core
         /// </summary>
         public DataRow SelectById(string id)
         {
-            _dataView.RowFilter = string.Format("Id='{0}'", id);
+            _dataView.RowFilter = $"Id='{id}'";
             _dataView.Sort = "Id";
             DataRow dataRow = null;
             if(_dataView.Count > 0)
@@ -77,7 +77,7 @@ namespace Movie.Core
         /// </summary>
         public DataRow SelectByName(string name)
         {
-            _dataView.RowFilter = string.Format("Name='{0}'", name);
+            _dataView.RowFilter = $"Name='{name}'";
             _dataView.Sort = "Name";
             DataRow dataRow = null;
             if(_dataView.Count > 0)
@@ -106,7 +106,7 @@ namespace Movie.Core
             var settings = new XmlSettings();
             DataSet.ReadXml(settings.FilePath, XmlReadMode.ReadSchema);
             _dataView = DataSet.Tables[0].DefaultView;
-            _dataView.RowFilter = string.Format("{0} LIKE '%{1}%'", category, filter);
+            _dataView.RowFilter = $"{category} LIKE '%{filter}%'";
             return _dataView;
         }
     }

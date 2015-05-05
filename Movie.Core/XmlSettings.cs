@@ -7,19 +7,11 @@ namespace Movie.Core
         public void SaveToRegistry(string path, string dbtype)
         {
             var softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
-            if(softwareKey == null)
-            {
-                return;
-            }
 
-            var evilBaschdiKey = softwareKey.CreateSubKey("EvilBaschdi",
+            var evilBaschdiKey = softwareKey?.CreateSubKey("EvilBaschdi",
                 RegistryKeyPermissionCheck.ReadWriteSubTree);
-            if(evilBaschdiKey == null)
-            {
-                return;
-            }
 
-            var movieKey = evilBaschdiKey.CreateSubKey("Movie",
+            var movieKey = evilBaschdiKey?.CreateSubKey("Movie",
                 RegistryKeyPermissionCheck.ReadWriteSubTree);
             if(movieKey == null)
             {
@@ -46,12 +38,7 @@ namespace Movie.Core
                 var evilBaschdiKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi",
                     RegistryKeyPermissionCheck.ReadSubTree);
 
-                if(evilBaschdiKey == null)
-                {
-                    return "";
-                }
-
-                var movieKey = evilBaschdiKey.OpenSubKey(@"Movie",
+                var movieKey = evilBaschdiKey?.OpenSubKey(@"Movie",
                     RegistryKeyPermissionCheck.ReadSubTree);
 
                 if(movieKey == null)
@@ -62,7 +49,7 @@ namespace Movie.Core
                     var settingsKey = movieKey.OpenSubKey("Program Settings",
                         RegistryKeyPermissionCheck.ReadSubTree))
                 {
-                    return settingsKey != null ? settingsKey.GetValue("XmlFilePath", "").ToString() : "";
+                    return settingsKey?.GetValue("XmlFilePath", "").ToString() ?? "";
                 }
             }
         }
@@ -74,12 +61,7 @@ namespace Movie.Core
                 var evilBaschdiKey = Registry.CurrentUser.OpenSubKey(@"Software\EvilBaschdi",
                     RegistryKeyPermissionCheck.ReadSubTree);
 
-                if(evilBaschdiKey == null)
-                {
-                    return "";
-                }
-
-                var movieKey = evilBaschdiKey.OpenSubKey(@"Movie",
+                var movieKey = evilBaschdiKey?.OpenSubKey(@"Movie",
                     RegistryKeyPermissionCheck.ReadSubTree);
 
                 if(movieKey == null)
@@ -90,7 +72,7 @@ namespace Movie.Core
                     var settingsKey = movieKey.OpenSubKey("Program Settings",
                         RegistryKeyPermissionCheck.ReadSubTree))
                 {
-                    return settingsKey != null ? settingsKey.GetValue("DbType", "").ToString() : "movie";
+                    return settingsKey?.GetValue("DbType", "").ToString() ?? "movie";
                 }
             }
         }

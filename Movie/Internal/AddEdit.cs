@@ -33,7 +33,7 @@ namespace Movie.Internal
         {
             if(mainWindow == null)
             {
-                throw new ArgumentNullException("mainWindow");
+                throw new ArgumentNullException(nameof(mainWindow));
             }
             _mainWindow = mainWindow;
             _movies = new Movies();
@@ -64,8 +64,7 @@ namespace Movie.Internal
                 };
 
                 _mainWindow.MetroDialogOptions = options;
-                await _mainWindow.ShowMessageAsync("Already existing!",
-                    string.Format("'{0}'", _name));
+                await _mainWindow.ShowMessageAsync("Already existing!", $"'{_name}'");
             }
             else
             {
@@ -118,8 +117,7 @@ namespace Movie.Internal
             }
             catch(Exception exception)
             {
-                var e = string.Format("'{0}' failed {1} to database\n Message : {2}", _name, _action,
-                    exception.Message);
+                var e = $"'{_name}' failed to {_action} database\n Message : {exception.Message}";
                 _mainWindow.ShowErrorMessage(e);
             }
 
