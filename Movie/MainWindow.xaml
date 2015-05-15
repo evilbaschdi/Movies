@@ -4,9 +4,9 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:model="clr-namespace:Movie.Model"
-                      Title="Movies"
+                      Title="Movie"
                       Width="1000"
-                      Height="700" Icon="b.ico" GlowBrush="{DynamicResource AccentColorBrush}"
+                      Height="700" Icon="movie.ico" ShowIconOnTitleBar="False" GlowBrush="{DynamicResource AccentColorBrush}"
                       LeftWindowCommandsOverlayBehavior="Never"
                       RightWindowCommandsOverlayBehavior="Never"
                       WindowButtonCommandsOverlayBehavior="Never">
