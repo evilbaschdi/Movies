@@ -1,12 +1,12 @@
-using System;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
+using System;
 
 namespace Movie.Internal
 {
     /// <summary>
     /// </summary>
-    public class AddEdit
+    public class AddEdit : IAddEdit
     {
         private readonly MainWindow _mainWindow;
         private IMovieRecord _movieRecord;
@@ -14,11 +14,11 @@ namespace Movie.Internal
 
         /// <summary>
         /// </summary>
-        public string Mode;
+        public string Mode { private get; set; }
 
         /// <summary>
         /// </summary>
-        public string CurrentId;
+        public string CurrentId { private get; set; }
 
         private string _name;
         private double? _year;

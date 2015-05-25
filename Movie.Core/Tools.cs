@@ -8,22 +8,17 @@ namespace Movie.Core
         {
             string result;
 
-            using(var stream = GetType().Assembly.
+            using (var stream = GetType().Assembly.
                 GetManifestResourceStream($"Movie.Core.{filename}"))
             {
-// ReSharper disable AssignNullToNotNullAttribute
-                using(var sr = new StreamReader(stream))
-// ReSharper restore AssignNullToNotNullAttribute
+                // ReSharper disable AssignNullToNotNullAttribute
+                using (var sr = new StreamReader(stream))
+                // ReSharper restore AssignNullToNotNullAttribute
                 {
                     result = sr.ReadToEnd();
                 }
             }
             return result;
         }
-    }
-
-    public interface ITools
-    {
-        string GetResourceStreamText(string filename);
     }
 }

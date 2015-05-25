@@ -1,16 +1,16 @@
+using Microsoft.Win32;
+using Movie.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
-using Microsoft.Win32;
-using Movie.Core;
 
 namespace Movie.Internal
 {
     /// <summary>
     /// </summary>
-    public class ApplicationSettings
+    public class ApplicationSettings : IApplicationSettings
     {
         private readonly MainWindow _mainWindow;
         private readonly ITools _tools;
@@ -22,7 +22,7 @@ namespace Movie.Internal
         /// <param name="mainWindow"></param>
         public ApplicationSettings(MainWindow mainWindow)
         {
-            if(mainWindow == null)
+            if (mainWindow == null)
             {
                 throw new ArgumentNullException(nameof(mainWindow));
             }
@@ -53,12 +53,12 @@ namespace Movie.Internal
 
             try
             {
-                if(result == true)
+                if (result == true)
                 {
                     _mainWindow.DbPath.Text = fileDialog.FileName;
                     _xmlSettings.SaveToRegistry(_mainWindow.DbPath.Text, _mainWindow.DbType.Text);
 
-                    using(var streamWriter = new StreamWriter(fileDialog.FileName))
+                    using (var streamWriter = new StreamWriter(fileDialog.FileName))
                     {
                         streamWriter.WriteLine(_tools.GetResourceStreamText("newMovieDb.xml"));
                     }
@@ -85,7 +85,7 @@ namespace Movie.Internal
 
             var result = fileDialog.ShowDialog();
 
-            if(result == true)
+            if (result == true)
             {
                 _mainWindow.DbPath.Text = fileDialog.FileName;
             }
@@ -102,7 +102,7 @@ namespace Movie.Internal
         /// </summary>
         public void SetComboBoxItems()
         {
-            switch(_xmlSettings.DbType)
+            switch (_xmlSettings.DbType)
             {
                 case "movie":
                     _mainWindow.Format.ItemsSource = MovieFormats;
