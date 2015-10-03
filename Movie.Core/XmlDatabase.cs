@@ -17,15 +17,17 @@ namespace Movie.Core
             DataSet.WriteXml(settings.FilePath, XmlWriteMode.WriteSchema);
         }
 
-        public void Insert(string name, string year, string format, string distributed, string watched)
+        public void Insert(string name, string year, string format, string distributed, string distributedTo,
+            string watched)
         {
             var dataRow = _dataView.Table.NewRow();
-            dataRow[0] = Guid.NewGuid();
-            dataRow[1] = name;
-            dataRow[2] = year;
-            dataRow[3] = format;
-            dataRow[4] = distributed;
-            dataRow[5] = watched;
+            dataRow["Id"] = Guid.NewGuid();
+            dataRow["Name"] = name;
+            dataRow["Year"] = year;
+            dataRow["Format"] = format;
+            dataRow["Distributed"] = distributed;
+            dataRow["DistributedTo"] = distributedTo;
+            dataRow["Watched"] = watched;
             _dataView.Table.Rows.Add(dataRow);
             Save();
         }
@@ -33,14 +35,16 @@ namespace Movie.Core
         /// <summary>
         ///     Updates a record in the movie table.
         /// </summary>
-        public void Update(string id, string name, string year, string format, string distributed, string watched)
+        public void Update(string id, string name, string year, string format, string distributed, string distributedTo,
+            string watched)
         {
             var dataRow = SelectById(id);
-            dataRow[1] = name;
-            dataRow[2] = year;
-            dataRow[3] = format;
-            dataRow[4] = distributed;
-            dataRow[5] = watched;
+            dataRow["Name"] = name;
+            dataRow["Year"] = year;
+            dataRow["Format"] = format;
+            dataRow["Distributed"] = distributed;
+            dataRow["DistributedTo"] = distributedTo;
+            dataRow["Watched"] = watched;
             Save();
         }
 

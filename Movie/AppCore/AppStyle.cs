@@ -1,14 +1,16 @@
-﻿using MahApps.Metro;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using MahApps.Metro;
 
-namespace Movie.Core
+namespace Movie.AppCore
 {
     /// <summary>
     /// </summary>
-    public class ApplicationStyle : IApplicationStyle
+    public class AppStyle : IAppStyle
     {
+        private IAppSettings _appSetting;
+
         /// <summary>
         ///     Accent of Application Style.
         /// </summary>
@@ -25,31 +27,36 @@ namespace Movie.Core
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
         /// <param name="mainWindow"></param>
-        public ApplicationStyle(MainWindow mainWindow)
+        public AppStyle(MainWindow mainWindow)
         {
-            if (mainWindow == null)
+            if(mainWindow == null)
             {
                 throw new ArgumentNullException(nameof(mainWindow));
             }
             _mainWindow = mainWindow;
+            _appSetting = new AppSettings();
         }
 
         /// <summary>
         /// </summary>
         public void Load()
         {
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.Accent))
+            _mainWindow.Width = SystemParameters.PrimaryScreenWidth - 400;
+            _mainWindow.Height = SystemParameters.PrimaryScreenHeight - 400;
+            _mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.Accent))
             {
                 _styleAccent = ThemeManager.GetAccent(Properties.Settings.Default.Accent);
             }
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.Theme))
+            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.Theme))
             {
                 _styleTheme = ThemeManager.GetAppTheme(Properties.Settings.Default.Theme);
             }
 
             _mainWindow.Accent.SelectedValue = _styleAccent.Name;
 
-            switch (_styleTheme.Name)
+            switch(_styleTheme.Name)
             {
                 case "BaseDark":
                     _mainWindow.Dark.IsChecked = true;
@@ -64,7 +71,7 @@ namespace Movie.Core
 
             SetStyle();
 
-            foreach (var accent in ThemeManager.Accents)
+            foreach(var accent in ThemeManager.Accents)
             {
                 _mainWindow.Accent.Items.Add(accent.Name);
             }
@@ -98,10 +105,10 @@ namespace Movie.Core
             // get the theme from the current application
             var style = ThemeManager.DetectAppStyle(Application.Current);
 
-            var radiobutton = (RadioButton)sender;
+            var radiobutton = (RadioButton) sender;
             _styleTheme = style.Item1;
 
-            switch (radiobutton.Name)
+            switch(radiobutton.Name)
             {
                 case "Dark":
                     _styleTheme = ThemeManager.GetAppTheme("BaseDark");
@@ -126,6 +133,12 @@ namespace Movie.Core
             Properties.Settings.Default.Accent = _styleAccent.Name;
             Properties.Settings.Default.Theme = _styleTheme.Name;
             Properties.Settings.Default.Save();
+
+            _appSetting = new AppSettings
+            {
+                Accent = Properties.Settings.Default.Accent,
+                Theme = Properties.Settings.Default.Theme
+            };
         }
     }
 }

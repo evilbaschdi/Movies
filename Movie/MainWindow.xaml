@@ -4,6 +4,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:model="clr-namespace:Movie.Model"
+                      xmlns:system="clr-namespace:System;assembly=mscorlib"
                       Title="Movie"
                       Width="1000"
                       Height="700" Icon="movie.ico" ShowIconOnTitleBar="False" GlowBrush="{DynamicResource AccentColorBrush}"
@@ -14,7 +15,6 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <!--  Search  -->
-
             <TextBox Name="SearchFilter" Width="300" Height="20" TextChanged="SearchOnTextChanged" TextWrapping="Wrap" controls:TextBoxHelper.ClearTextButton="True"
                      controls:TextBoxHelper.Watermark="enter search term" />
             <ComboBox Name="SearchCategory" Width="100" Height="20" DropDownClosed="SearchCategoryOnDropDownClosed">
@@ -60,13 +60,31 @@
                 <DataGridTextColumn Binding="{Binding Name}" CanUserResize="False" Header="Name" />
                 <DataGridTextColumn Width="100" Binding="{Binding Year}" CanUserResize="False" Header="Year" />
                 <DataGridTextColumn Width="100" Binding="{Binding Format}" CanUserResize="False" Header="Format" />
-                <DataGridTextColumn Width="100" Binding="{Binding Watched}" CanUserResize="False" Header="Watched" />
-                <DataGridCheckBoxColumn Width="100" Binding="{Binding Distributed}" CanUserResize="False" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                                        ElementStyle="{DynamicResource MetroDataGridCheckBox}" Header="Distributed" />
+                <DataGridTextColumn Width="100" Binding="{Binding Watched}" CanUserResize="False" Header="Watched" CanUserSort="False" />
+
+                <DataGridTemplateColumn Width="100" Header="Distributed" CanUserResize="False" IsReadOnly="True" SortMemberPath="Distributed">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox  IsChecked="{Binding Distributed}" HorizontalAlignment="Center" Click="DistributeCheckBoxClick"
+                                ToolTipService.ToolTip="{Binding DistributedTo}">
+                                <!--<CheckBox.Style>
+                                    <Style TargetType="CheckBox">
+                                        <Style.Triggers>
+                                            <Trigger Property="ToolTip"
+                                                    Value="{x:Static system:String.Empty}">
+                                                <Setter Property="ToolTipService.IsEnabled" Value="False" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </CheckBox.Style>-->
+                                </CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
+
             <!--  ContextMenu  -->
             <DataGrid.ContextMenu>
-
                 <ContextMenu Name="MovieContextMenu" StaysOpen="True" HasDropShadow="True">
                     <MenuItem Name="WatchedFlyoutMenuItem" Click="ToggleWatchedFlyoutClick" Header="Update date of watching" />
                     <MenuItem Name="DistributeMenuItem" Click="DistributeClick" Header="Distribute this one" IsEnabled="True" />
@@ -206,7 +224,7 @@
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Vertical">
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Name" />
-                        <TextBox Name="Name" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <TextBox Name="MovieName" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top" />
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Year" />
                         <controls:NumericUpDown Name="Year" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top" Minimum="1900" />
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Format" />
@@ -282,6 +300,29 @@
                     <!-- SaveSettings -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Button Name="SaveWatchDate" Width="100" Margin="5,5,0,0" Click="SaveWatchDateClick">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </controls:Flyout>
+            <!--  Distributed Flyout  -->
+            <controls:Flyout Name="DistributedFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True" Header="distribute" Position="Left" Theme="Accent">
+                <StackPanel>
+                    <!-- Distributed To -->
+                    <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
+                        <Label Width="60" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Name" />
+                        <TextBox Name="DistributedTo" Width="405" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    </StackPanel>
+                    <!-- SaveSettings -->
+                    <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
+                        <Button Name="SaveDistributedTo" Width="100" Margin="5,5,0,0" Click="SaveDistributedToClick">
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>

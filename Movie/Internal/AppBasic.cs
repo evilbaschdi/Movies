@@ -10,7 +10,7 @@ namespace Movie.Internal
 {
     /// <summary>
     /// </summary>
-    public class ApplicationSettings : IApplicationSettings
+    public class AppBasic : IAppBasic
     {
         private readonly MainWindow _mainWindow;
         private readonly ITools _tools;
@@ -20,7 +20,7 @@ namespace Movie.Internal
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
         /// <param name="mainWindow"></param>
-        public ApplicationSettings(MainWindow mainWindow)
+        public AppBasic(MainWindow mainWindow)
         {
             if (mainWindow == null)
             {

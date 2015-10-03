@@ -76,17 +76,5 @@ namespace Movie.Core
                 }
             }
         }
-
-        //internal void CheckRegistrySettings()
-        //{
-        //    if (string.IsNullOrWhiteSpace(LoadFromRegistry()))
-        //    {
-        //        //ToDo: Dialog for choosing Path + Copy Default XML
-
-        //        SaveToRegistry(@"D:\Users\Sebastian\Documents\Movie.xml");
-        //    }
-
-        //    XmlFilePath = LoadFromRegistry();
-        //}
     }
 }

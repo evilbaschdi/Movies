@@ -1,6 +1,6 @@
+using System;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
-using System;
 
 namespace Movie.Internal
 {
@@ -99,7 +99,8 @@ namespace Movie.Internal
                 Name = _name,
                 Year = _year.ToString(),
                 Format = _format,
-                Distributed = "False"
+                Distributed = "False",
+                DistributedTo = ""
             };
 
             try

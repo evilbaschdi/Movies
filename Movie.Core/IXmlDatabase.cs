@@ -4,9 +4,10 @@ namespace Movie.Core
 {
     public interface IXmlDatabase
     {
-        void Insert(string name, string year, string format, string distributed, string watched);
+        void Insert(string name, string year, string format, string distributed, string distributedTo, string watched);
 
-        void Update(string id, string name, string year, string format, string distributed, string watched);
+        void Update(string id, string name, string year, string format, string distributed, string distributedTo,
+            string watched);
 
         void Delete(string id);
 

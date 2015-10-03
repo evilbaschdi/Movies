@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Movie.Core
+namespace Movie.AppCore
 {
     /// <summary>
     /// </summary>
-    public interface IApplicationStyle
+    public interface IAppStyle
     {
         /// <summary>
         /// </summary>

@@ -1,6 +1,8 @@
 namespace Movie.Internal
 {
-    public interface IApplicationSettings
+    /// <summary>
+    /// </summary>
+    public interface IAppBasic
     {
         /// <summary>
         /// </summary>
