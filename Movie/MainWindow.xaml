@@ -4,7 +4,6 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:model="clr-namespace:Movie.Model"
-                      xmlns:system="clr-namespace:System;assembly=mscorlib"
                       Title="Movie"
                       Width="1000"
                       Height="700" Icon="movie.ico" ShowIconOnTitleBar="False" GlowBrush="{DynamicResource AccentColorBrush}"
@@ -57,6 +56,7 @@
                   SelectionUnit="FullRow">
             <!--  Columns  -->
             <DataGrid.Columns>
+                <!--<DataGridTextColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={appCore:RowToIndexConverter}}" />-->
                 <DataGridTextColumn Binding="{Binding Name}" CanUserResize="False" Header="Name" />
                 <DataGridTextColumn Width="100" Binding="{Binding Year}" CanUserResize="False" Header="Year" />
                 <DataGridTextColumn Width="100" Binding="{Binding Format}" CanUserResize="False" Header="Format" />

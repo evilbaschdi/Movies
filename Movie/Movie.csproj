@@ -96,6 +96,7 @@
     <Compile Include="AppCore\AppSettings.cs">
       <DependentUpon>IAppSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="AppCore\RowToIndexConverter.cs" />
     <Compile Include="AppCore\IAppSettings.cs" />
     <Compile Include="AppCore\IAppStyle.cs" />
     <Compile Include="Internal\AddEdit.cs">
