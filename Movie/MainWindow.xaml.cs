@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -168,6 +169,10 @@ namespace Movie
                 return;
             }
 
+            //Parallel.ForEach(Flyouts.Items.Cast<Flyout>().Where(nonactiveFlyout => nonactiveFlyout.IsOpen && nonactiveFlyout.Name != activeFlyout.Name),
+            //    nonactiveFlyout => { nonactiveFlyout.IsOpen = false; }
+            //    );
+
             foreach(
                 var nonactiveFlyout in
                     Flyouts.Items.Cast<Flyout>()
@@ -176,7 +181,7 @@ namespace Movie
                 nonactiveFlyout.IsOpen = false;
             }
 
-            if(activeFlyout.IsOpen && stayOpen)
+            if (activeFlyout.IsOpen && stayOpen)
             {
                 activeFlyout.IsOpen = true;
             }
