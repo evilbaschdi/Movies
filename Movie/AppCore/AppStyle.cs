@@ -9,8 +9,6 @@ namespace Movie.AppCore
     /// </summary>
     public class AppStyle : IAppStyle
     {
-        private IAppSettings _appSetting;
-
         /// <summary>
         ///     Accent of Application Style.
         /// </summary>
@@ -34,7 +32,6 @@ namespace Movie.AppCore
                 throw new ArgumentNullException(nameof(mainWindow));
             }
             _mainWindow = mainWindow;
-            _appSetting = new AppSettings();
         }
 
         /// <summary>
@@ -133,12 +130,6 @@ namespace Movie.AppCore
             Properties.Settings.Default.Accent = _styleAccent.Name;
             Properties.Settings.Default.Theme = _styleTheme.Name;
             Properties.Settings.Default.Save();
-
-            _appSetting = new AppSettings
-            {
-                Accent = Properties.Settings.Default.Accent,
-                Theme = Properties.Settings.Default.Theme
-            };
         }
     }
 }
