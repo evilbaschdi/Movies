@@ -10,22 +10,6 @@ namespace Movie.AppCore
     {
         /// <summary>
         /// </summary>
-        public string Accent
-        {
-            get { return ConfigurationManager.AppSettings["Accent"]; }
-            set { UpdateSetting("Accent", value); }
-        }
-
-        /// <summary>
-        /// </summary>
-        public string Theme
-        {
-            get { return ConfigurationManager.AppSettings["Theme"]; }
-            set { UpdateSetting("Theme", value); }
-        }
-
-        /// <summary>
-        /// </summary>
         public string XmlFilePath
         {
             get { return ConfigurationManager.AppSettings["XmlFilePath"]; }

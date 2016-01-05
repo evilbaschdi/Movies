@@ -3,12 +3,13 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using EvilBaschdi.Core.Application;
+using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.AppCore;
@@ -20,20 +21,23 @@ namespace Movie
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    // ReSharper disable RedundantExtendsListEntry
+    // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
-        // ReSharper restore RedundantExtendsListEntry
     {
+        // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+        private IMovieRecord _movieRecord;
+
+        private readonly IXmlSettings _xmlSettings;
+        private readonly ISettings _coreSettings;
+        private readonly IMetroStyle _style;
+        private readonly IMovies _movies;
+        private readonly IAppBasic _settings;
+        private readonly IAddEdit _addEdit;
+        private int _overrideProtection;
         private string _currentId;
         private string _exception;
         private string _dbType;
-        private readonly IXmlSettings _xmlSettings;
-        private IMovieRecord _movieRecord;
-        private readonly IMovies _movies;
-        private readonly IAppStyle _style;
-        private readonly IAppBasic _settings;
-        private readonly IAddEdit _addEdit;
-        //just get the date part
+        // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
 
         /// <summary>
         ///     MainWindows.
@@ -41,13 +45,14 @@ namespace Movie
         /// </summary>
         public MainWindow()
         {
-            _style = new AppStyle(this);
             _settings = new AppBasic(this);
             _addEdit = new AddEdit(this);
             _xmlSettings = new XmlSettings();
             _movies = new Movies();
+            _coreSettings = new CoreSettings();
             InitializeComponent();
-            _style.Load();
+            _style = new MetroStyle(this, Accent, Dark, Light, _coreSettings);
+            _style.Load(true, true);
             ValidateSettings();
             _settings.SetComboBoxItems();
         }
@@ -133,6 +138,8 @@ namespace Movie
                 SearchFilter.IsEnabled = false;
                 New.IsEnabled = false;
             }
+
+            _overrideProtection = 1;
         }
 
         private void ToggleSettingsFlyoutClick(object sender, RoutedEventArgs e)
@@ -181,7 +188,7 @@ namespace Movie
                 nonactiveFlyout.IsOpen = false;
             }
 
-            if (activeFlyout.IsOpen && stayOpen)
+            if(activeFlyout.IsOpen && stayOpen)
             {
                 activeFlyout.IsOpen = true;
             }
@@ -414,24 +421,36 @@ namespace Movie
 
         #endregion Search
 
-        #region Style
+        #region MetroStyle
 
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
+            if(_overrideProtection == 0)
+            {
+                return;
+            }
             _style.SaveStyle();
         }
 
         private void Theme(object sender, RoutedEventArgs e)
         {
+            if(_overrideProtection == 0)
+            {
+                return;
+            }
             _style.SetTheme(sender, e);
         }
 
         private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(_overrideProtection == 0)
+            {
+                return;
+            }
             _style.SetAccent(sender, e);
         }
 
-        #endregion Style
+        #endregion MetroStyle
 
         #region Watched movie
 
