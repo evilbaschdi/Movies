@@ -31,7 +31,7 @@ namespace Movie
         private readonly ISettings _coreSettings;
         private readonly IMetroStyle _style;
         private readonly IMovies _movies;
-        private readonly IAppBasic _settings;
+        private readonly IAppBasic _appBasic;
         private readonly IAddEdit _addEdit;
         private int _overrideProtection;
         private string _currentId;
@@ -45,7 +45,7 @@ namespace Movie
         /// </summary>
         public MainWindow()
         {
-            _settings = new AppBasic(this);
+            _appBasic = new AppBasic(this);
             _addEdit = new AddEdit(this);
             _xmlSettings = new XmlSettings();
             _movies = new Movies();
@@ -54,7 +54,7 @@ namespace Movie
             _style = new MetroStyle(this, Accent, Dark, Light, _coreSettings);
             _style.Load(true, true);
             ValidateSettings();
-            _settings.SetComboBoxItems();
+            _appBasic.SetComboBoxItems();
         }
 
         #region DataGrid Logic
@@ -149,7 +149,7 @@ namespace Movie
 
         private void SaveSettingsClick(object sender, RoutedEventArgs e)
         {
-            _settings.Save();
+            _appBasic.Save();
             Populate();
         }
 
@@ -160,12 +160,12 @@ namespace Movie
 
         private void BrowseClick(object sender, RoutedEventArgs e)
         {
-            _settings.Browse();
+            _appBasic.Browse();
         }
 
         private void ResetClick(object sender, RoutedEventArgs e)
         {
-            _settings.Reset();
+            _appBasic.Reset();
         }
 
         private void ToggleFlyout(int index, bool stayOpen = false)
