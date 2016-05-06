@@ -51,7 +51,7 @@ namespace Movie
             _movies = new Movies();
             _coreSettings = new CoreSettings();
             InitializeComponent();
-            _style = new MetroStyle(this, Accent, Dark, Light, _coreSettings);
+            _style = new MetroStyleByToggleSwitch(this, Accent, ThemeSwitch, _coreSettings);
             _style.Load(true, true);
             ValidateSettings();
             _appBasic.SetComboBoxItems();
@@ -84,7 +84,7 @@ namespace Movie
         private void LoadData(string id)
         {
             _movieRecord = _movies.GetMovieById(id);
-            if(_movieRecord != null)
+            if (_movieRecord != null)
             {
                 _currentId = _movieRecord.Id;
             }
@@ -92,7 +92,7 @@ namespace Movie
 
         private void MovieGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(MovieGrid.SelectedItem == null)
+            if (MovieGrid.SelectedItem == null)
             {
                 return;
             }
@@ -119,14 +119,14 @@ namespace Movie
             Title = _dbType;
             NewContent.Text = $"add new {_dbType}";
 
-            if(!string.IsNullOrWhiteSpace(_xmlSettings.FilePath))
+            if (!string.IsNullOrWhiteSpace(_xmlSettings.FilePath))
             {
                 SearchCategory.IsEnabled = true;
                 SearchFilter.IsEnabled = true;
                 New.IsEnabled = true;
                 SearchCategory.Text = "Name";
                 DbPath.Text = _xmlSettings.FilePath;
-                if(!File.Exists(DbPath.Text))
+                if (!File.Exists(DbPath.Text))
                 {
                     DbPath.Background = Brushes.Maroon;
                 }
@@ -171,7 +171,7 @@ namespace Movie
         private void ToggleFlyout(int index, bool stayOpen = false)
         {
             var activeFlyout = (Flyout) Flyouts.Items[index];
-            if(activeFlyout == null)
+            if (activeFlyout == null)
             {
                 return;
             }
@@ -180,15 +180,15 @@ namespace Movie
             //    nonactiveFlyout => { nonactiveFlyout.IsOpen = false; }
             //    );
 
-            foreach(
+            foreach (
                 var nonactiveFlyout in
                     Flyouts.Items.Cast<Flyout>()
-                        .Where(nonactiveFlyout => nonactiveFlyout.IsOpen && nonactiveFlyout.Name != activeFlyout.Name))
+                           .Where(nonactiveFlyout => nonactiveFlyout.IsOpen && nonactiveFlyout.Name != activeFlyout.Name))
             {
                 nonactiveFlyout.IsOpen = false;
             }
 
-            if(activeFlyout.IsOpen && stayOpen)
+            if (activeFlyout.IsOpen && stayOpen)
             {
                 activeFlyout.IsOpen = true;
             }
@@ -224,7 +224,7 @@ namespace Movie
         private void LoadCurrentMovieData()
         {
             _movieRecord = _movies.GetMovieById(_currentId);
-            if(_movieRecord != null)
+            if (_movieRecord != null)
             {
                 MovieName.Text = _movieRecord.Name;
                 Year.Value = string.IsNullOrWhiteSpace(_movieRecord.Year)
@@ -262,9 +262,9 @@ namespace Movie
         public async void ShowErrorMessage(string message)
         {
             var options = new MetroDialogSettings
-            {
-                ColorScheme = MetroDialogColorScheme.Theme
-            };
+                          {
+                              ColorScheme = MetroDialogColorScheme.Theme
+                          };
 
             MetroDialogOptions = options;
             await this.ShowMessageAsync("Error", message);
@@ -312,9 +312,9 @@ namespace Movie
         private async void DeleteData()
         {
             var options = new MetroDialogSettings
-            {
-                ColorScheme = MetroDialogColorScheme.Theme
-            };
+                          {
+                              ColorScheme = MetroDialogColorScheme.Theme
+                          };
 
             MetroDialogOptions = options;
             try
@@ -326,12 +326,12 @@ namespace Movie
                             $"'{_movieRecord.Name}'",
                             MessageDialogStyle.AffirmativeAndNegative, options);
 
-                if(delete == MessageDialogResult.Affirmative)
+                if (delete == MessageDialogResult.Affirmative)
                 {
                     _movies.Delete(_currentId);
                 }
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 _exception =
                     $"failed to delete record {_movieRecord.Name.Trim()} from database\n Message : {exp.Message}";
@@ -355,9 +355,9 @@ namespace Movie
         {
             var result = ((CheckBox) sender).IsChecked;
 
-            if(result.HasValue)
+            if (result.HasValue)
             {
-                if(result.Value)
+                if (result.Value)
                 {
                     DistributeClick(sender, e);
                 }
@@ -370,7 +370,7 @@ namespace Movie
 
         private void SaveDistributedToClick(object sender, RoutedEventArgs e)
         {
-            if(!string.IsNullOrWhiteSpace(DistributedTo.Text))
+            if (!string.IsNullOrWhiteSpace(DistributedTo.Text))
             {
                 _movieRecord.Distributed = "True";
                 _movieRecord.DistributedTo = DistributedTo.Text;
@@ -404,7 +404,7 @@ namespace Movie
 
         private void SearchCategoryOnDropDownClosed(object sender, EventArgs e)
         {
-            if(SearchCategory.Text == "Distributed")
+            if (SearchCategory.Text == "Distributed")
             {
                 SearchFilter.KeyDown += SearchFilterKeyPress;
                 SearchFilter.MaxLength = 1;
@@ -413,7 +413,7 @@ namespace Movie
 
         private void SearchFilterKeyPress(object sender, KeyEventArgs e)
         {
-            if(e.Key != Key.F && e.Key != Key.T)
+            if (e.Key != Key.F && e.Key != Key.T)
             {
                 e.Handled = true;
             }
@@ -425,25 +425,25 @@ namespace Movie
 
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
-            if(_overrideProtection == 0)
+            if (_overrideProtection == 0)
             {
                 return;
             }
             _style.SaveStyle();
         }
 
-        private void Theme(object sender, RoutedEventArgs e)
+        private void Theme(object sender, EventArgs e)
         {
-            if(_overrideProtection == 0)
+            if (_overrideProtection == 0)
             {
                 return;
             }
-            _style.SetTheme(sender, e);
+            _style.SetTheme(sender);
         }
 
         private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(_overrideProtection == 0)
+            if (_overrideProtection == 0)
             {
                 return;
             }
@@ -456,7 +456,7 @@ namespace Movie
 
         private void SaveWatchDateClick(object sender, RoutedEventArgs e)
         {
-            if(LastTimeWatched.SelectedDate.HasValue)
+            if (LastTimeWatched.SelectedDate.HasValue)
             {
                 _movieRecord.Watched = LastTimeWatched.SelectedDate.Value.ToShortDateString();
 
