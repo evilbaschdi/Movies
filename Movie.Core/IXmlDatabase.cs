@@ -7,7 +7,7 @@ namespace Movie.Core
         void Insert(string name, string year, string format, string distributed, string distributedTo, string watched);
 
         void Update(string id, string name, string year, string format, string distributed, string distributedTo,
-            string watched);
+                    string watched);
 
         void Delete(string id);
 

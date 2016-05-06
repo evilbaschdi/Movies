@@ -31,7 +31,7 @@ namespace Movie.Internal
         /// <param name="mainWindow"></param>
         public AddEdit(MainWindow mainWindow)
         {
-            if(mainWindow == null)
+            if (mainWindow == null)
             {
                 throw new ArgumentNullException(nameof(mainWindow));
             }
@@ -56,12 +56,12 @@ namespace Movie.Internal
         /// <param name="addNew"></param>
         public async void SaveAndAddNew(bool addNew)
         {
-            if(IsDuplicate())
+            if (IsDuplicate())
             {
                 var options = new MetroDialogSettings
-                {
-                    ColorScheme = MetroDialogColorScheme.Theme
-                };
+                              {
+                                  ColorScheme = MetroDialogColorScheme.Theme
+                              };
 
                 _mainWindow.MetroDialogOptions = options;
                 await _mainWindow.ShowMessageAsync("Already existing!", $"'{_name}'");
@@ -70,7 +70,7 @@ namespace Movie.Internal
             {
                 SaveOrUpdateData();
 
-                if(addNew)
+                if (addNew)
                 {
                     _mainWindow.NewEntry();
                 }
@@ -83,7 +83,7 @@ namespace Movie.Internal
 
         private void SaveOrUpdateData()
         {
-            if(!IsValid())
+            if (!IsValid())
             {
                 return;
             }
@@ -94,18 +94,18 @@ namespace Movie.Internal
         private void InsertOrUpdateAction()
         {
             _movieRecord = new MovieRecord
-            {
-                Id = CurrentId,
-                Name = _name,
-                Year = _year.ToString(),
-                Format = _format,
-                Distributed = "False",
-                DistributedTo = ""
-            };
+                           {
+                               Id = CurrentId,
+                               Name = _name,
+                               Year = _year.ToString(),
+                               Format = _format,
+                               Distributed = "False",
+                               DistributedTo = ""
+                           };
 
             try
             {
-                switch(_action)
+                switch (_action)
                 {
                     case "insert":
                         _movies.Insert(_movieRecord);
@@ -116,7 +116,7 @@ namespace Movie.Internal
                         break;
                 }
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 var e = $"'{_name}' failed to {_action} database\n Message : {exception.Message}";
                 _mainWindow.ShowErrorMessage(e);

@@ -18,7 +18,7 @@ namespace Movie.Core
         }
 
         public void Insert(string name, string year, string format, string distributed, string distributedTo,
-            string watched)
+                           string watched)
         {
             var dataRow = _dataView.Table.NewRow();
             dataRow["Id"] = Guid.NewGuid();
@@ -36,7 +36,7 @@ namespace Movie.Core
         ///     Updates a record in the movie table.
         /// </summary>
         public void Update(string id, string name, string year, string format, string distributed, string distributedTo,
-            string watched)
+                           string watched)
         {
             var dataRow = SelectById(id);
             dataRow["Name"] = name;
@@ -68,7 +68,7 @@ namespace Movie.Core
             _dataView.RowFilter = $"Id='{id}'";
             _dataView.Sort = "Id";
             DataRow dataRow = null;
-            if(_dataView.Count > 0)
+            if (_dataView.Count > 0)
             {
                 dataRow = _dataView[0].Row;
             }
@@ -84,7 +84,7 @@ namespace Movie.Core
             _dataView.RowFilter = $"Name='{name}'";
             _dataView.Sort = "Name";
             DataRow dataRow = null;
-            if(_dataView.Count > 0)
+            if (_dataView.Count > 0)
             {
                 dataRow = _dataView[0].Row;
             }
