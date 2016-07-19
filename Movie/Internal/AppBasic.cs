@@ -1,10 +1,10 @@
-using Microsoft.Win32;
-using Movie.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using Microsoft.Win32;
+using Movie.Core;
 
 namespace Movie.Internal
 {
@@ -41,13 +41,13 @@ namespace Movie.Internal
         public void Reset()
         {
             var fileDialog = new SaveFileDialog
-            {
-                InitialDirectory = StartupPath(),
-                FileName = "Movie.xml",
-                Filter = "XML Document (*.xml)|*.xml",
-                RestoreDirectory = true,
-                CheckPathExists = true
-            };
+                             {
+                                 InitialDirectory = StartupPath(),
+                                 FileName = "Movie.xml",
+                                 Filter = "XML Document (*.xml)|*.xml",
+                                 RestoreDirectory = true,
+                                 CheckPathExists = true
+                             };
 
             var result = fileDialog.ShowDialog();
 
@@ -75,13 +75,13 @@ namespace Movie.Internal
         public void Browse()
         {
             var fileDialog = new OpenFileDialog
-            {
-                InitialDirectory = StartupPath(),
-                Filter = "XML Document (*.xml)|*.xml",
-                RestoreDirectory = true,
-                CheckFileExists = true,
-                CheckPathExists = true
-            };
+                             {
+                                 InitialDirectory = StartupPath(),
+                                 Filter = "XML Document (*.xml)|*.xml",
+                                 RestoreDirectory = true,
+                                 CheckFileExists = true,
+                                 CheckPathExists = true
+                             };
 
             var result = fileDialog.ShowDialog();
 
@@ -120,12 +120,12 @@ namespace Movie.Internal
             get
             {
                 var musicFormats = new ObservableCollection<string>
-                {
-                    "CD",
-                    "MP3",
-                    "Kassette",
-                    "Schallplatte",
-                };
+                                   {
+                                       "CD",
+                                       "MP3",
+                                       "Kassette",
+                                       "Schallplatte"
+                                   };
                 return musicFormats;
             }
         }
@@ -135,18 +135,18 @@ namespace Movie.Internal
             get
             {
                 var movieFormats = new ObservableCollection<string>
-                {
-                    "DVD",
-                    "Blu-ray",
-                    "VHS",
-                    "MP4",
-                    "MKV",
-                    "MPEG",
-                    "AVI",
-                    "ISO",
-                    "FLV",
-                    "OGG"
-                };
+                                   {
+                                       "DVD",
+                                       "Blu-ray",
+                                       "VHS",
+                                       "MP4",
+                                       "MKV",
+                                       "MPEG",
+                                       "AVI",
+                                       "ISO",
+                                       "FLV",
+                                       "OGG"
+                                   };
                 return movieFormats;
             }
         }

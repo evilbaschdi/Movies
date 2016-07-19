@@ -7,14 +7,6 @@
     {
         /// <summary>
         /// </summary>
-        string Accent { get; set; }
-
-        /// <summary>
-        /// </summary>
-        string Theme { get; set; }
-
-        /// <summary>
-        /// </summary>
         string XmlFilePath { get; set; }
 
         /// <summary>

@@ -6,7 +6,8 @@
                       xmlns:model="clr-namespace:Movie.Model"
                       Title="Movie"
                       Width="1000"
-                      Height="700" Icon="movie.ico" ShowIconOnTitleBar="False" GlowBrush="{DynamicResource AccentColorBrush}"
+                      Height="700" Icon="movie.ico" ShowIconOnTitleBar="False"
+                      GlowBrush="{DynamicResource AccentColorBrush}"
                       LeftWindowCommandsOverlayBehavior="Never"
                       RightWindowCommandsOverlayBehavior="Never"
                       WindowButtonCommandsOverlayBehavior="Never">
@@ -14,7 +15,8 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <!--  Search  -->
-            <TextBox Name="SearchFilter" Width="300" Height="20" TextChanged="SearchOnTextChanged" TextWrapping="Wrap" controls:TextBoxHelper.ClearTextButton="True"
+            <TextBox Name="SearchFilter" Width="300" Height="20" TextChanged="SearchOnTextChanged" TextWrapping="Wrap"
+                     controls:TextBoxHelper.ClearTextButton="True"
                      controls:TextBoxHelper.Watermark="enter search term" />
             <ComboBox Name="SearchCategory" Width="100" Height="20" DropDownClosed="SearchCategoryOnDropDownClosed">
                 <ComboBoxItem Content="Name" />
@@ -25,7 +27,8 @@
             <!--  New  -->
             <Button Name="New" Click="NewClick">
                 <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle Width="20" Height="20"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}" />
                         </Rectangle.OpacityMask>
@@ -37,7 +40,8 @@
             <!--  Settings  -->
             <Button Click="ToggleSettingsFlyoutClick">
                 <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle Width="20" Height="20"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
                         </Rectangle.OpacityMask>
@@ -51,8 +55,10 @@
     <!--  Grid  -->
     <Grid>
         <!--  DataGrid  -->
-        <DataGrid Name="MovieGrid" Margin="10,10,10,10" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" ColumnWidth="*"
-                  GridLinesVisibility="Horizontal" IsReadOnly="True" MouseDoubleClick="MovieGridOnMouseDoubleClick" SelectionChanged="MovieGridSelectionChanged"
+        <DataGrid Name="MovieGrid" Margin="10,10,10,10" AutoGenerateColumns="False" CanUserAddRows="False"
+                  CanUserDeleteRows="False" ColumnWidth="*"
+                  GridLinesVisibility="Horizontal" IsReadOnly="True" MouseDoubleClick="MovieGridOnMouseDoubleClick"
+                  SelectionChanged="MovieGridSelectionChanged"
                   SelectionUnit="FullRow">
             <!--  Columns  -->
             <DataGrid.Columns>
@@ -60,13 +66,16 @@
                 <DataGridTextColumn Binding="{Binding Name}" CanUserResize="False" Header="Name" />
                 <DataGridTextColumn Width="100" Binding="{Binding Year}" CanUserResize="False" Header="Year" />
                 <DataGridTextColumn Width="100" Binding="{Binding Format}" CanUserResize="False" Header="Format" />
-                <DataGridTextColumn Width="100" Binding="{Binding Watched}" CanUserResize="False" Header="Watched" CanUserSort="False" />
+                <DataGridTextColumn Width="100" Binding="{Binding Watched}" CanUserResize="False" Header="Watched"
+                                    CanUserSort="False" />
 
-                <DataGridTemplateColumn Width="100" Header="Distributed" CanUserResize="False" IsReadOnly="True" SortMemberPath="Distributed">
+                <DataGridTemplateColumn Width="100" Header="Distributed" CanUserResize="False" IsReadOnly="True"
+                                        SortMemberPath="Distributed">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox  IsChecked="{Binding Distributed}" HorizontalAlignment="Center" Click="DistributeCheckBoxClick"
-                                ToolTipService.ToolTip="{Binding DistributedTo}">
+                            <CheckBox IsChecked="{Binding Distributed}" HorizontalAlignment="Center"
+                                      Click="DistributeCheckBoxClick"
+                                      ToolTipService.ToolTip="{Binding DistributedTo}">
                                 <!--<CheckBox.Style>
                                     <Style TargetType="CheckBox">
                                         <Style.Triggers>
@@ -77,7 +86,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </CheckBox.Style>-->
-                                </CheckBox>
+                            </CheckBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -86,8 +95,10 @@
             <!--  ContextMenu  -->
             <DataGrid.ContextMenu>
                 <ContextMenu Name="MovieContextMenu" StaysOpen="True" HasDropShadow="True">
-                    <MenuItem Name="WatchedFlyoutMenuItem" Click="ToggleWatchedFlyoutClick" Header="Update date of watching" />
-                    <MenuItem Name="DistributeMenuItem" Click="DistributeClick" Header="Distribute this one" IsEnabled="True" />
+                    <MenuItem Name="WatchedFlyoutMenuItem" Click="ToggleWatchedFlyoutClick"
+                              Header="Update date of watching" />
+                    <MenuItem Name="DistributeMenuItem" Click="DistributeClick" Header="Distribute this one"
+                              IsEnabled="True" />
                     <MenuItem Name="GotBackMenuItem" Click="GotBackClick" Header="Got back" />
                     <MenuItem Name="EditMenuItem" Click="EditClick" Header="Edit" />
                     <MenuItem Name="DeleteMenuItem" Click="DeleteClick" Header="Delete" />
@@ -125,25 +136,33 @@
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
             <!--  Settings Flyout  -->
-            <controls:Flyout Name="SettingsFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True" Header="settings" Position="Right" Theme="Accent">
+            <controls:Flyout Name="SettingsFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True"
+                             Header="settings" Position="Right" Theme="Accent">
                 <StackPanel>
                     <!-- Theme -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                        <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Theme" />
-                        <RadioButton Name="Dark" Margin="10,0,5,0" Checked="Theme" Content="Dark" />
-                        <RadioButton Name="Light" Margin="10,0,5,0" Checked="Theme" Content="Light" IsChecked="True" />
+                        <Label Width="60" Margin="0,5,0,0" HorizontalAlignment="Left"
+                               VerticalAlignment="Top" Content="Theme" />
+                        <controls:ToggleSwitch Name="ThemeSwitch" Margin="10,1,0,0"
+                                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                                               FontSize="12" IsCheckedChanged="Theme"
+                                               OnSwitchBrush="{DynamicResource AccentColorBrush}" OnLabel="Dark"
+                                               OffSwitchBrush="{DynamicResource AccentColorBrush}" OffLabel="Light" />
                     </StackPanel>
                     <!-- Accent -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                        <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Accent" />
-                        <ComboBox Name="Accent" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                SelectionChanged="AccentOnSelectionChanged" />
+                        <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Content="Accent" />
+                        <ComboBox Name="Accent" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left"
+                                  VerticalAlignment="Top"
+                                  SelectionChanged="AccentOnSelectionChanged" />
                     </StackPanel>
                     <!-- Save Style -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Button Name="SaveStyle" Width="415" Margin="60,5,0,0" Click="SaveStyleClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="16" Height="16" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="16" Height="16"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                     </Rectangle.OpacityMask>
@@ -158,23 +177,28 @@
                     </StackPanel>
                     <!-- DbType -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                        <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Type" />
-                        <ComboBox Name="DbType" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Content="Type" />
+                        <ComboBox Name="DbType" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left"
+                                  VerticalAlignment="Top">
                             <ComboBoxItem Content="movie" />
                             <ComboBoxItem Content="music" />
                         </ComboBox>
                     </StackPanel>
                     <!-- DbPath -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                        <Label  Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Path" />
-                        <TextBox Name="DbPath" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" />
+                        <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Content="Path" />
+                        <TextBox Name="DbPath" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left"
+                                 VerticalAlignment="Top" IsReadOnly="True" />
                     </StackPanel>
                     <!-- Button Line -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <!-- Browse -->
                         <Button Name="Browse" Width="100" Margin="60,5,0,0" Click="BrowseClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_folder}" />
                                     </Rectangle.OpacityMask>
@@ -186,7 +210,8 @@
                         <!-- SaveSettings -->
                         <Button Name="SaveSettings" Width="100" Margin="5,5,0,0" Click="SaveSettingsClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                     </Rectangle.OpacityMask>
@@ -197,7 +222,8 @@
                         <!-- CancelSettings -->
                         <Button Name="CancelSettings" Width="100" Margin="5,5,0,0" Click="CancelSettingsClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cancel}" />
                                     </Rectangle.OpacityMask>
@@ -208,7 +234,8 @@
                         <!-- ResetDb -->
                         <Button Name="ResetDb" Width="100" Margin="5,5,0,0" Click="ResetClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
                                     </Rectangle.OpacityMask>
@@ -220,13 +247,15 @@
                 </StackPanel>
             </controls:Flyout>
             <!--  AddEdit Flyout  -->
-            <controls:Flyout Name="AddEditFlyout" Height="350" AnimateOnPositionChange="True" AnimateOpacity="True" Header="add new " Position="Bottom" Theme="Accent">
+            <controls:Flyout Name="AddEditFlyout" Height="350" AnimateOnPositionChange="True" AnimateOpacity="True"
+                             Header="add new " Position="Bottom" Theme="Accent">
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Vertical">
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Name" />
                         <TextBox Name="MovieName" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top" />
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Year" />
-                        <controls:NumericUpDown Name="Year" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top" Minimum="1900" />
+                        <controls:NumericUpDown Name="Year" Width="600" HorizontalAlignment="Left"
+                                                VerticalAlignment="Top" Minimum="1900" />
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Format" />
                         <ComboBox Name="Format" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     </StackPanel>
@@ -234,7 +263,8 @@
                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                         <Button Name="Save" Click="SaveClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                     </Rectangle.OpacityMask>
@@ -244,7 +274,8 @@
                         </Button>
                         <Button Name="SaveAndNew" Margin="5,0,0,0" Click="SaveAndNewClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_new}" />
                                     </Rectangle.OpacityMask>
@@ -254,7 +285,8 @@
                         </Button>
                         <Button Name="Cancel" Margin="5,0,0,0" Click="CancelClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cancel}" />
                                     </Rectangle.OpacityMask>
@@ -266,12 +298,15 @@
                 </StackPanel>
             </controls:Flyout>
             <!--  Watched Flyout  -->
-            <controls:Flyout Name="WatchedFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True" Header="last time of watching" Position="Left" Theme="Accent">
+            <controls:Flyout Name="WatchedFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True"
+                             Header="last time of watching" Position="Left" Theme="Accent">
                 <StackPanel>
                     <!-- Date -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                        <Label Width="60" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Watched" />
-                        <DatePicker Name="LastTimeWatched" Width="405" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsTodayHighlighted="True">
+                        <Label Width="60" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Content="Watched" />
+                        <DatePicker Name="LastTimeWatched" Width="405" Margin="10,5,0,0" HorizontalAlignment="Left"
+                                    VerticalAlignment="Top" IsTodayHighlighted="True">
                             <DatePicker.CommandBindings>
                                 <CommandBinding CanExecute="CommandBindingCanExecute" Executed="CommandBindingExecuted">
                                     <CommandBinding.Command>model:Commands.SelectToday</CommandBinding.Command>
@@ -283,8 +318,11 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Calendar}">
                                                 <StackPanel Name="PART_Root" HorizontalAlignment="Center">
-                                                    <CalendarItem Name="PART_CalendarItem" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}"
-                                                                  BorderThickness="{TemplateBinding Control.BorderThickness}" Style="{TemplateBinding Calendar.CalendarItemStyle}" />
+                                                    <CalendarItem Name="PART_CalendarItem"
+                                                                  Background="{TemplateBinding Control.Background}"
+                                                                  BorderBrush="{TemplateBinding Control.BorderBrush}"
+                                                                  BorderThickness="{TemplateBinding Control.BorderThickness}"
+                                                                  Style="{TemplateBinding Calendar.CalendarItemStyle}" />
                                                     <Button Content="Today"
                                                             CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                                         <Button.Command>model:Commands.SelectToday</Button.Command>
@@ -301,7 +339,8 @@
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Button Name="SaveWatchDate" Width="100" Margin="5,5,0,0" Click="SaveWatchDateClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                     </Rectangle.OpacityMask>
@@ -313,18 +352,22 @@
                 </StackPanel>
             </controls:Flyout>
             <!--  Distributed Flyout  -->
-            <controls:Flyout Name="DistributedFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True" Header="distribute" Position="Left" Theme="Accent">
+            <controls:Flyout Name="DistributedFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True"
+                             Header="distribute" Position="Left" Theme="Accent">
                 <StackPanel>
                     <!-- Distributed To -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                        <Label Width="60" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Name" />
-                        <TextBox Name="DistributedTo" Width="405" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <Label Width="60" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Content="Name" />
+                        <TextBox Name="DistributedTo" Width="405" Margin="10,5,0,0" HorizontalAlignment="Left"
+                                 VerticalAlignment="Top" />
                     </StackPanel>
                     <!-- SaveSettings -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Button Name="SaveDistributedTo" Width="100" Margin="5,5,0,0" Click="SaveDistributedToClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                     </Rectangle.OpacityMask>

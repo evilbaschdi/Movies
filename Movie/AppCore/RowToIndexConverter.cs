@@ -21,7 +21,7 @@ namespace Movie.AppCore
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var row = value as DataGridRow;
-            if(row == null)
+            if (row == null)
             {
                 throw new InvalidOperationException("This converter class can only be used with DataGridRow elements.");
             }
@@ -36,7 +36,7 @@ namespace Movie.AppCore
         /// <param name="culture"></param>
         /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter,
-            System.Globalization.CultureInfo culture)
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotSupportedException();
         }

@@ -13,16 +13,16 @@ namespace Movie.Core
 
             var movieKey = evilBaschdiKey?.CreateSubKey("Movie",
                 RegistryKeyPermissionCheck.ReadWriteSubTree);
-            if(movieKey == null)
+            if (movieKey == null)
             {
                 return;
             }
 
-            using(
+            using (
                 var settingsKey = movieKey.CreateSubKey("Program Settings",
                     RegistryKeyPermissionCheck.ReadWriteSubTree))
             {
-                if(settingsKey == null)
+                if (settingsKey == null)
                 {
                     return;
                 }
@@ -41,11 +41,11 @@ namespace Movie.Core
                 var movieKey = evilBaschdiKey?.OpenSubKey(@"Movie",
                     RegistryKeyPermissionCheck.ReadSubTree);
 
-                if(movieKey == null)
+                if (movieKey == null)
                 {
                     return "";
                 }
-                using(
+                using (
                     var settingsKey = movieKey.OpenSubKey("Program Settings",
                         RegistryKeyPermissionCheck.ReadSubTree))
                 {
@@ -64,11 +64,11 @@ namespace Movie.Core
                 var movieKey = evilBaschdiKey?.OpenSubKey(@"Movie",
                     RegistryKeyPermissionCheck.ReadSubTree);
 
-                if(movieKey == null)
+                if (movieKey == null)
                 {
                     return "";
                 }
-                using(
+                using (
                     var settingsKey = movieKey.OpenSubKey("Program Settings",
                         RegistryKeyPermissionCheck.ReadSubTree))
                 {

@@ -9,11 +9,11 @@ namespace Movie.Core
             string result;
 
             using (var stream = GetType().Assembly.
-                GetManifestResourceStream($"Movie.Core.{filename}"))
+                                          GetManifestResourceStream($"Movie.Core.{filename}"))
             {
                 // ReSharper disable AssignNullToNotNullAttribute
                 using (var sr = new StreamReader(stream))
-                // ReSharper restore AssignNullToNotNullAttribute
+                    // ReSharper restore AssignNullToNotNullAttribute
                 {
                     result = sr.ReadToEnd();
                 }

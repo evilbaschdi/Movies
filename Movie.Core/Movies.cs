@@ -21,20 +21,20 @@ namespace Movie.Core
             _movieRecord = null;
 
             var dataRow = _xmlDatabase.SelectById(id);
-            if(dataRow != null)
+            if (dataRow != null)
             {
                 _movieRecord = new MovieRecord
-                {
-                    Id = dataRow["Id"] != DBNull.Value ? dataRow["Id"].ToString() : string.Empty,
-                    Name = dataRow["Name"] != DBNull.Value ? dataRow["Name"].ToString() : string.Empty,
-                    Year = dataRow["Year"] != DBNull.Value ? dataRow["Year"].ToString() : string.Empty,
-                    Format = dataRow["Format"] != DBNull.Value ? dataRow["Format"].ToString() : string.Empty,
-                    Distributed =
-                        dataRow["Distributed"] != DBNull.Value ? dataRow["Distributed"].ToString() : string.Empty,
-                    DistributedTo =
-                        dataRow["DistributedTo"] != DBNull.Value ? dataRow["DistributedTo"].ToString() : string.Empty,
-                    Watched = dataRow["Watched"] != DBNull.Value ? dataRow["Watched"].ToString() : string.Empty
-                };
+                               {
+                                   Id = dataRow["Id"] != DBNull.Value ? dataRow["Id"].ToString() : string.Empty,
+                                   Name = dataRow["Name"] != DBNull.Value ? dataRow["Name"].ToString() : string.Empty,
+                                   Year = dataRow["Year"] != DBNull.Value ? dataRow["Year"].ToString() : string.Empty,
+                                   Format = dataRow["Format"] != DBNull.Value ? dataRow["Format"].ToString() : string.Empty,
+                                   Distributed =
+                                       dataRow["Distributed"] != DBNull.Value ? dataRow["Distributed"].ToString() : string.Empty,
+                                   DistributedTo =
+                                       dataRow["DistributedTo"] != DBNull.Value ? dataRow["DistributedTo"].ToString() : string.Empty,
+                                   Watched = dataRow["Watched"] != DBNull.Value ? dataRow["Watched"].ToString() : string.Empty
+                               };
             }
             return _movieRecord;
         }
@@ -44,20 +44,20 @@ namespace Movie.Core
             _movieRecord = null;
 
             var dataRow = _xmlDatabase.SelectByName(name);
-            if(dataRow != null)
+            if (dataRow != null)
             {
                 _movieRecord = new MovieRecord
-                {
-                    Id = dataRow["Id"] != DBNull.Value ? dataRow["Id"].ToString() : string.Empty,
-                    Name = dataRow["Name"] != DBNull.Value ? dataRow["Name"].ToString() : string.Empty,
-                    Year = dataRow["Year"] != DBNull.Value ? dataRow["Year"].ToString() : string.Empty,
-                    Format = dataRow["Format"] != DBNull.Value ? dataRow["Format"].ToString() : string.Empty,
-                    Distributed =
-                        dataRow["Distributed"] != DBNull.Value ? dataRow["Distributed"].ToString() : string.Empty,
-                    DistributedTo =
-                        dataRow["DistributedTo"] != DBNull.Value ? dataRow["DistributedTo"].ToString() : string.Empty,
-                    Watched = dataRow["Watched"] != DBNull.Value ? dataRow["Watched"].ToString() : string.Empty
-                };
+                               {
+                                   Id = dataRow["Id"] != DBNull.Value ? dataRow["Id"].ToString() : string.Empty,
+                                   Name = dataRow["Name"] != DBNull.Value ? dataRow["Name"].ToString() : string.Empty,
+                                   Year = dataRow["Year"] != DBNull.Value ? dataRow["Year"].ToString() : string.Empty,
+                                   Format = dataRow["Format"] != DBNull.Value ? dataRow["Format"].ToString() : string.Empty,
+                                   Distributed =
+                                       dataRow["Distributed"] != DBNull.Value ? dataRow["Distributed"].ToString() : string.Empty,
+                                   DistributedTo =
+                                       dataRow["DistributedTo"] != DBNull.Value ? dataRow["DistributedTo"].ToString() : string.Empty,
+                                   Watched = dataRow["Watched"] != DBNull.Value ? dataRow["Watched"].ToString() : string.Empty
+                               };
             }
             return _movieRecord;
         }
