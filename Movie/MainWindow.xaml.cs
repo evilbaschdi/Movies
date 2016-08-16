@@ -51,7 +51,7 @@ namespace Movie
             _movies = new Movies();
             _coreSettings = new CoreSettings();
             InitializeComponent();
-            _style = new MetroStyleByToggleSwitch(this, Accent, ThemeSwitch, _coreSettings);
+            _style = new MetroStyle(this, Accent, ThemeSwitch, _coreSettings);
             _style.Load(true, true);
             ValidateSettings();
             _appBasic.SetComboBoxItems();
@@ -182,8 +182,8 @@ namespace Movie
 
             foreach (
                 var nonactiveFlyout in
-                    Flyouts.Items.Cast<Flyout>()
-                           .Where(nonactiveFlyout => nonactiveFlyout.IsOpen && nonactiveFlyout.Name != activeFlyout.Name))
+                Flyouts.Items.Cast<Flyout>()
+                       .Where(nonactiveFlyout => nonactiveFlyout.IsOpen && nonactiveFlyout.Name != activeFlyout.Name))
             {
                 nonactiveFlyout.IsOpen = false;
             }
