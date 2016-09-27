@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,6 +17,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Movie.AppCore;
 using Movie.Core;
 using Movie.Internal;
+using Calendar = System.Windows.Controls.Calendar;
 
 namespace Movie
 {
@@ -54,6 +57,8 @@ namespace Movie
             _style = new MetroStyle(this, Accent, ThemeSwitch, _coreSettings);
             _style.Load(true, true);
             ValidateSettings();
+            var linkerTime = Assembly.GetExecutingAssembly().GetLinkerTime();
+            LinkerTime.Content = linkerTime.ToString(CultureInfo.InvariantCulture);
             _appBasic.SetComboBoxItems();
         }
 
