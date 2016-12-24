@@ -1,4 +1,5 @@
 using System;
+using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
 
@@ -9,6 +10,7 @@ namespace Movie.Internal
     public class AddEdit : IAddEdit
     {
         private readonly MainWindow _mainWindow;
+        private readonly IDialogService _dialogService;
         private IMovieRecord _movieRecord;
         private readonly IMovies _movies;
 
@@ -29,14 +31,25 @@ namespace Movie.Internal
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
         /// <param name="mainWindow"></param>
-        public AddEdit(MainWindow mainWindow)
+        /// <param name="movies"></param>
+        /// <param name="dialogService"></param>
+        public AddEdit(MainWindow mainWindow, IMovies movies, IDialogService dialogService)
         {
             if (mainWindow == null)
             {
                 throw new ArgumentNullException(nameof(mainWindow));
             }
+            if (movies == null)
+            {
+                throw new ArgumentNullException(nameof(movies));
+            }
+            if (dialogService == null)
+            {
+                throw new ArgumentNullException(nameof(dialogService));
+            }
             _mainWindow = mainWindow;
-            _movies = new Movies();
+            _movies = movies;
+            _dialogService = dialogService;
         }
 
         /// <summary>
@@ -119,7 +132,8 @@ namespace Movie.Internal
             catch (Exception exception)
             {
                 var e = $"'{_name}' failed to {_action} database\n Message : {exception.Message}";
-                _mainWindow.ShowErrorMessage(e);
+
+                _dialogService.ShowMessage("Error", e);
             }
 
             _mainWindow.Populate();

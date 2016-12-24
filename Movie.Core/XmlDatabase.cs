@@ -5,16 +5,25 @@ namespace Movie.Core
 {
     public class XmlDatabase : IXmlDatabase
     {
-        private static readonly DataSet DataSet = new DataSet();
-        private static DataView _dataView = new DataView();
+        private readonly IXmlSettings _xmlSettings;
+        private readonly DataSet _dataSet = new DataSet();
+        private DataView _dataView = new DataView();
+
+        public XmlDatabase(IXmlSettings xmlSettings)
+        {
+            if (xmlSettings == null)
+            {
+                throw new ArgumentNullException(nameof(xmlSettings));
+            }
+            _xmlSettings = xmlSettings;
+        }
 
         /// <summary>
         ///     Inserts a record into the Movie table.
         /// </summary>
-        private static void Save()
+        private void Save()
         {
-            var settings = new XmlSettings();
-            DataSet.WriteXml(settings.FilePath, XmlWriteMode.WriteSchema);
+            _dataSet.WriteXml(_xmlSettings.FilePath, XmlWriteMode.WriteSchema);
         }
 
         public void Insert(string name, string year, string format, string distributed, string distributedTo,
@@ -97,19 +106,17 @@ namespace Movie.Core
         /// </summary>
         public DataView SelectAll()
         {
-            DataSet.Clear();
-            var settings = new XmlSettings();
-            DataSet.ReadXml(settings.FilePath, XmlReadMode.ReadSchema);
-            _dataView = DataSet.Tables[0].DefaultView;
+            _dataSet.Clear();
+            _dataSet.ReadXml(_xmlSettings.FilePath, XmlReadMode.ReadSchema);
+            _dataView = _dataSet.Tables[0].DefaultView;
             return _dataView;
         }
 
         public DataView SelectFiltered(string filter, string category)
         {
-            DataSet.Clear();
-            var settings = new XmlSettings();
-            DataSet.ReadXml(settings.FilePath, XmlReadMode.ReadSchema);
-            _dataView = DataSet.Tables[0].DefaultView;
+            _dataSet.Clear();
+            _dataSet.ReadXml(_xmlSettings.FilePath, XmlReadMode.ReadSchema);
+            _dataView = _dataSet.Tables[0].DefaultView;
             _dataView.RowFilter = $"{category} LIKE '%{filter}%'";
             return _dataView;
         }

@@ -14,7 +14,6 @@ using EvilBaschdi.Core.Application;
 using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Movie.AppCore;
 using Movie.Core;
 using Movie.Internal;
 using Calendar = System.Windows.Controls.Calendar;
@@ -31,11 +30,13 @@ namespace Movie
         private IMovieRecord _movieRecord;
 
         private readonly IXmlSettings _xmlSettings;
+        private readonly IXmlDatabase _xmlDatabase;
         private readonly ISettings _coreSettings;
         private readonly IMetroStyle _style;
         private readonly IMovies _movies;
         private readonly IAppBasic _appBasic;
         private readonly IAddEdit _addEdit;
+        private readonly IDialogService _dialogService;
         private int _overrideProtection;
         private string _currentId;
         private string _exception;
@@ -49,13 +50,17 @@ namespace Movie
         public MainWindow()
         {
             _appBasic = new AppBasic(this);
-            _addEdit = new AddEdit(this);
+
             _xmlSettings = new XmlSettings();
-            _movies = new Movies();
-            _coreSettings = new CoreSettings();
+            _xmlDatabase = new XmlDatabase(_xmlSettings);
+            _movies = new Movies(_xmlDatabase);
+            _coreSettings = new CoreSettings(Properties.Settings.Default);
             InitializeComponent();
-            _style = new MetroStyle(this, Accent, ThemeSwitch, _coreSettings);
+            var themeManagerHelper = new ThemeManagerHelper();
+            _style = new MetroStyle(this, Accent, ThemeSwitch, _coreSettings, themeManagerHelper);
             _style.Load(true, true);
+            _dialogService = new DialogService(this);
+            _addEdit = new AddEdit(this, _movies, _dialogService);
             ValidateSettings();
             var linkerTime = Assembly.GetExecutingAssembly().GetLinkerTime();
             LinkerTime.Content = linkerTime.ToString(CultureInfo.InvariantCulture);
@@ -259,20 +264,6 @@ namespace Movie
         {
             _addEdit.MovieData(MovieName.Text, Year.Value, Format.Text);
             _addEdit.SaveAndAddNew(true);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="message"></param>
-        public async void ShowErrorMessage(string message)
-        {
-            var options = new MetroDialogSettings
-                          {
-                              ColorScheme = MetroDialogColorScheme.Theme
-                          };
-
-            MetroDialogOptions = options;
-            await this.ShowMessageAsync("Error", message);
         }
 
         /// <summary>

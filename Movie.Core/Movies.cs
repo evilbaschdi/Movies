@@ -11,9 +11,13 @@ namespace Movie.Core
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
-        public Movies()
+        public Movies(IXmlDatabase xmlDatabase)
         {
-            _xmlDatabase = new XmlDatabase();
+            if (xmlDatabase == null)
+            {
+                throw new ArgumentNullException(nameof(xmlDatabase));
+            }
+            _xmlDatabase = xmlDatabase;
         }
 
         public IMovieRecord GetMovieById(string id)
