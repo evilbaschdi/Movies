@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <Application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<VisualElements ForegroundText="light" BackgroundColor="#1E1E1E" ShowNameOnSquare150x150Logo="on" Square150x150Logo="movie.png" Square70x70Logo="movie.png" />
+  <VisualElements ForegroundText="light" BackgroundColor="#E58902" ShowNameOnSquare150x150Logo="on" Square150x150Logo="movie_150.png" Square70x70Logo="movie_70.png" />
 </Application>
