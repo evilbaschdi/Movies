@@ -4,6 +4,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:model="clr-namespace:Movie.Model"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       Title="Movie"
                       Width="1000"
                       Height="700" Icon="movie.ico" ShowIconOnTitleBar="False"
@@ -27,26 +28,14 @@
             <!--  New  -->
             <Button Name="New" Click="NewClick">
                 <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20" Height="20"
-                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-
+                    <iconPacks:PackIconMaterial Kind="Plus" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <TextBlock Name="NewContent" Margin="5 0 0 0" VerticalAlignment="Center" Text="add new movie" />
                 </StackPanel>
             </Button>
-            <!--  Settings  -->
+            <!-- Settings -->
             <Button Click="ToggleSettingsFlyoutClick">
                 <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20" Height="20"
-                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-
+                    <iconPacks:PackIconMaterial Kind="Settings" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="settings" />
                 </StackPanel>
             </Button>
@@ -75,18 +64,7 @@
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Distributed}" HorizontalAlignment="Center"
                                       Click="DistributeCheckBoxClick"
-                                      ToolTipService.ToolTip="{Binding DistributedTo}">
-                                <!--<CheckBox.Style>
-                                    <Style TargetType="CheckBox">
-                                        <Style.Triggers>
-                                            <Trigger Property="ToolTip"
-                                                    Value="{x:Static system:String.Empty}">
-                                                <Setter Property="ToolTipService.IsEnabled" Value="False" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </CheckBox.Style>-->
-                            </CheckBox>
+                                      ToolTipService.ToolTip="{Binding DistributedTo}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -161,19 +139,14 @@
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Button Name="SaveStyle" Width="415" Margin="60,5,0,0" Click="SaveStyleClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="16" Height="16"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <iconPacks:PackIconMaterial Kind="ContentSave" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save style" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
                     <!-- Separator -->
                     <StackPanel Margin="15,10,15,0" Orientation="Vertical">
-                        <Separator Background="{DynamicResource AccentColorBrush}"/>
+                        <Separator Background="{DynamicResource AccentColorBrush}" />
                     </StackPanel>
                     <!-- DbType -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
@@ -197,56 +170,28 @@
                         <!-- Browse -->
                         <Button Name="Browse" Width="100" Margin="60,5,0,0" Click="BrowseClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_folder}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-
+                                <iconPacks:PackIconMaterial Kind="FolderOutline" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="browse" />
                             </StackPanel>
                         </Button>
                         <!-- SaveSettings -->
                         <Button Name="SaveSettings" Width="100" Margin="5,5,0,0" Click="SaveSettingsClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <iconPacks:PackIconMaterial Kind="ContentSave" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save" />
-                            </StackPanel>
-                        </Button>
-                        <!-- CancelSettings -->
-                        <Button Name="CancelSettings" Width="100" Margin="5,5,0,0" Click="CancelSettingsClick">
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cancel}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="cancel" />
                             </StackPanel>
                         </Button>
                         <!-- ResetDb -->
                         <Button Name="ResetDb" Width="100" Margin="5,5,0,0" Click="ResetClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_reset}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <iconPacks:PackIconMaterial Kind="Autorenew" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="reset db" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
                     <!-- Separator -->
                     <StackPanel Margin="15,10,15,0" Orientation="Vertical">
-                        <Separator Background="{DynamicResource AccentColorBrush}"/>
+                        <Separator Background="{DynamicResource AccentColorBrush}" />
                     </StackPanel>
                     <!-- Build / Linker Time -->
                     <StackPanel Orientation="Horizontal">
@@ -272,34 +217,19 @@
                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                         <Button Name="Save" Click="SaveClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <iconPacks:PackIconMaterial Kind="ContentSave" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="save" />
                             </StackPanel>
                         </Button>
                         <Button Name="SaveAndNew" Margin="5,0,0,0" Click="SaveAndNewClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_new}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <iconPacks:PackIconMaterial Kind="ContentSaveSettings" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="save &amp; new" />
                             </StackPanel>
                         </Button>
                         <Button Name="Cancel" Margin="5,0,0,0" Click="CancelClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cancel}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <iconPacks:PackIconMaterial Kind="DeleteVariant" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="cancel" />
                             </StackPanel>
                         </Button>
@@ -348,12 +278,7 @@
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Button Name="SaveWatchDate" Width="100" Margin="5,5,0,0" Click="SaveWatchDateClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <iconPacks:PackIconMaterial Kind="ContentSave" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save" />
                             </StackPanel>
                         </Button>
@@ -375,12 +300,7 @@
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Button Name="SaveDistributedTo" Width="100" Margin="5,5,0,0" Click="SaveDistributedToClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20"
-                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
+                                <iconPacks:PackIconMaterial Kind="ContentSave" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save" />
                             </StackPanel>
                         </Button>
