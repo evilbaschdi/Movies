@@ -22,19 +22,12 @@ namespace Movie.Internal
         /// <param name="mainWindow"></param>
         public AppBasic(MainWindow mainWindow)
         {
-            if (mainWindow == null)
-            {
-                throw new ArgumentNullException(nameof(mainWindow));
-            }
-            _mainWindow = mainWindow;
+            _mainWindow = mainWindow ?? throw new ArgumentNullException(nameof(mainWindow));
             _tools = new Tools();
             _xmlSettings = new XmlSettings();
         }
 
-        private string StartupPath()
-        {
-            return AppDomain.CurrentDomain.BaseDirectory;
-        }
+        private string StartupPath() => AppDomain.CurrentDomain.BaseDirectory;
 
         /// <summary>
         /// </summary>

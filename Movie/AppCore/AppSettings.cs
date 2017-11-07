@@ -12,16 +12,16 @@ namespace Movie.AppCore
         /// </summary>
         public string XmlFilePath
         {
-            get { return ConfigurationManager.AppSettings["XmlFilePath"]; }
-            set { UpdateSetting("XmlFilePath", value); }
+            get => ConfigurationManager.AppSettings["XmlFilePath"];
+            set => UpdateSetting("XmlFilePath", value);
         }
 
         /// <summary>
         /// </summary>
         public string DbType
         {
-            get { return ConfigurationManager.AppSettings["DbType"]; }
-            set { UpdateSetting("DbType", value); }
+            get => ConfigurationManager.AppSettings["DbType"];
+            set => UpdateSetting("DbType", value);
         }
 
         private static void UpdateSetting(string key, string value)

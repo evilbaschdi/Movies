@@ -11,11 +11,7 @@ namespace Movie.Core
 
         public XmlDatabase(IXmlSettings xmlSettings)
         {
-            if (xmlSettings == null)
-            {
-                throw new ArgumentNullException(nameof(xmlSettings));
-            }
-            _xmlSettings = xmlSettings;
+            _xmlSettings = xmlSettings ?? throw new ArgumentNullException(nameof(xmlSettings));
         }
 
         /// <summary>

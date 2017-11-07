@@ -13,11 +13,7 @@ namespace Movie.Core
         /// </summary>
         public Movies(IXmlDatabase xmlDatabase)
         {
-            if (xmlDatabase == null)
-            {
-                throw new ArgumentNullException(nameof(xmlDatabase));
-            }
-            _xmlDatabase = xmlDatabase;
+            _xmlDatabase = xmlDatabase ?? throw new ArgumentNullException(nameof(xmlDatabase));
         }
 
         public IMovieRecord GetMovieById(string id)

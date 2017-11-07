@@ -35,21 +35,9 @@ namespace Movie.Internal
         /// <param name="dialogService"></param>
         public AddEdit(MainWindow mainWindow, IMovies movies, IDialogService dialogService)
         {
-            if (mainWindow == null)
-            {
-                throw new ArgumentNullException(nameof(mainWindow));
-            }
-            if (movies == null)
-            {
-                throw new ArgumentNullException(nameof(movies));
-            }
-            if (dialogService == null)
-            {
-                throw new ArgumentNullException(nameof(dialogService));
-            }
-            _mainWindow = mainWindow;
-            _movies = movies;
-            _dialogService = dialogService;
+            _mainWindow = mainWindow ?? throw new ArgumentNullException(nameof(mainWindow));
+            _movies = movies ?? throw new ArgumentNullException(nameof(movies));
+            _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         }
 
         /// <summary>
