@@ -42,7 +42,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Movie.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Movie.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -52,7 +52,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Movie.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Movie.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>movie.ico</ApplicationIcon>
@@ -64,16 +64,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EvilBaschdi.Core, Version=1.1.6313.30025, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\EvilBaschdi.Core.2017.4.14.1\lib\net462\EvilBaschdi.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="EvilBaschdi.Core, Version=1.1.6457.15006, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EvilBaschdi.Core.2017.9.5.1\lib\net462\EvilBaschdi.Core.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro.IconPacks, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.1.9.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
+    <Reference Include="MahApps.Metro.IconPacks, Version=2.0.0.31, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.2.0.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -104,11 +103,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppCore\AppSettings.cs">
-      <DependentUpon>IAppSettings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AppCore\RowToIndexConverter.cs" />
-    <Compile Include="AppCore\IAppSettings.cs" />
     <Compile Include="Internal\AddEdit.cs">
       <DependentUpon>IAddEdit.cs</DependentUpon>
     </Compile>
@@ -117,7 +111,7 @@
     </Compile>
     <Compile Include="Internal\IAddEdit.cs" />
     <Compile Include="Internal\IAppBasic.cs" />
-    <Compile Include="Model\Commands.cs" />
+    <Compile Include="Models\Commands.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

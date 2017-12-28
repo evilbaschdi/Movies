@@ -2,6 +2,7 @@ using System;
 using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
+using Movie.Core.Models;
 
 namespace Movie.Internal
 {
@@ -14,10 +15,12 @@ namespace Movie.Internal
         private IMovieRecord _movieRecord;
         private readonly IMovies _movies;
 
+        /// <inheritdoc />
         /// <summary>
         /// </summary>
         public string Mode { private get; set; }
 
+        /// <inheritdoc />
         /// <summary>
         /// </summary>
         public string CurrentId { private get; set; }

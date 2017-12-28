@@ -15,6 +15,7 @@ using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
+using Movie.Core.Models;
 using Movie.Internal;
 using Calendar = System.Windows.Controls.Calendar;
 
@@ -40,6 +41,7 @@ namespace Movie
         private int _overrideProtection;
         private string _currentId;
         private string _exception;
+
         private string _dbType;
         // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
 
@@ -161,11 +163,6 @@ namespace Movie
         {
             _appBasic.Save();
             Populate();
-        }
-
-        private void CancelSettingsClick(object sender, RoutedEventArgs e)
-        {
-            ToggleFlyout(0);
         }
 
         private void BrowseClick(object sender, RoutedEventArgs e)

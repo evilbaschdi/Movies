@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Movie.Core.Models;
 
 namespace Movie.Core
 {

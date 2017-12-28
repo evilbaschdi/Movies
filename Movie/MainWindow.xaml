@@ -3,8 +3,8 @@
 <controls:MetroWindow x:Class="Movie.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      xmlns:model="clr-namespace:Movie.Model"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      xmlns:models="clr-namespace:Movie.Models"
                       Title="Movie"
                       Width="1000"
                       Height="700" Icon="movie.ico" ShowIconOnTitleBar="False"
@@ -248,7 +248,7 @@
                                     VerticalAlignment="Top" IsTodayHighlighted="True">
                             <DatePicker.CommandBindings>
                                 <CommandBinding CanExecute="CommandBindingCanExecute" Executed="CommandBindingExecuted">
-                                    <CommandBinding.Command>model:Commands.SelectToday</CommandBinding.Command>
+                                    <CommandBinding.Command>models:Commands.SelectToday</CommandBinding.Command>
                                 </CommandBinding>
                             </DatePicker.CommandBindings>
                             <DatePicker.CalendarStyle>
@@ -264,7 +264,7 @@
                                                                   Style="{TemplateBinding Calendar.CalendarItemStyle}" />
                                                     <Button Content="Today"
                                                             CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                                        <Button.Command>model:Commands.SelectToday</Button.Command>
+                                                        <Button.Command>models:Commands.SelectToday</Button.Command>
                                                     </Button>
                                                 </StackPanel>
                                             </ControlTemplate>

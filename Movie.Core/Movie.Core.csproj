@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Movie.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,11 +30,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Movie.Core.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EvilBaschdi.Core, Version=1.1.6313.30025, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\EvilBaschdi.Core.2017.4.14.1\lib\net462\EvilBaschdi.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="EvilBaschdi.Core, Version=1.1.6457.15006, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EvilBaschdi.Core.2017.9.5.1\lib\net462\EvilBaschdi.Core.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -57,7 +58,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMovieRecord.cs" />
+    <Compile Include="Models\IMovieRecord.cs" />
     <Compile Include="IMovies.cs" />
     <Compile Include="ITools.cs" />
     <Compile Include="IXmlDatabase.cs" />
@@ -65,7 +66,7 @@
     <Compile Include="Movies.cs">
       <DependentUpon>IMovies.cs</DependentUpon>
     </Compile>
-    <Compile Include="MovieRecord.cs">
+    <Compile Include="Models\MovieRecord.cs">
       <DependentUpon>IMovieRecord.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

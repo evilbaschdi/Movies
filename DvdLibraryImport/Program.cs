@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Movie.Core;
+using Movie.Core.Models;
 
 namespace DvdLibraryImport
 {
@@ -11,7 +11,8 @@ namespace DvdLibraryImport
     {
         static void Main(string[] args)
         {
-            var path = @"C:\Users\swalter\Documents\";
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
             var fileName = "shelf_export.txt";
             var shelfExport = Path.Combine(path, fileName);
             if (!File.Exists(shelfExport))
@@ -38,9 +39,11 @@ namespace DvdLibraryImport
                     {
                         foreach (var datum in data)
                         {
-                            var movie = new MovieRecord();
-                            movie.Id = Guid.NewGuid().ToString();
-                            movie.Format = "Blu-ray";
+                            var movie = new MovieRecord
+                                        {
+                                            Id = Guid.NewGuid().ToString(),
+                                            Format = "Blu-ray"
+                                        };
 
                             switch (datum.Element("field")?.Value)
                             {
