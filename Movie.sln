@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie", "Movie\Movie.csproj", "{C7CADCC8-6535-4126-AD01-4B3B5DFD8719}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Core", "Movie.Core\Movie.Core.csproj", "{45BEE335-54F9-42F1-96E0-588047D3CBDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Core", "Movie.Core\Movie.Core.csproj", "{45BEE335-54F9-42F1-96E0-588047D3CBDF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvdLibraryImport", "DvdLibraryImport\DvdLibraryImport.csproj", "{93BDCD6E-AA7B-4826-B316-15CE16FB8442}"
 EndProject
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B086975F-7BCC-449E-97F3-08D1AF85969A}
 	EndGlobalSection
 EndGlobal

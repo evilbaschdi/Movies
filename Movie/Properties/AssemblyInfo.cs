@@ -9,9 +9,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Movie")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("evil.baschdi")]
 [assembly: AssemblyProduct("Movie")]
-[assembly: AssemblyCopyright("Copyright © evil.baschdi 2014 - 2015")]
+[assembly: AssemblyCopyright("Copyright © evil.baschdi 2014 - 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
