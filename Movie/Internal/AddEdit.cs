@@ -1,5 +1,5 @@
 using System;
-using EvilBaschdi.Core.Wpf;
+using EvilBaschdi.CoreExtended;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
 using Movie.Core.Models;
@@ -91,6 +91,7 @@ namespace Movie.Internal
             {
                 return;
             }
+
             InsertOrUpdate();
             InsertOrUpdateAction();
         }

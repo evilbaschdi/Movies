@@ -7,6 +7,7 @@
                       xmlns:models="clr-namespace:Movie.Models"
                       Title="Movie"
                       Width="1000"
+                      TitleCharacterCasing="Normal"
                       Height="700" Icon="movie.ico" ShowIconOnTitleBar="False"
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       LeftWindowCommandsOverlayBehavior="Never"

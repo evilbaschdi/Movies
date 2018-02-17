@@ -3,12 +3,17 @@ using System.Data;
 
 namespace Movie.Core
 {
+    /// <inheritdoc />
     public class XmlDatabase : IXmlDatabase
     {
         private readonly IXmlSettings _xmlSettings;
         private readonly DataSet _dataSet = new DataSet();
         private DataView _dataView = new DataView();
 
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="xmlSettings"></param>
         public XmlDatabase(IXmlSettings xmlSettings)
         {
             _xmlSettings = xmlSettings ?? throw new ArgumentNullException(nameof(xmlSettings));
@@ -77,6 +82,7 @@ namespace Movie.Core
             {
                 dataRow = _dataView[0].Row;
             }
+
             _dataView.RowFilter = "";
             return dataRow;
         }
@@ -93,6 +99,7 @@ namespace Movie.Core
             {
                 dataRow = _dataView[0].Row;
             }
+
             _dataView.RowFilter = "";
             return dataRow;
         }

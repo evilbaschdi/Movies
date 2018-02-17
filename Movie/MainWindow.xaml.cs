@@ -10,13 +10,16 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using EvilBaschdi.Core.Application;
-using EvilBaschdi.Core.Wpf;
+using EvilBaschdi.Core.Extensions;
+using EvilBaschdi.CoreExtended;
+using EvilBaschdi.CoreExtended.AppHelpers;
+using EvilBaschdi.CoreExtended.Metro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
 using Movie.Core.Models;
 using Movie.Internal;
+using Movie.Properties;
 using Calendar = System.Windows.Controls.Calendar;
 
 namespace Movie
@@ -32,8 +35,8 @@ namespace Movie
 
         private readonly IXmlSettings _xmlSettings;
         private readonly IXmlDatabase _xmlDatabase;
-        private readonly ISettings _coreSettings;
-        private readonly IMetroStyle _style;
+        private readonly IApplicationStyleSettings _coreSettings;
+        private readonly IApplicationStyle _style;
         private readonly IMovies _movies;
         private readonly IAppBasic _appBasic;
         private readonly IAddEdit _addEdit;
@@ -56,10 +59,11 @@ namespace Movie
             _xmlSettings = new XmlSettings();
             _xmlDatabase = new XmlDatabase(_xmlSettings);
             _movies = new Movies(_xmlDatabase);
-            _coreSettings = new CoreSettings(Properties.Settings.Default);
+            IAppSettingsBase appSettingsBase = new AppSettingsBase(Settings.Default);
+            _coreSettings = new ApplicationStyleSettings(appSettingsBase);
             InitializeComponent();
             var themeManagerHelper = new ThemeManagerHelper();
-            _style = new MetroStyle(this, Accent, ThemeSwitch, _coreSettings, themeManagerHelper);
+            _style = new ApplicationStyle(this, Accent, ThemeSwitch, _coreSettings, themeManagerHelper);
             _style.Load(true, true);
             _dialogService = new DialogService(this);
             _addEdit = new AddEdit(this, _movies, _dialogService);
@@ -108,6 +112,7 @@ namespace Movie
             {
                 return;
             }
+
             var dataRowView = (DataRowView) MovieGrid.SelectedItem;
 
             var id = dataRowView.Row["Id"].ToString();
@@ -142,6 +147,7 @@ namespace Movie
                 {
                     DbPath.Background = Brushes.Maroon;
                 }
+
                 Populate();
             }
             else
@@ -331,6 +337,7 @@ namespace Movie
 
                 MessageBox.Show(_exception, "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
+
             Populate();
         }
 
@@ -414,7 +421,7 @@ namespace Movie
 
         #endregion Search
 
-        #region MetroStyle
+        #region ApplicationStyle
 
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
@@ -422,6 +429,7 @@ namespace Movie
             {
                 return;
             }
+
             _style.SaveStyle();
         }
 
@@ -431,6 +439,7 @@ namespace Movie
             {
                 return;
             }
+
             _style.SetTheme(sender);
         }
 
@@ -440,6 +449,7 @@ namespace Movie
             {
                 return;
             }
+
             _style.SetAccent(sender, e);
         }
 
