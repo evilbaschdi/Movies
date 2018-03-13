@@ -46,7 +46,7 @@
     <Grid>
         <!--  DataGrid  -->
         <DataGrid Name="MovieGrid" Margin="10,10,10,10" AutoGenerateColumns="False" CanUserAddRows="False"
-                  CanUserDeleteRows="False" ColumnWidth="*"
+                  CanUserDeleteRows="False" ColumnWidth="*" Style="{DynamicResource AzureDataGrid}"
                   GridLinesVisibility="Horizontal" IsReadOnly="True" MouseDoubleClick="MovieGridOnMouseDoubleClick"
                   SelectionChanged="MovieGridSelectionChanged"
                   SelectionUnit="FullRow">
