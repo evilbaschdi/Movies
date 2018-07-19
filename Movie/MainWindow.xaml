@@ -64,8 +64,11 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Distributed}" HorizontalAlignment="Center"
-                                      Click="DistributeCheckBoxClick"
-                                      ToolTipService.ToolTip="{Binding DistributedTo}" />
+                                      Click="DistributeCheckBoxClick" Background="White"
+                                      ToolTipService.ToolTip="{Binding DistributedTo}" >
+                  
+                            </CheckBox>
+
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
