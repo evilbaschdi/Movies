@@ -2,9 +2,11 @@ using Microsoft.Win32;
 
 namespace Movie.Core
 {
+    /// <inheritdoc />
     public class XmlSettings : IXmlSettings
     {
-        public void SaveToRegistry(string path, string dbtype)
+        /// <inheritdoc />
+        public void SaveToRegistry(string path, string dbType)
         {
             var softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
 
@@ -26,11 +28,13 @@ namespace Movie.Core
                 {
                     return;
                 }
+
                 settingsKey.SetValue("XmlFilePath", path);
-                settingsKey.SetValue("DbType", dbtype);
+                settingsKey.SetValue("DbType", dbType);
             }
         }
 
+        /// <inheritdoc />
         public string FilePath
         {
             get
@@ -45,6 +49,7 @@ namespace Movie.Core
                 {
                     return "";
                 }
+
                 using (
                     var settingsKey = movieKey.OpenSubKey("Program Settings",
                         RegistryKeyPermissionCheck.ReadSubTree))
@@ -54,6 +59,7 @@ namespace Movie.Core
             }
         }
 
+        /// <inheritdoc />
         public string DbType
         {
             get
@@ -68,6 +74,7 @@ namespace Movie.Core
                 {
                     return "";
                 }
+
                 using (
                     var settingsKey = movieKey.OpenSubKey("Program Settings",
                         RegistryKeyPermissionCheck.ReadSubTree))

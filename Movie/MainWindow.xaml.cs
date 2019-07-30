@@ -1,26 +1,23 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using EvilBaschdi.Core.Extensions;
 using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.AppHelpers;
 using EvilBaschdi.CoreExtended.Metro;
+using EvilBaschdi.CoreExtended.Mvvm;
+using EvilBaschdi.CoreExtended.Mvvm.View;
+using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
 using Movie.Core.Models;
 using Movie.Internal;
-using Movie.Properties;
-using Calendar = System.Windows.Controls.Calendar;
 
 namespace Movie
 {
@@ -30,24 +27,6 @@ namespace Movie
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
     {
-        // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
-        private IMovieRecord _movieRecord;
-
-        private readonly IXmlSettings _xmlSettings;
-        private readonly IXmlDatabase _xmlDatabase;
-        private readonly IApplicationStyleSettings _coreSettings;
-        private readonly IApplicationStyle _style;
-        private readonly IMovies _movies;
-        private readonly IAppBasic _appBasic;
-        private readonly IAddEdit _addEdit;
-        private readonly IDialogService _dialogService;
-        private int _overrideProtection;
-        private string _currentId;
-        private string _exception;
-
-        private string _dbType;
-        // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
-
         /// <summary>
         ///     MainWindows.
         ///     Gets a new movie list instance.
@@ -59,19 +38,48 @@ namespace Movie
             _xmlSettings = new XmlSettings();
             _xmlDatabase = new XmlDatabase(_xmlSettings);
             _movies = new Movies(_xmlDatabase);
-            IAppSettingsBase appSettingsBase = new AppSettingsBase(Settings.Default);
-            _coreSettings = new ApplicationStyleSettings(appSettingsBase);
+
             InitializeComponent();
-            var themeManagerHelper = new ThemeManagerHelper();
-            _style = new ApplicationStyle(this, Accent, ThemeSwitch, _coreSettings, themeManagerHelper);
+            _themeManagerHelper = new ThemeManagerHelper();
+            _style = new ApplicationStyle(_themeManagerHelper);
             _style.Load(true, true);
             _dialogService = new DialogService(this);
             _addEdit = new AddEdit(this, _movies, _dialogService);
             ValidateSettings();
-            var linkerTime = Assembly.GetExecutingAssembly().GetLinkerTime();
-            LinkerTime.Content = linkerTime.ToString(CultureInfo.InvariantCulture);
             _appBasic.SetComboBoxItems();
         }
+
+        private void AboutWindowClick(object sender, RoutedEventArgs e)
+        {
+            var assembly = typeof(MainWindow).Assembly;
+            IAboutWindowContent aboutWindowContent = new AboutWindowContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\movie_512.png");
+
+            var aboutWindow = new AboutWindow
+                              {
+                                  DataContext = new AboutViewModel(aboutWindowContent, _themeManagerHelper)
+                              };
+
+            aboutWindow.ShowDialog();
+        }
+
+        // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+        private IMovieRecord _movieRecord;
+
+        private readonly IXmlSettings _xmlSettings;
+        private readonly IXmlDatabase _xmlDatabase;
+        private readonly IApplicationStyle _style;
+        private readonly IMovies _movies;
+        private readonly IAppBasic _appBasic;
+        private readonly IAddEdit _addEdit;
+        private readonly IDialogService _dialogService;
+
+        private string _currentId;
+        private string _exception;
+
+        private string _dbType;
+
+        private readonly IThemeManagerHelper _themeManagerHelper;
+        // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
 
         #region DataGrid Logic
 
@@ -156,8 +164,6 @@ namespace Movie
                 SearchFilter.IsEnabled = false;
                 New.IsEnabled = false;
             }
-
-            _overrideProtection = 1;
         }
 
         private void ToggleSettingsFlyoutClick(object sender, RoutedEventArgs e)
@@ -421,39 +427,6 @@ namespace Movie
 
         #endregion Search
 
-        #region ApplicationStyle
-
-        private void SaveStyleClick(object sender, RoutedEventArgs e)
-        {
-            if (_overrideProtection == 0)
-            {
-                return;
-            }
-
-            _style.SaveStyle();
-        }
-
-        private void Theme(object sender, EventArgs e)
-        {
-            if (_overrideProtection == 0)
-            {
-                return;
-            }
-
-            _style.SetTheme(sender);
-        }
-
-        private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (_overrideProtection == 0)
-            {
-                return;
-            }
-
-            _style.SetAccent(sender, e);
-        }
-
-        #endregion MetroStyle
 
         #region Watched movie
 

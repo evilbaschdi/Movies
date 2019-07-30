@@ -9,7 +9,7 @@
                       Width="1000"
                       TitleCharacterCasing="Normal"
                       Height="700" Icon="movie.ico" ShowIconOnTitleBar="False"
-                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}"
                       LeftWindowCommandsOverlayBehavior="Never"
                       RightWindowCommandsOverlayBehavior="Never"
                       WindowButtonCommandsOverlayBehavior="Never">
@@ -40,13 +40,20 @@
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="settings" />
                 </StackPanel>
             </Button>
+            <!-- About -->
+            <Button Click="AboutWindowClick">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial Kind="Information" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="about" />
+                </StackPanel>
+            </Button>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <!--  Grid  -->
     <Grid>
         <!--  DataGrid  -->
         <DataGrid Name="MovieGrid" Margin="10,10,10,10" AutoGenerateColumns="False" CanUserAddRows="False"
-                  CanUserDeleteRows="False" ColumnWidth="*" Style="{DynamicResource AzureDataGrid}"
+                  CanUserDeleteRows="False" ColumnWidth="*" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}"
                   GridLinesVisibility="Horizontal" IsReadOnly="True" MouseDoubleClick="MovieGridOnMouseDoubleClick"
                   SelectionChanged="MovieGridSelectionChanged"
                   SelectionUnit="FullRow">
@@ -65,9 +72,7 @@
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Distributed}" HorizontalAlignment="Center"
                                       Click="DistributeCheckBoxClick" Background="White"
-                                      ToolTipService.ToolTip="{Binding DistributedTo}" >
-                  
-                            </CheckBox>
+                                      ToolTipService.ToolTip="{Binding DistributedTo}" />
 
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -121,37 +126,6 @@
             <controls:Flyout Name="SettingsFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True"
                              Header="settings" Position="Right" Theme="Accent">
                 <StackPanel>
-                    <!-- Theme -->
-                    <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                        <Label Width="60" Margin="0,5,0,0" HorizontalAlignment="Left"
-                               VerticalAlignment="Top" Content="Theme" />
-                        <controls:ToggleSwitch Name="ThemeSwitch" Margin="10,1,0,0"
-                                               HorizontalAlignment="Left" VerticalAlignment="Top"
-                                               FontSize="12" IsCheckedChanged="Theme"
-                                               OnSwitchBrush="{DynamicResource AccentColorBrush}" OnLabel="Dark"
-                                               OffSwitchBrush="{DynamicResource AccentColorBrush}" OffLabel="Light" />
-                    </StackPanel>
-                    <!-- Accent -->
-                    <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                        <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Content="Accent" />
-                        <ComboBox Name="Accent" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left"
-                                  VerticalAlignment="Top"
-                                  SelectionChanged="AccentOnSelectionChanged" />
-                    </StackPanel>
-                    <!-- Save Style -->
-                    <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                        <Button Name="SaveStyle" Width="415" Margin="60,5,0,0" Click="SaveStyleClick">
-                            <StackPanel Orientation="Horizontal">
-                                <iconPacks:PackIconMaterial Kind="ContentSave" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save style" />
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                    <!-- Separator -->
-                    <StackPanel Margin="15,10,15,0" Orientation="Vertical">
-                        <Separator Background="{DynamicResource AccentColorBrush}" />
-                    </StackPanel>
                     <!-- DbType -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                         <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -192,15 +166,6 @@
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="reset db" />
                             </StackPanel>
                         </Button>
-                    </StackPanel>
-                    <!-- Separator -->
-                    <StackPanel Margin="15,10,15,0" Orientation="Vertical">
-                        <Separator Background="{DynamicResource AccentColorBrush}" />
-                    </StackPanel>
-                    <!-- Build / Linker Time -->
-                    <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Build" />
-                        <Label Width="310" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Name="LinkerTime" />
                     </StackPanel>
                 </StackPanel>
             </controls:Flyout>
