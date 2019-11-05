@@ -5,18 +5,28 @@ namespace Movie.Core.Models
     /// </summary>
     public interface IMovieRecord
     {
-        string Id { get; set; }
+        // ReSharper disable UnusedMemberInSuper.Global
+        /// <remarks />
+        string Distributed { get; set; }
 
-        string Name { get; set; }
+        /// <remarks />
+        string DistributedTo { get; set; }
 
-        string Year { get; set; }
+        /// <remarks />
 
         string Format { get; set; }
 
-        string Distributed { get; set; }
+        /// <remarks />
+        string Id { get; set; }
 
-        string DistributedTo { get; set; }
+        /// <remarks />
+        string Name { get; set; }
 
+        /// <remarks />
         string Watched { get; set; }
+
+        /// <remarks />
+        string Year { get; set; }
+        // ReSharper restore UnusedMemberInSuper.Global
     }
 }

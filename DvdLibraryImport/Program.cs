@@ -1,19 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
+using Movie.Core;
 using Movie.Core.Models;
 
 namespace DvdLibraryImport
 {
-    class Program
+    /// <summary>
+    /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public class Program
     {
-        static void Main(string[] args)
+        // ReSharper disable once UnusedParameter.Local
+        private static void Main(string[] args)
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-            var fileName = "shelf_export.txt";
+            const string fileName = "shelf_export.txt";
             var shelfExport = Path.Combine(path, fileName);
             if (!File.Exists(shelfExport))
             {
@@ -21,7 +25,6 @@ namespace DvdLibraryImport
                 Console.ReadLine();
                 return;
             }
-
 
             var shelfExportXml = XDocument.Load(shelfExport).Root;
             var items = shelfExportXml?.Element("items")?.Elements().ToList();
@@ -32,12 +35,11 @@ namespace DvdLibraryImport
 
             if (items != null)
             {
-                foreach (var item in items)
+                foreach (var list in items.Select(item => item.Element("data")?.Elements().ToList()))
                 {
-                    var data = item.Element("data")?.Elements().ToList();
-                    if (data != null && data.Any())
+                    if (list != null && list.Any())
                     {
-                        foreach (var datum in data)
+                        foreach (var item in list)
                         {
                             var movie = new MovieRecord
                                         {
@@ -45,14 +47,15 @@ namespace DvdLibraryImport
                                             Format = "Blu-ray"
                                         };
 
-                            switch (datum.Element("field")?.Value)
+                            // ReSharper disable once SwitchStatementMissingSomeCases
+                            switch (item.Element("field")?.Value)
                             {
                                 case "11":
-                                    //todo: barcode aufnehmen
+                                    //todo: barcode implementation
                                     //Console.WriteLine(datum.Element("value")?.Value);
                                     break;
                                 case "2":
-                                    var name = datum.Element("value")?.Value;
+                                    var name = item.Element("value")?.Value;
                                     movie.Name = name.DecodeString().Trim();
                                     break;
                                 case "4":
@@ -61,21 +64,13 @@ namespace DvdLibraryImport
                             }
                         }
                     }
+
                     Console.WriteLine(Environment.NewLine);
                 }
             }
 
             Console.WriteLine();
             Console.ReadLine();
-        }
-    }
-
-    public static class StringExtensions
-    {
-        public static string DecodeString(this string input)
-        {
-            var bytes = Encoding.Default.GetBytes(input);
-            return Encoding.UTF8.GetString(bytes);
         }
     }
 }

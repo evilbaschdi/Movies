@@ -84,7 +84,7 @@ namespace Movie
         #region DataGrid Logic
 
         /// <summary>
-        ///     (Re)Loads movie datasource to grid ans calls sorting.
+        ///     (Re)Loads movie data source to grid ans calls sorting.
         /// </summary>
         public void Populate()
         {
@@ -94,14 +94,9 @@ namespace Movie
 
         private void Sorting()
         {
-            //create a collection view for the datasoruce binded with grid
-
             var dataView = CollectionViewSource.GetDefaultView(MovieGrid.ItemsSource);
-            //clear the existing sort order
             dataView.SortDescriptions.Clear();
-            //create a new sort order for the sorting that is done lastly
             dataView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
-            //refresh the view which in turn refresh the grid
             dataView.Refresh();
         }
 
@@ -243,14 +238,16 @@ namespace Movie
         private void LoadCurrentMovieData()
         {
             _movieRecord = _movies.GetMovieById(_currentId);
-            if (_movieRecord != null)
+            if (_movieRecord == null)
             {
-                MovieName.Text = _movieRecord.Name;
-                Year.Value = string.IsNullOrWhiteSpace(_movieRecord.Year)
-                    ? Year.Maximum
-                    : Convert.ToDouble(_movieRecord.Year);
-                Format.Text = _movieRecord.Format;
+                return;
             }
+
+            MovieName.Text = _movieRecord.Name;
+            Year.Value = string.IsNullOrWhiteSpace(_movieRecord.Year)
+                ? Year.Maximum
+                : Convert.ToDouble(_movieRecord.Year);
+            Format.Text = _movieRecord.Format;
         }
 
         private void EditClick(object sender, RoutedEventArgs e)
@@ -361,28 +358,32 @@ namespace Movie
         {
             var result = ((CheckBox) sender).IsChecked;
 
-            if (result.HasValue)
+            if (!result.HasValue)
             {
-                if (result.Value)
-                {
-                    DistributeClick(sender, e);
-                }
-                else
-                {
-                    GotBackClick(sender, e);
-                }
+                return;
+            }
+
+            if (result.Value)
+            {
+                DistributeClick(sender, e);
+            }
+            else
+            {
+                GotBackClick(sender, e);
             }
         }
 
         private void SaveDistributedToClick(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(DistributedTo.Text))
+            if (string.IsNullOrWhiteSpace(DistributedTo.Text))
             {
-                _movieRecord.Distributed = "True";
-                _movieRecord.DistributedTo = DistributedTo.Text;
-                _movies.Update(_movieRecord);
-                MovieGrid.SelectedItem = null;
+                return;
             }
+
+            _movieRecord.Distributed = "True";
+            _movieRecord.DistributedTo = DistributedTo.Text;
+            _movies.Update(_movieRecord);
+            MovieGrid.SelectedItem = null;
         }
 
         private void GotBackClick(object sender, RoutedEventArgs e)
@@ -410,14 +411,16 @@ namespace Movie
 
         private void SearchCategoryOnDropDownClosed(object sender, EventArgs e)
         {
-            if (SearchCategory.Text == "Distributed")
+            if (!string.Equals(SearchCategory.Text, "Distributed", StringComparison.InvariantCultureIgnoreCase))
             {
-                SearchFilter.KeyDown += SearchFilterKeyPress;
-                SearchFilter.MaxLength = 1;
+                return;
             }
+
+            SearchFilter.KeyDown += SearchFilterKeyPress;
+            SearchFilter.MaxLength = 1;
         }
 
-        private void SearchFilterKeyPress(object sender, KeyEventArgs e)
+        private static void SearchFilterKeyPress(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.F && e.Key != Key.T)
             {
@@ -432,13 +435,15 @@ namespace Movie
 
         private void SaveWatchDateClick(object sender, RoutedEventArgs e)
         {
-            if (LastTimeWatched.SelectedDate.HasValue)
+            if (!LastTimeWatched.SelectedDate.HasValue)
             {
-                _movieRecord.Watched = LastTimeWatched.SelectedDate.Value.ToShortDateString();
-
-                _movies.Update(_movieRecord);
-                MovieGrid.SelectedItem = null;
+                return;
             }
+
+            _movieRecord.Watched = LastTimeWatched.SelectedDate.Value.ToShortDateString();
+
+            _movies.Update(_movieRecord);
+            MovieGrid.SelectedItem = null;
         }
 
         private void ToggleWatchedFlyoutClick(object sender, RoutedEventArgs e)

@@ -10,28 +10,18 @@ namespace Movie.Internal
     /// </summary>
     public class AddEdit : IAddEdit
     {
-        private readonly MainWindow _mainWindow;
         private readonly IDialogService _dialogService;
-        private IMovieRecord _movieRecord;
+        private readonly MainWindow _mainWindow;
         private readonly IMovies _movies;
-
-        /// <inheritdoc />
-        /// <summary>
-        /// </summary>
-        public string Mode { private get; set; }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// </summary>
-        public string CurrentId { private get; set; }
+        private string _action;
+        private string _format;
+        private IMovieRecord _movieRecord;
 
         private string _name;
         private double? _year;
-        private string _format;
-        private string _action;
 
         /// <summary>
-        ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
+        /// Constructor
         /// </summary>
         /// <param name="mainWindow"></param>
         /// <param name="movies"></param>
@@ -42,6 +32,16 @@ namespace Movie.Internal
             _movies = movies ?? throw new ArgumentNullException(nameof(movies));
             _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// </summary>
+        public string Mode { private get; set; }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// </summary>
+        public string CurrentId { private get; set; }
 
         /// <summary>
         /// </summary>
@@ -110,6 +110,7 @@ namespace Movie.Internal
 
             try
             {
+                // ReSharper disable once SwitchStatementMissingSomeCases
                 switch (_action)
                 {
                     case "insert":

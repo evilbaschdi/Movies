@@ -59,20 +59,24 @@
                   SelectionUnit="FullRow">
             <!--  Columns  -->
             <DataGrid.Columns>
-                <!--<DataGridTextColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={appCore:RowToIndexConverter}}" />-->
+                <!-- ReSharper disable once Xaml.BindingWithoutContextNotResolved -->
                 <DataGridTextColumn Binding="{Binding Name}" CanUserResize="False" Header="Name" />
+                <!-- ReSharper disable once Xaml.BindingWithoutContextNotResolved -->
                 <DataGridTextColumn Width="100" Binding="{Binding Year}" CanUserResize="False" Header="Year" />
+                <!-- ReSharper disable once Xaml.BindingWithoutContextNotResolved -->
                 <DataGridTextColumn Width="100" Binding="{Binding Format}" CanUserResize="False" Header="Format" />
-                <DataGridTextColumn Width="100" Binding="{Binding Watched}" CanUserResize="False" Header="Watched"
-                                    CanUserSort="False" />
+                <!-- ReSharper disable once Xaml.BindingWithoutContextNotResolved -->
+                <DataGridTextColumn Width="100" Binding="{Binding Watched}" CanUserResize="False" Header="Watched" />
 
                 <DataGridTemplateColumn Width="100" Header="Distributed" CanUserResize="False" IsReadOnly="True"
                                         SortMemberPath="Distributed">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
+                            <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
                             <CheckBox IsChecked="{Binding Distributed}" HorizontalAlignment="Center"
                                       Click="DistributeCheckBoxClick" Background="White"
                                       ToolTipService.ToolTip="{Binding DistributedTo}" />
+                            <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
 
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -102,8 +106,10 @@
                                         <Expander IsExpanded="True">
                                             <Expander.Header>
                                                 <StackPanel Orientation="Horizontal">
+                                                    <!-- ReSharper disable once Xaml.BindingWithoutContextNotResolved -->
                                                     <TextBlock Text="{Binding Path=ItemCount}" />
                                                     <TextBlock Text=" " />
+                                                    <!-- ReSharper disable once Xaml.BindingWithoutContextNotResolved -->
                                                     <TextBlock Text="{Binding Path=Name}" />
                                                     <TextBlock Text="s" />
                                                 </StackPanel>
@@ -231,6 +237,7 @@
                                                                   BorderBrush="{TemplateBinding Control.BorderBrush}"
                                                                   BorderThickness="{TemplateBinding Control.BorderThickness}"
                                                                   Style="{TemplateBinding Calendar.CalendarItemStyle}" />
+                                                    <!-- ReSharper disable once MarkupAttributeTypo -->
                                                     <Button Content="Today"
                                                             CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                                         <Button.Command>models:Commands.SelectToday</Button.Command>

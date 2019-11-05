@@ -15,23 +15,17 @@ namespace Movie.Core
 
             var movieKey = evilBaschdiKey?.CreateSubKey("Movie",
                 RegistryKeyPermissionCheck.ReadWriteSubTree);
-            if (movieKey == null)
+
+            using var settingsKey = movieKey?.CreateSubKey("Program Settings",
+                RegistryKeyPermissionCheck.ReadWriteSubTree);
+
+            if (settingsKey == null)
             {
                 return;
             }
 
-            using (
-                var settingsKey = movieKey.CreateSubKey("Program Settings",
-                    RegistryKeyPermissionCheck.ReadWriteSubTree))
-            {
-                if (settingsKey == null)
-                {
-                    return;
-                }
-
-                settingsKey.SetValue("XmlFilePath", path);
-                settingsKey.SetValue("DbType", dbType);
-            }
+            settingsKey.SetValue("XmlFilePath", path);
+            settingsKey.SetValue("DbType", dbType);
         }
 
         /// <inheritdoc />
@@ -50,12 +44,9 @@ namespace Movie.Core
                     return "";
                 }
 
-                using (
-                    var settingsKey = movieKey.OpenSubKey("Program Settings",
-                        RegistryKeyPermissionCheck.ReadSubTree))
-                {
-                    return settingsKey?.GetValue("XmlFilePath", "").ToString() ?? "";
-                }
+                using var settingsKey = movieKey.OpenSubKey("Program Settings",
+                    RegistryKeyPermissionCheck.ReadSubTree);
+                return settingsKey?.GetValue("XmlFilePath", "").ToString() ?? "";
             }
         }
 
@@ -75,12 +66,9 @@ namespace Movie.Core
                     return "";
                 }
 
-                using (
-                    var settingsKey = movieKey.OpenSubKey("Program Settings",
-                        RegistryKeyPermissionCheck.ReadSubTree))
-                {
-                    return settingsKey?.GetValue("DbType", "").ToString() ?? "movie";
-                }
+                using var settingsKey = movieKey.OpenSubKey("Program Settings",
+                    RegistryKeyPermissionCheck.ReadSubTree);
+                return settingsKey?.GetValue("DbType", "").ToString() ?? "movie";
             }
         }
     }

@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie", "Movie\Movie.csproj", "{C7CADCC8-6535-4126-AD01-4B3B5DFD8719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie", "Movie\Movie.csproj", "{C7CADCC8-6535-4126-AD01-4B3B5DFD8719}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Core", "Movie.Core\Movie.Core.csproj", "{45BEE335-54F9-42F1-96E0-588047D3CBDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvdLibraryImport", "DvdLibraryImport\DvdLibraryImport.csproj", "{93BDCD6E-AA7B-4826-B316-15CE16FB8442}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DvdLibraryImport", "DvdLibraryImport\DvdLibraryImport.csproj", "{93BDCD6E-AA7B-4826-B316-15CE16FB8442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

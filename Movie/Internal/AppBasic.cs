@@ -13,21 +13,55 @@ namespace Movie.Internal
     public class AppBasic : IAppBasic
     {
         private readonly MainWindow _mainWindow;
-        private readonly ITools _tools;
+        private readonly IResourceStreamText _resourceStreamText;
         private readonly IXmlSettings _xmlSettings;
 
         /// <summary>
-        ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
+        ///     Constructor
         /// </summary>
         /// <param name="mainWindow"></param>
         public AppBasic(MainWindow mainWindow)
         {
             _mainWindow = mainWindow ?? throw new ArgumentNullException(nameof(mainWindow));
-            _tools = new Tools();
+            _resourceStreamText = new ResourceStreamText();
             _xmlSettings = new XmlSettings();
         }
 
-        private string StartupPath() => AppDomain.CurrentDomain.BaseDirectory;
+        private static IEnumerable<string> MovieFormats
+        {
+            get
+            {
+                var movieFormats = new ObservableCollection<string>
+                                   {
+                                       "DVD",
+                                       "Blu-ray",
+                                       "VHS",
+                                       "MP4",
+                                       "MKV",
+                                       "MPEG",
+                                       "AVI",
+                                       "ISO",
+                                       "FLV",
+                                       "OGG"
+                                   };
+                return movieFormats;
+            }
+        }
+
+        private static IEnumerable<string> MusicFormats
+        {
+            get
+            {
+                var musicFormats = new ObservableCollection<string>
+                                   {
+                                       "CD",
+                                       "MP3",
+                                       "Kassette",
+                                       "Schallplatte"
+                                   };
+                return musicFormats;
+            }
+        }
 
         /// <summary>
         /// </summary>
@@ -46,16 +80,16 @@ namespace Movie.Internal
 
             try
             {
-                if (result == true)
+                if (result != true)
                 {
-                    _mainWindow.DbPath.Text = fileDialog.FileName;
-                    _xmlSettings.SaveToRegistry(_mainWindow.DbPath.Text, _mainWindow.DbType.Text);
-
-                    using (var streamWriter = new StreamWriter(fileDialog.FileName))
-                    {
-                        streamWriter.WriteLine(_tools.GetResourceStreamText("newMovieDb.xml"));
-                    }
+                    return;
                 }
+
+                _mainWindow.DbPath.Text = fileDialog.FileName;
+                _xmlSettings.SaveToRegistry(_mainWindow.DbPath.Text, _mainWindow.DbType.Text);
+
+                using var streamWriter = new StreamWriter(fileDialog.FileName);
+                streamWriter.WriteLine(_resourceStreamText.ValueFor("newMovieDb.xml"));
             }
             catch
             {
@@ -95,53 +129,19 @@ namespace Movie.Internal
         /// </summary>
         public void SetComboBoxItems()
         {
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            // ReSharper disable once ConvertSwitchStatementToSwitchExpression
             switch (_xmlSettings.DbType)
             {
                 case "movie":
                     _mainWindow.Format.ItemsSource = MovieFormats;
                     break;
-
                 case "music":
-
                     _mainWindow.Format.ItemsSource = MusicFormats;
                     break;
             }
         }
 
-        private IEnumerable<string> MusicFormats
-        {
-            get
-            {
-                var musicFormats = new ObservableCollection<string>
-                                   {
-                                       "CD",
-                                       "MP3",
-                                       "Kassette",
-                                       "Schallplatte"
-                                   };
-                return musicFormats;
-            }
-        }
-
-        private IEnumerable<string> MovieFormats
-        {
-            get
-            {
-                var movieFormats = new ObservableCollection<string>
-                                   {
-                                       "DVD",
-                                       "Blu-ray",
-                                       "VHS",
-                                       "MP4",
-                                       "MKV",
-                                       "MPEG",
-                                       "AVI",
-                                       "ISO",
-                                       "FLV",
-                                       "OGG"
-                                   };
-                return movieFormats;
-            }
-        }
+        private static string StartupPath() => AppDomain.CurrentDomain.BaseDirectory;
     }
 }

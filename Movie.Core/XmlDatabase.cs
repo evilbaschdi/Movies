@@ -1,13 +1,14 @@
 using System;
 using System.Data;
+using Movie.Core.Models;
 
 namespace Movie.Core
 {
     /// <inheritdoc />
     public class XmlDatabase : IXmlDatabase
     {
-        private readonly IXmlSettings _xmlSettings;
         private readonly DataSet _dataSet = new DataSet();
+        private readonly IXmlSettings _xmlSettings;
         private DataView _dataView = new DataView();
 
         /// <summary>
@@ -19,42 +20,31 @@ namespace Movie.Core
             _xmlSettings = xmlSettings ?? throw new ArgumentNullException(nameof(xmlSettings));
         }
 
-        /// <summary>
-        ///     Inserts a record into the Movie table.
-        /// </summary>
-        private void Save()
-        {
-            _dataSet.WriteXml(_xmlSettings.FilePath, XmlWriteMode.WriteSchema);
-        }
-
-        public void Insert(string name, string year, string format, string distributed, string distributedTo,
-                           string watched)
+        /// <inheritdoc />
+        public void Insert(IMovieRecord movieRecord)
         {
             var dataRow = _dataView.Table.NewRow();
             dataRow["Id"] = Guid.NewGuid();
-            dataRow["Name"] = name;
-            dataRow["Year"] = year;
-            dataRow["Format"] = format;
-            dataRow["Distributed"] = distributed;
-            dataRow["DistributedTo"] = distributedTo;
-            dataRow["Watched"] = watched;
+            dataRow["Name"] = movieRecord.Name;
+            dataRow["Year"] = movieRecord.Year;
+            dataRow["Format"] = movieRecord.Format;
+            dataRow["Distributed"] = movieRecord.Distributed;
+            dataRow["DistributedTo"] = movieRecord.DistributedTo;
+            dataRow["Watched"] = movieRecord.Watched;
             _dataView.Table.Rows.Add(dataRow);
             Save();
         }
 
-        /// <summary>
-        ///     Updates a record in the movie table.
-        /// </summary>
-        public void Update(string id, string name, string year, string format, string distributed, string distributedTo,
-                           string watched)
+        /// <inheritdoc />
+        public void Update(IMovieRecord movieRecord)
         {
-            var dataRow = SelectById(id);
-            dataRow["Name"] = name;
-            dataRow["Year"] = year;
-            dataRow["Format"] = format;
-            dataRow["Distributed"] = distributed;
-            dataRow["DistributedTo"] = distributedTo;
-            dataRow["Watched"] = watched;
+            var dataRow = SelectById(movieRecord.Id);
+            dataRow["Name"] = movieRecord.Name;
+            dataRow["Year"] = movieRecord.Year;
+            dataRow["Format"] = movieRecord.Format;
+            dataRow["Distributed"] = movieRecord.Distributed;
+            dataRow["DistributedTo"] = movieRecord.DistributedTo;
+            dataRow["Watched"] = movieRecord.Watched;
             Save();
         }
 
@@ -63,6 +53,11 @@ namespace Movie.Core
         /// </summary>
         public void Delete(string id)
         {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
             _dataView.RowFilter = $"Id='{id}'";
             _dataView.Sort = "Id";
             _dataView.Delete(0);
@@ -75,6 +70,11 @@ namespace Movie.Core
         /// </summary>
         public DataRow SelectById(string id)
         {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
             _dataView.RowFilter = $"Id='{id}'";
             _dataView.Sort = "Id";
             DataRow dataRow = null;
@@ -92,6 +92,11 @@ namespace Movie.Core
         /// </summary>
         public DataRow SelectByName(string name)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
             _dataView.RowFilter = $"Name='{name}'";
             _dataView.Sort = "Name";
             DataRow dataRow = null;
@@ -115,13 +120,32 @@ namespace Movie.Core
             return _dataView;
         }
 
+        /// <inheritdoc />
         public DataView SelectFiltered(string filter, string category)
         {
+            if (filter == null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
             _dataSet.Clear();
             _dataSet.ReadXml(_xmlSettings.FilePath, XmlReadMode.ReadSchema);
             _dataView = _dataSet.Tables[0].DefaultView;
             _dataView.RowFilter = $"{category} LIKE '%{filter}%'";
             return _dataView;
+        }
+
+        /// <summary>
+        ///     Inserts a record into the Movie table.
+        /// </summary>
+        private void Save()
+        {
+            _dataSet.WriteXml(_xmlSettings.FilePath, XmlWriteMode.WriteSchema);
         }
     }
 }
