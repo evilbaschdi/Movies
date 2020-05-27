@@ -5,10 +5,6 @@ namespace Movie.Internal
     public interface IAddEdit
     {
         /// <summary>
-        /// </summary>
-        string CurrentId { set; }
-
-        /// <summary>
         ///     Add or Edit.
         /// </summary>
         string Mode { set; }
@@ -18,11 +14,11 @@ namespace Movie.Internal
         /// <param name="name"></param>
         /// <param name="year"></param>
         /// <param name="format"></param>
-        void MovieData(string name, double? year, string format);
+        /// <param name="id"></param>
+        void MovieData(string name, double? year, string format, string id);
 
         /// <summary>
         /// </summary>
-        /// <param name="addNew"></param>
-        void SaveAndAddNew(bool addNew);
+        void Save();
     }
 }

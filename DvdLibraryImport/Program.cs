@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using EvilBaschdi.Core.Extensions;
 using Movie.Core;
 using Movie.Core.Models;
 
@@ -56,7 +57,7 @@ namespace DvdLibraryImport
                                     break;
                                 case "2":
                                     var name = item.Element("value")?.Value;
-                                    movie.Name = name.DecodeString().Trim();
+                                    movie.Name = name.DecodeString().Trim();  
                                     break;
                                 case "4":
                                     //Console.WriteLine(datum.Element("value")?.Value);

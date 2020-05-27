@@ -21,7 +21,7 @@ namespace Movie.Core
         }
 
         /// <inheritdoc />
-        public void Insert(IMovieRecord movieRecord)
+        public void Create(IMovieRecord movieRecord)
         {
             var dataRow = _dataView.Table.NewRow();
             dataRow["Id"] = Guid.NewGuid();
@@ -38,7 +38,7 @@ namespace Movie.Core
         /// <inheritdoc />
         public void Update(IMovieRecord movieRecord)
         {
-            var dataRow = SelectById(movieRecord.Id);
+            var dataRow = ValueForId(movieRecord.Id);
             dataRow["Name"] = movieRecord.Name;
             dataRow["Year"] = movieRecord.Year;
             dataRow["Format"] = movieRecord.Format;
@@ -68,7 +68,7 @@ namespace Movie.Core
         /// <summary>
         ///     Selects a single record from the movie table by a composite primary key.
         /// </summary>
-        public DataRow SelectById(string id)
+        public DataRow ValueForId(string id)
         {
             if (id == null)
             {
@@ -90,7 +90,7 @@ namespace Movie.Core
         /// <summary>
         ///     Selects a single record from the movie table by a movie name.
         /// </summary>
-        public DataRow SelectByName(string name)
+        public DataRow ValueForName(string name)
         {
             if (name == null)
             {
@@ -109,35 +109,16 @@ namespace Movie.Core
             return dataRow;
         }
 
-        /// <summary>
-        ///     Selects all records from the movie table.
-        /// </summary>
-        public DataView SelectAll()
-        {
-            _dataSet.Clear();
-            _dataSet.ReadXml(_xmlSettings.FilePath, XmlReadMode.ReadSchema);
-            _dataView = _dataSet.Tables[0].DefaultView;
-            return _dataView;
-        }
-
         /// <inheritdoc />
-        public DataView SelectFiltered(string filter, string category)
+        public DataView Value
         {
-            if (filter == null)
+            get
             {
-                throw new ArgumentNullException(nameof(filter));
+                _dataSet.Clear();
+                _dataSet.ReadXml(_xmlSettings.FilePath, XmlReadMode.ReadSchema);
+                _dataView = _dataSet.Tables[0].DefaultView;
+                return _dataView;
             }
-
-            if (category == null)
-            {
-                throw new ArgumentNullException(nameof(category));
-            }
-
-            _dataSet.Clear();
-            _dataSet.ReadXml(_xmlSettings.FilePath, XmlReadMode.ReadSchema);
-            _dataView = _dataSet.Tables[0].DefaultView;
-            _dataView.RowFilter = $"{category} LIKE '%{filter}%'";
-            return _dataView;
         }
 
         /// <summary>

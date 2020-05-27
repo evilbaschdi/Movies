@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))-develop</Version>
     <Authors>Sebastian Walter</Authors>
     <Company>evilbaschdi (Sebastian Walter)</Company>
@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Core" Version="2019.10.10.1115-develop" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2020.5.3.1518" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0-preview.4.20251.6" />
   </ItemGroup>
 
   <ItemGroup>

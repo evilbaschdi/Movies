@@ -1,5 +1,4 @@
 using System;
-using EvilBaschdi.CoreExtended;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
 using Movie.Core.Models;
@@ -10,27 +9,20 @@ namespace Movie.Internal
     /// </summary>
     public class AddEdit : IAddEdit
     {
-        private readonly IDialogService _dialogService;
         private readonly MainWindow _mainWindow;
         private readonly IMovies _movies;
-        private string _action;
-        private string _format;
         private IMovieRecord _movieRecord;
 
-        private string _name;
-        private double? _year;
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="mainWindow"></param>
         /// <param name="movies"></param>
-        /// <param name="dialogService"></param>
-        public AddEdit(MainWindow mainWindow, IMovies movies, IDialogService dialogService)
+        public AddEdit(MainWindow mainWindow, IMovies movies)
         {
             _mainWindow = mainWindow ?? throw new ArgumentNullException(nameof(mainWindow));
             _movies = movies ?? throw new ArgumentNullException(nameof(movies));
-            _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         }
 
         /// <inheritdoc />
@@ -38,114 +30,73 @@ namespace Movie.Internal
         /// </summary>
         public string Mode { private get; set; }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// </summary>
-        public string CurrentId { private get; set; }
 
         /// <summary>
         /// </summary>
         /// <param name="name"></param>
         /// <param name="year"></param>
         /// <param name="format"></param>
-        public void MovieData(string name, double? year, string format)
+        /// <param name="id"></param>
+        public void MovieData(string name, double? year, string format, string id)
         {
-            _name = name;
-            _year = year;
-            _format = format;
+            _movieRecord = new MovieRecord
+                           {
+                               Id = id,
+                               Name = name,
+                               Year = year.ToString(),
+                               Format = format
+                           };
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="addNew"></param>
-        public async void SaveAndAddNew(bool addNew)
+        /// <inheritdoc />
+        public async void Save()
         {
             if (IsDuplicate())
             {
-                var options = new MetroDialogSettings
-                              {
-                                  ColorScheme = MetroDialogColorScheme.Theme
-                              };
-
-                _mainWindow.MetroDialogOptions = options;
-                await _mainWindow.ShowMessageAsync("Already existing!", $"'{_name}'");
+                await _mainWindow.ShowMessageAsync("Already existing!", $"'{_movieRecord.Name}'");
             }
             else
             {
-                SaveOrUpdateData();
-
-                if (addNew)
+                if (!IsValid())
                 {
-                    _mainWindow.NewEntry();
+                    return;
                 }
-                else
-                {
-                    _mainWindow.CleanupAndClose();
-                }
-            }
-        }
 
-        private void SaveOrUpdateData()
-        {
-            if (!IsValid())
-            {
-                return;
+                InsertOrUpdateAction();
             }
-
-            InsertOrUpdate();
-            InsertOrUpdateAction();
         }
 
         private void InsertOrUpdateAction()
         {
-            _movieRecord = new MovieRecord
-                           {
-                               Id = CurrentId,
-                               Name = _name,
-                               Year = _year.ToString(),
-                               Format = _format,
-                               Distributed = "False",
-                               DistributedTo = ""
-                           };
-
             try
             {
-                // ReSharper disable once SwitchStatementMissingSomeCases
-                switch (_action)
+                if (string.IsNullOrWhiteSpace(_movieRecord.Id))
                 {
-                    case "insert":
-                        _movies.Insert(_movieRecord);
-                        break;
-
-                    case "update":
-                        _movies.Update(_movieRecord);
-                        break;
+                    _movies.Create(_movieRecord);
+                }
+                else
+                {
+                    _movies.Update(_movieRecord);
                 }
             }
             catch (Exception exception)
             {
-                var e = $"'{_name}' failed to {_action} database\n Message : {exception.Message}";
+                var e = $"'Create or update {_movieRecord.Name}' failed\n Message : {exception.Message}";
 
-                _dialogService.ShowMessage("Error", e);
+                _mainWindow.ShowMessageAsync("Error", e);
             }
 
-            _mainWindow.Populate();
-        }
-
-        private void InsertOrUpdate()
-        {
-            _movieRecord = _movies.GetMovieById(CurrentId);
-            _action = _movieRecord != null ? "update" : "insert";
+            //_mainWindow.Populate();
         }
 
         private bool IsDuplicate()
         {
-            return _movies.GetMovieByName(_name) != null && Mode == "add";
+            return _movies.ValueByName(_movieRecord.Name) != null && Mode == "add";
         }
 
         private bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(_name);
+            return !string.IsNullOrWhiteSpace(_movieRecord.Name);
         }
     }
 }

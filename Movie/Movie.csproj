@@ -4,7 +4,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>movie.ico</ApplicationIcon>
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))-develop</Version>
@@ -21,14 +21,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.1.1" />
-    <PackageReference Include="EvilBaschdi.Core" Version="2019.10.10.1115-develop" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2019.10.21.1930-develop" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0531" />
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0258" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0" />
-    <PackageReference Include="System.Security.AccessControl" Version="4.6.0" />
-    <PackageReference Include="System.Security.Principal.Windows" Version="4.6.0" />
+    <PackageReference Include="ControlzEx" Version="4.3.0" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2020.5.3.1518" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.5.24.1338" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.2.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0-preview.4.20251.6" />
+    <PackageReference Include="System.Security.AccessControl" Version="5.0.0-preview.4.20251.6" />
+    <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0-preview.4.20251.6" />
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -76,5 +77,6 @@
       <DependentUpon>IAppBasic.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+
 
 </Project>

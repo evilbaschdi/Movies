@@ -1,15 +1,16 @@
-using System.Collections;
+using System.Collections.Generic;
+using EvilBaschdi.Core;
 using Movie.Core.Models;
 
 namespace Movie.Core
 {
     /// <summary>
     /// </summary>
-    public interface IMovies
+    public interface IMovies : IValue<List<MovieRecord>>
     {
         /// <summary>
         /// </summary>
-        void Insert(IMovieRecord movieRecord);
+        void Create(IMovieRecord movieRecord);
 
         /// <summary>
         /// </summary>
@@ -21,18 +22,10 @@ namespace Movie.Core
 
         /// <summary>
         /// </summary>
-        IList MovieDataView();
+        IMovieRecord ValueById(string id);
 
         /// <summary>
         /// </summary>
-        IList MovieDataView(string filter, string category);
-
-        /// <summary>
-        /// </summary>
-        IMovieRecord GetMovieById(string id);
-
-        /// <summary>
-        /// </summary>
-        IMovieRecord GetMovieByName(string name);
+        IMovieRecord ValueByName(string name);
     }
 }

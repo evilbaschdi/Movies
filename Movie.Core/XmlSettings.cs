@@ -46,7 +46,7 @@ namespace Movie.Core
 
                 using var settingsKey = movieKey.OpenSubKey("Program Settings",
                     RegistryKeyPermissionCheck.ReadSubTree);
-                return settingsKey?.GetValue("XmlFilePath", "").ToString() ?? "";
+                return settingsKey?.GetValue("XmlFilePath", "")?.ToString() ?? "";
             }
         }
 
@@ -68,7 +68,7 @@ namespace Movie.Core
 
                 using var settingsKey = movieKey.OpenSubKey("Program Settings",
                     RegistryKeyPermissionCheck.ReadSubTree);
-                return settingsKey?.GetValue("DbType", "").ToString() ?? "movie";
+                return settingsKey?.GetValue("DbType", "")?.ToString() ?? "movie";
             }
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -9,10 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.Metro;
-using EvilBaschdi.CoreExtended.Mvvm;
-using EvilBaschdi.CoreExtended.Mvvm.View;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
+using EvilBaschdi.CoreExtended.Controls.About;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Movie.Core;
@@ -27,6 +23,19 @@ namespace Movie
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
     {
+        private readonly IAddEdit _addEdit;
+        private readonly IAppBasic _appBasic;
+        private readonly IMovies _movies;
+        private readonly IXmlSettings _xmlSettings;
+        private string _currentId;
+        private IMovieRecord _currentMovieRecord;
+        private string _dbType;
+        private string _exception;
+        private ListCollectionView _listCollectionView;
+        private string _prevSortHeader;
+        private SortDescription _sd = new SortDescription("Name", ListSortDirection.Ascending);
+        private string _sortHeader;
+
         /// <summary>
         ///     MainWindows.
         ///     Gets a new movie list instance.
@@ -36,15 +45,15 @@ namespace Movie
             _appBasic = new AppBasic(this);
 
             _xmlSettings = new XmlSettings();
-            _xmlDatabase = new XmlDatabase(_xmlSettings);
-            _movies = new Movies(_xmlDatabase);
+            IXmlDatabase xmlDatabase = new XmlDatabase(_xmlSettings);
+            ITransformDataRowToMovieRecord transformDataRowToMovieRecord = new TransformDataRowToMovieRecord();
+            _movies = new Movies(xmlDatabase, transformDataRowToMovieRecord);
 
             InitializeComponent();
-            _themeManagerHelper = new ThemeManagerHelper();
-            _style = new ApplicationStyle(_themeManagerHelper);
-            _style.Load(true, true);
-            _dialogService = new DialogService(this);
-            _addEdit = new AddEdit(this, _movies, _dialogService);
+
+            IApplicationStyle style = new ApplicationStyle();
+            style.Load(true, true);
+            _addEdit = new AddEdit(this, _movies);
             ValidateSettings();
             _appBasic.SetComboBoxItems();
         }
@@ -52,34 +61,16 @@ namespace Movie
         private void AboutWindowClick(object sender, RoutedEventArgs e)
         {
             var assembly = typeof(MainWindow).Assembly;
-            IAboutWindowContent aboutWindowContent = new AboutWindowContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\movie_512.png");
+            IAboutContent aboutWindowContent = new AboutContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\movie_512.png");
 
             var aboutWindow = new AboutWindow
                               {
-                                  DataContext = new AboutViewModel(aboutWindowContent, _themeManagerHelper)
+                                  DataContext = new AboutViewModel(aboutWindowContent)
                               };
 
             aboutWindow.ShowDialog();
         }
 
-        // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
-        private IMovieRecord _movieRecord;
-
-        private readonly IXmlSettings _xmlSettings;
-        private readonly IXmlDatabase _xmlDatabase;
-        private readonly IApplicationStyle _style;
-        private readonly IMovies _movies;
-        private readonly IAppBasic _appBasic;
-        private readonly IAddEdit _addEdit;
-        private readonly IDialogService _dialogService;
-
-        private string _currentId;
-        private string _exception;
-
-        private string _dbType;
-
-        private readonly IThemeManagerHelper _themeManagerHelper;
-        // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
 
         #region DataGrid Logic
 
@@ -88,25 +79,19 @@ namespace Movie
         /// </summary>
         public void Populate()
         {
-            MovieGrid.ItemsSource = _movies.MovieDataView();
-            Sorting();
+            _listCollectionView = new ListCollectionView(_movies.Value);
+            _listCollectionView.SortDescriptions.Add(_sd);
+            MovieGrid.ItemsSource = _listCollectionView;
         }
 
-        private void Sorting()
+        private void DataGridSorting(object sender, DataGridSortingEventArgs e)
         {
-            var dataView = CollectionViewSource.GetDefaultView(MovieGrid.ItemsSource);
-            dataView.SortDescriptions.Clear();
-            dataView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
-            dataView.Refresh();
-        }
+            _sortHeader = e.Column.SortMemberPath;
 
-        private void LoadData(string id)
-        {
-            _movieRecord = _movies.GetMovieById(id);
-            if (_movieRecord != null)
-            {
-                _currentId = _movieRecord.Id;
-            }
+            _sd = _sortHeader == _prevSortHeader
+                ? new SortDescription(_sortHeader, ListSortDirection.Descending)
+                : new SortDescription(_sortHeader, ListSortDirection.Ascending);
+            _prevSortHeader = _sortHeader;
         }
 
         private void MovieGridSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -116,13 +101,10 @@ namespace Movie
                 return;
             }
 
-            var dataRowView = (DataRowView) MovieGrid.SelectedItem;
+            _currentMovieRecord = (MovieRecord) MovieGrid.SelectedItem;
 
-            var id = dataRowView.Row["Id"].ToString();
-            var distributed = dataRowView.Row["Distributed"].ToString();
-
-            LoadData(id);
-
+            _currentId = _currentMovieRecord.Id;
+            var distributed = _currentMovieRecord.Distributed;
             DistributeMenuItem.IsEnabled = distributed != "True";
             GotBackMenuItem.IsEnabled = distributed == "True";
         }
@@ -190,10 +172,6 @@ namespace Movie
                 return;
             }
 
-            //Parallel.ForEach(Flyouts.Items.Cast<Flyout>().Where(nonactiveFlyout => nonactiveFlyout.IsOpen && nonactiveFlyout.Name != activeFlyout.Name),
-            //    nonactiveFlyout => { nonactiveFlyout.IsOpen = false; }
-            //    );
-
             foreach (
                 var nonactiveFlyout in
                 Flyouts.Items.Cast<Flyout>()
@@ -210,6 +188,13 @@ namespace Movie
             {
                 activeFlyout.IsOpen = !activeFlyout.IsOpen;
             }
+
+            activeFlyout.ClosingFinished += ActiveFlyoutClosingFinished;
+        }
+
+        private void ActiveFlyoutClosingFinished(object sender, RoutedEventArgs e)
+        {
+            Populate();
         }
 
         #endregion Settings
@@ -218,7 +203,7 @@ namespace Movie
 
         private void NewClick(object sender, RoutedEventArgs e)
         {
-            _addEdit.CurrentId = null;
+            _currentId = null;
             _addEdit.Mode = "add";
             AddEditFlyout.Header = $"add new {_dbType}";
             Year.Value = Year.Maximum;
@@ -228,7 +213,6 @@ namespace Movie
 
         private void Edit()
         {
-            _addEdit.CurrentId = _currentId;
             _addEdit.Mode = "edit";
             AddEditFlyout.Header = $"edit {_dbType}";
             LoadCurrentMovieData();
@@ -237,17 +221,17 @@ namespace Movie
 
         private void LoadCurrentMovieData()
         {
-            _movieRecord = _movies.GetMovieById(_currentId);
-            if (_movieRecord == null)
+            _currentMovieRecord = _movies.ValueById(_currentId);
+            if (_currentMovieRecord == null)
             {
                 return;
             }
 
-            MovieName.Text = _movieRecord.Name;
-            Year.Value = string.IsNullOrWhiteSpace(_movieRecord.Year)
+            MovieName.Text = _currentMovieRecord.Name;
+            Year.Value = string.IsNullOrWhiteSpace(_currentMovieRecord.Year)
                 ? Year.Maximum
-                : Convert.ToDouble(_movieRecord.Year);
-            Format.Text = _movieRecord.Format;
+                : Convert.ToDouble(_currentMovieRecord.Year);
+            Format.Text = _currentMovieRecord.Format;
         }
 
         private void EditClick(object sender, RoutedEventArgs e)
@@ -262,14 +246,16 @@ namespace Movie
 
         private void SaveClick(object sender, RoutedEventArgs routedEventArgs)
         {
-            _addEdit.MovieData(MovieName.Text, Year.Value, Format.Text);
-            _addEdit.SaveAndAddNew(false);
+            _addEdit.MovieData(MovieName.Text, Year.Value, Format.Text, _currentId);
+            _addEdit.Save();
+            CleanupAndClose();
         }
 
         private void SaveAndNewClick(object sender, RoutedEventArgs e)
         {
-            _addEdit.MovieData(MovieName.Text, Year.Value, Format.Text);
-            _addEdit.SaveAndAddNew(true);
+            _addEdit.MovieData(MovieName.Text, Year.Value, Format.Text, _currentId);
+            _addEdit.Save();
+            NewEntry();
         }
 
         /// <summary>
@@ -281,7 +267,7 @@ namespace Movie
 
         private void ClearForm()
         {
-            _movieRecord = null;
+            _currentMovieRecord = null;
             MovieName.Focus();
             MovieName.Text = "";
             Year.Value = Year.Maximum;
@@ -313,20 +299,12 @@ namespace Movie
 
         private async void DeleteData()
         {
-            var options = new MetroDialogSettings
-                          {
-                              ColorScheme = MetroDialogColorScheme.Theme
-                          };
-
-            MetroDialogOptions = options;
             try
 
             {
                 var delete =
                     await
-                        this.ShowMessageAsync("You are about to delete",
-                            $"'{_movieRecord.Name}'",
-                            MessageDialogStyle.AffirmativeAndNegative, options);
+                        this.ShowMessageAsync("Delete", $"You are about to delete '{_currentMovieRecord.Name}'", MessageDialogStyle.AffirmativeAndNegative);
 
                 if (delete == MessageDialogResult.Affirmative)
                 {
@@ -336,9 +314,8 @@ namespace Movie
             catch (Exception exp)
             {
                 _exception =
-                    $"failed to delete record {_movieRecord.Name.Trim()} from database\n Message : {exp.Message}";
-
-                MessageBox.Show(_exception, "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    $"failed to delete record {_currentMovieRecord.Name.Trim()} from database\n Message : {exp.Message}";
+                await this.ShowMessageAsync("Delete failed", _exception);
             }
 
             Populate();
@@ -350,7 +327,7 @@ namespace Movie
 
         private void DistributeClick(object sender, RoutedEventArgs e)
         {
-            DistributedFlyout.Header = $"distribute{Environment.NewLine}'{_movieRecord.Name}'";
+            DistributedFlyout.Header = $"distribute{Environment.NewLine}'{_currentMovieRecord.Name}'";
             ToggleFlyout(3, true);
         }
 
@@ -380,17 +357,17 @@ namespace Movie
                 return;
             }
 
-            _movieRecord.Distributed = "True";
-            _movieRecord.DistributedTo = DistributedTo.Text;
-            _movies.Update(_movieRecord);
+            _currentMovieRecord.Distributed = "True";
+            _currentMovieRecord.DistributedTo = DistributedTo.Text;
+            _movies.Update(_currentMovieRecord);
             MovieGrid.SelectedItem = null;
         }
 
         private void GotBackClick(object sender, RoutedEventArgs e)
         {
-            _movieRecord.Distributed = "False";
-            _movieRecord.DistributedTo = "";
-            _movies.Update(_movieRecord);
+            _currentMovieRecord.Distributed = "False";
+            _currentMovieRecord.DistributedTo = "";
+            _movies.Update(_currentMovieRecord);
             MovieGrid.SelectedItem = null;
         }
 
@@ -400,13 +377,26 @@ namespace Movie
 
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Populate(SearchFilter.Text, SearchCategory.Text);
+            _listCollectionView.Filter = m => Filter(m, SearchCategory.Text, SearchFilter.Text);
         }
 
-        private void Populate(string searchText, string searchCategory)
+        private bool Filter(object m, string category, string text)
         {
-            MovieGrid.ItemsSource = _movies.MovieDataView(searchText, searchCategory);
-            Sorting();
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return true;
+            }
+
+            var movieRecord = (MovieRecord) m;
+
+            return category switch
+            {
+                "Name" => movieRecord.Name.Contains(text, StringComparison.InvariantCultureIgnoreCase),
+                "Year" => movieRecord.Year.Contains(text, StringComparison.InvariantCultureIgnoreCase),
+                "Format" => movieRecord.Format.Contains(text, StringComparison.InvariantCultureIgnoreCase),
+                "Distributed" => movieRecord.Distributed.Contains(text, StringComparison.InvariantCultureIgnoreCase),
+                _ => true
+            };
         }
 
         private void SearchCategoryOnDropDownClosed(object sender, EventArgs e)
@@ -430,7 +420,6 @@ namespace Movie
 
         #endregion Search
 
-
         #region Watched movie
 
         private void SaveWatchDateClick(object sender, RoutedEventArgs e)
@@ -440,19 +429,19 @@ namespace Movie
                 return;
             }
 
-            _movieRecord.Watched = LastTimeWatched.SelectedDate.Value.ToShortDateString();
+            _currentMovieRecord.Watched = LastTimeWatched.SelectedDate.Value.ToShortDateString();
 
-            _movies.Update(_movieRecord);
+            _movies.Update(_currentMovieRecord);
             MovieGrid.SelectedItem = null;
         }
 
         private void ToggleWatchedFlyoutClick(object sender, RoutedEventArgs e)
         {
-            LastTimeWatched.SelectedDate = !string.IsNullOrWhiteSpace(_movieRecord.Watched)
-                ? DateTime.Parse(_movieRecord.Watched)
+            LastTimeWatched.SelectedDate = !string.IsNullOrWhiteSpace(_currentMovieRecord.Watched)
+                ? DateTime.Parse(_currentMovieRecord.Watched)
                 : DateTime.Now;
 
-            WatchedFlyout.Header = $"last time of watching{Environment.NewLine}'{_movieRecord.Name}'";
+            WatchedFlyout.Header = $"last time of watching{Environment.NewLine}'{_currentMovieRecord.Name}'";
             ToggleFlyout(2, true);
         }
 

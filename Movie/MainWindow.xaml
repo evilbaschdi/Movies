@@ -36,7 +36,7 @@
             <!-- Settings -->
             <Button Click="ToggleSettingsFlyoutClick">
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Settings" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <iconPacks:PackIconMaterialDesign Kind="Settings" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="settings" />
                 </StackPanel>
             </Button>
@@ -52,7 +52,7 @@
     <!--  Grid  -->
     <Grid>
         <!--  DataGrid  -->
-        <DataGrid Name="MovieGrid" Margin="10,10,10,10" AutoGenerateColumns="False" CanUserAddRows="False"
+        <DataGrid Name="MovieGrid" Margin="10,10,10,10" AutoGenerateColumns="False" CanUserAddRows="False"  Sorting="DataGridSorting"
                   CanUserDeleteRows="False" ColumnWidth="*" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}"
                   GridLinesVisibility="Horizontal" IsReadOnly="True" MouseDoubleClick="MovieGridOnMouseDoubleClick"
                   SelectionChanged="MovieGridSelectionChanged"
@@ -73,11 +73,9 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
-                            <CheckBox IsChecked="{Binding Distributed}" HorizontalAlignment="Center"
-                                      Click="DistributeCheckBoxClick" Background="White"
+                            <CheckBox IsChecked="{Binding Distributed}" Click="DistributeCheckBoxClick" Style="{DynamicResource MahApps.Styles.CheckBox.Win10}"
                                       ToolTipService.ToolTip="{Binding DistributedTo}" />
                             <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
-
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
