@@ -22,14 +22,14 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="4.3.0" />
-    <PackageReference Include="EvilBaschdi.Core" Version="2020.5.3.1518" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2020.6.12.1028" />
     <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.5.24.1338" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.1.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.2.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0-preview.4.20251.6" />
-    <PackageReference Include="System.Security.AccessControl" Version="5.0.0-preview.4.20251.6" />
-    <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0-preview.4.20251.6" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0-preview.6.20305.6" />
+    <PackageReference Include="System.Security.AccessControl" Version="5.0.0-preview.6.20305.6" />
+    <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0-preview.6.20305.6" />
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />

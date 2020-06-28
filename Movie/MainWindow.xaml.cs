@@ -33,7 +33,7 @@ namespace Movie
         private string _exception;
         private ListCollectionView _listCollectionView;
         private string _prevSortHeader;
-        private SortDescription _sd = new SortDescription("Name", ListSortDirection.Ascending);
+        private SortDescription _sd;
         private string _sortHeader;
 
         /// <summary>
@@ -77,9 +77,11 @@ namespace Movie
         /// <summary>
         ///     (Re)Loads movie data source to grid ans calls sorting.
         /// </summary>
-        public void Populate()
+        private void Load()
         {
-            _listCollectionView = new ListCollectionView(_movies.Value);
+            var movies = _movies.Value;
+            _listCollectionView = new ListCollectionView(movies);
+            _sd = new SortDescription("Name", ListSortDirection.Ascending);
             _listCollectionView.SortDescriptions.Add(_sd);
             MovieGrid.ItemsSource = _listCollectionView;
         }
@@ -133,7 +135,7 @@ namespace Movie
                     DbPath.Background = Brushes.Maroon;
                 }
 
-                Populate();
+                Load();
             }
             else
             {
@@ -151,7 +153,7 @@ namespace Movie
         private void SaveSettingsClick(object sender, RoutedEventArgs e)
         {
             _appBasic.Save();
-            Populate();
+            Load();
         }
 
         private void BrowseClick(object sender, RoutedEventArgs e)
@@ -194,7 +196,7 @@ namespace Movie
 
         private void ActiveFlyoutClosingFinished(object sender, RoutedEventArgs e)
         {
-            Populate();
+            Load();
         }
 
         #endregion Settings
@@ -260,7 +262,7 @@ namespace Movie
 
         /// <summary>
         /// </summary>
-        public void NewEntry()
+        private void NewEntry()
         {
             ClearForm();
         }
@@ -281,7 +283,7 @@ namespace Movie
 
         /// <summary>
         /// </summary>
-        public void CleanupAndClose()
+        private void CleanupAndClose()
         {
             MovieName.Clear();
             _currentId = null;
@@ -318,7 +320,7 @@ namespace Movie
                 await this.ShowMessageAsync("Delete failed", _exception);
             }
 
-            Populate();
+            Load();
         }
 
         #endregion Delete Movie

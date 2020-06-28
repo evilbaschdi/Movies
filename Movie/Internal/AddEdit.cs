@@ -86,7 +86,7 @@ namespace Movie.Internal
                 _mainWindow.ShowMessageAsync("Error", e);
             }
 
-            //_mainWindow.Populate();
+            //_mainWindow.Load();
         }
 
         private bool IsDuplicate()

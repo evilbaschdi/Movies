@@ -85,7 +85,8 @@ namespace Movie.Core
         }
 
         /// <inheritdoc />
-        public List<MovieRecord> Value => (from DataRowView dataRowView in _xmlDatabase.Value select _transformDataRowToMovieRecord.ValueFor(dataRowView.Row)).ToList();
+        public List<MovieRecord> Value => (from DataRowView dataRowView in _xmlDatabase.Value select _transformDataRowToMovieRecord.ValueFor(dataRowView.Row))
+                                          .OrderBy(m => m.Name).ToList();
     }
 
     /// <inheritdoc />
