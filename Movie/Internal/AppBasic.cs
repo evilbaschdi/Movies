@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using JetBrains.Annotations;
 using Microsoft.Win32;
 using Movie.Core;
 
@@ -14,17 +15,18 @@ namespace Movie.Internal
     {
         private readonly MainWindow _mainWindow;
         private readonly IResourceStreamText _resourceStreamText;
-        private readonly IXmlSettings _xmlSettings;
+        private readonly ISettings _settings;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="mainWindow"></param>
-        public AppBasic(MainWindow mainWindow)
+        /// <param name="settings"></param>
+        public AppBasic(MainWindow mainWindow, [NotNull] ISettings settings)
         {
             _mainWindow = mainWindow ?? throw new ArgumentNullException(nameof(mainWindow));
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _resourceStreamText = new ResourceStreamText();
-            _xmlSettings = new XmlSettings();
         }
 
         private static IEnumerable<string> MovieFormats
@@ -86,7 +88,8 @@ namespace Movie.Internal
                 }
 
                 _mainWindow.DbPath.Text = fileDialog.FileName;
-                _xmlSettings.SaveToRegistry(_mainWindow.DbPath.Text, _mainWindow.DbType.Text);
+                _settings.DbType = _mainWindow.DbType.Text;
+                _settings.FilePath = _mainWindow.DbPath.Text;
 
                 using var streamWriter = new StreamWriter(fileDialog.FileName);
                 streamWriter.WriteLine(_resourceStreamText.ValueFor("newMovieDb.xml"));
@@ -122,7 +125,8 @@ namespace Movie.Internal
         /// </summary>
         public void Save()
         {
-            _xmlSettings.SaveToRegistry(_mainWindow.DbPath.Text, _mainWindow.DbType.Text);
+            _settings.DbType = _mainWindow.DbType.Text;
+            _settings.FilePath = _mainWindow.DbPath.Text;
         }
 
         /// <summary>
@@ -131,7 +135,7 @@ namespace Movie.Internal
         {
             // ReSharper disable once SwitchStatementMissingSomeCases
             // ReSharper disable once ConvertSwitchStatementToSwitchExpression
-            switch (_xmlSettings.DbType)
+            switch (_settings.DbType)
             {
                 case "movie":
                     _mainWindow.Format.ItemsSource = MovieFormats;

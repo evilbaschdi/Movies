@@ -7,31 +7,35 @@ namespace Movie.Core
     /// <inheritdoc />
     public class XmlDatabase : IXmlDatabase
     {
-        private readonly DataSet _dataSet = new DataSet();
-        private readonly IXmlSettings _xmlSettings;
-        private DataView _dataView = new DataView();
+        private readonly DataSet _dataSet = new();
+        private readonly ISettings _settings;
+        private DataView _dataView = new();
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="xmlSettings"></param>
-        public XmlDatabase(IXmlSettings xmlSettings)
+        /// <param name="settings"></param>
+        public XmlDatabase(ISettings settings)
         {
-            _xmlSettings = xmlSettings ?? throw new ArgumentNullException(nameof(xmlSettings));
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
         /// <inheritdoc />
         public void Create(IMovieRecord movieRecord)
         {
-            var dataRow = _dataView.Table.NewRow();
-            dataRow["Id"] = Guid.NewGuid();
-            dataRow["Name"] = movieRecord.Name;
-            dataRow["Year"] = movieRecord.Year;
-            dataRow["Format"] = movieRecord.Format;
-            dataRow["Distributed"] = movieRecord.Distributed;
-            dataRow["DistributedTo"] = movieRecord.DistributedTo;
-            dataRow["Watched"] = movieRecord.Watched;
-            _dataView.Table.Rows.Add(dataRow);
+            if (_dataView.Table != null)
+            {
+                var dataRow = _dataView.Table.NewRow();
+                dataRow["Id"] = Guid.NewGuid();
+                dataRow["Name"] = movieRecord.Name;
+                dataRow["Year"] = movieRecord.Year;
+                dataRow["Format"] = movieRecord.Format;
+                dataRow["Distributed"] = movieRecord.Distributed;
+                dataRow["DistributedTo"] = movieRecord.DistributedTo;
+                dataRow["Watched"] = movieRecord.Watched;
+                _dataView.Table.Rows.Add(dataRow);
+            }
+
             Save();
         }
 
@@ -115,7 +119,7 @@ namespace Movie.Core
             get
             {
                 _dataSet.Clear();
-                _dataSet.ReadXml(_xmlSettings.FilePath, XmlReadMode.ReadSchema);
+                _dataSet.ReadXml(_settings.FilePath, XmlReadMode.ReadSchema);
                 _dataView = _dataSet.Tables[0].DefaultView;
                 return _dataView;
             }
@@ -126,7 +130,7 @@ namespace Movie.Core
         /// </summary>
         private void Save()
         {
-            _dataSet.WriteXml(_xmlSettings.FilePath, XmlWriteMode.WriteSchema);
+            _dataSet.WriteXml(_settings.FilePath, XmlWriteMode.WriteSchema);
         }
     }
 }

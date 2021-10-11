@@ -26,7 +26,8 @@ namespace Movie
         private readonly IAddEdit _addEdit;
         private readonly IAppBasic _appBasic;
         private readonly IMovies _movies;
-        private readonly IXmlSettings _xmlSettings;
+        private readonly IRoundCorners _roundCorners;
+        private readonly ISettings _settings;
         private string _currentId;
         private IMovieRecord _currentMovieRecord;
         private string _dbType;
@@ -42,17 +43,18 @@ namespace Movie
         /// </summary>
         public MainWindow()
         {
-            _appBasic = new AppBasic(this);
-
-            _xmlSettings = new XmlSettings();
-            IXmlDatabase xmlDatabase = new XmlDatabase(_xmlSettings);
+            IApplicationSettingsFromJsonFile applicationSettingsFromJsonFile = new ApplicationSettingsFromJsonFile();
+            _settings = new Settings(applicationSettingsFromJsonFile);
+            _appBasic = new AppBasic(this, _settings);
+            IXmlDatabase xmlDatabase = new XmlDatabase(_settings);
             ITransformDataRowToMovieRecord transformDataRowToMovieRecord = new TransformDataRowToMovieRecord();
             _movies = new Movies(xmlDatabase, transformDataRowToMovieRecord);
 
             InitializeComponent();
 
-            IApplicationStyle style = new ApplicationStyle();
-            style.Load(true, true);
+            _roundCorners = new RoundCorners();
+            IApplicationStyle style = new ApplicationStyle(_roundCorners, true, true);
+            style.Run();
             _addEdit = new AddEdit(this, _movies);
             ValidateSettings();
             _appBasic.SetComboBoxItems();
@@ -65,7 +67,7 @@ namespace Movie
 
             var aboutWindow = new AboutWindow
                               {
-                                  DataContext = new AboutViewModel(aboutWindowContent)
+                                  DataContext = new AboutViewModel(aboutWindowContent, _roundCorners)
                               };
 
             aboutWindow.ShowDialog();
@@ -80,8 +82,8 @@ namespace Movie
         private void Load()
         {
             var movies = _movies.Value;
-            _listCollectionView = new ListCollectionView(movies);
-            _sd = new SortDescription("Name", ListSortDirection.Ascending);
+            _listCollectionView = new(movies);
+            _sd = new("Name", ListSortDirection.Ascending);
             _listCollectionView.SortDescriptions.Add(_sd);
             MovieGrid.ItemsSource = _listCollectionView;
         }
@@ -91,7 +93,7 @@ namespace Movie
             _sortHeader = e.Column.SortMemberPath;
 
             _sd = _sortHeader == _prevSortHeader
-                ? new SortDescription(_sortHeader, ListSortDirection.Descending)
+                ? new(_sortHeader, ListSortDirection.Descending)
                 : new SortDescription(_sortHeader, ListSortDirection.Ascending);
             _prevSortHeader = _sortHeader;
         }
@@ -103,7 +105,7 @@ namespace Movie
                 return;
             }
 
-            _currentMovieRecord = (MovieRecord) MovieGrid.SelectedItem;
+            _currentMovieRecord = (MovieRecord)MovieGrid.SelectedItem;
 
             _currentId = _currentMovieRecord.Id;
             var distributed = _currentMovieRecord.Distributed;
@@ -118,18 +120,18 @@ namespace Movie
         private void ValidateSettings()
         {
             Year.Maximum = DateTime.Now.Year;
-            _dbType = _xmlSettings.DbType == "music" ? "music" : "movie";
-            DbType.Text = !string.IsNullOrWhiteSpace(_xmlSettings.DbType) ? _xmlSettings.DbType : "movie";
+            _dbType = _settings.DbType == "music" ? "music" : "movie";
+            DbType.Text = !string.IsNullOrWhiteSpace(_settings.DbType) ? _settings.DbType : "movie";
             Title = _dbType;
             NewContent.Text = $"add new {_dbType}";
 
-            if (!string.IsNullOrWhiteSpace(_xmlSettings.FilePath))
+            if (!string.IsNullOrWhiteSpace(_settings.FilePath))
             {
                 SearchCategory.IsEnabled = true;
                 SearchFilter.IsEnabled = true;
                 New.IsEnabled = true;
                 SearchCategory.Text = "Name";
-                DbPath.Text = _xmlSettings.FilePath;
+                DbPath.Text = _settings.FilePath;
                 if (!File.Exists(DbPath.Text))
                 {
                     DbPath.Background = Brushes.Maroon;
@@ -168,7 +170,7 @@ namespace Movie
 
         private void ToggleFlyout(int index, bool stayOpen = false)
         {
-            var activeFlyout = (Flyout) Flyouts.Items[index];
+            var activeFlyout = (Flyout)Flyouts.Items[index];
             if (activeFlyout == null)
             {
                 return;
@@ -335,7 +337,7 @@ namespace Movie
 
         private void DistributeCheckBoxClick(object sender, RoutedEventArgs e)
         {
-            var result = ((CheckBox) sender).IsChecked;
+            var result = ((CheckBox)sender).IsChecked;
 
             if (!result.HasValue)
             {
@@ -382,14 +384,14 @@ namespace Movie
             _listCollectionView.Filter = m => Filter(m, SearchCategory.Text, SearchFilter.Text);
         }
 
-        private bool Filter(object m, string category, string text)
+        private static bool Filter(object m, string category, string text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
                 return true;
             }
 
-            var movieRecord = (MovieRecord) m;
+            var movieRecord = (MovieRecord)m;
 
             return category switch
             {
@@ -454,7 +456,7 @@ namespace Movie
 
         private void CommandBindingExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            ((Calendar) e.Parameter).SelectedDate = DateTime.Now.Date;
+            ((Calendar)e.Parameter).SelectedDate = DateTime.Now.Date;
         }
 
         #endregion Watched movie

@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))-develop</Version>
     <Authors>Sebastian Walter</Authors>
     <Company>evilbaschdi (Sebastian Walter)</Company>
     <Product>Movie</Product>
     <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>preview</LangVersion>
     <PackageProjectUrl>https://github.com/evilbaschdi/movies</PackageProjectUrl>
     <RepositoryUrl>https://github.com/evilbaschdi/movies</RepositoryUrl>
     <PackageIconUrl>https://github.com/evilbaschdi/Movies/blob/master/Movie/movie.ico</PackageIconUrl>
@@ -24,26 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Core" Version="2020.6.12.1028" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0-preview.6.20305.6" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2021.10.11.609-develop" />
+    <PackageReference Include="EvilBaschdi.Settings" Version="2021.9.27.2010-develop" />
   </ItemGroup>
 
+
   <ItemGroup>
-    <Compile Update="Models\MovieRecord.cs">
-      <DependentUpon>IMovieRecord.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Movies.cs">
-      <DependentUpon>IMovies.cs</DependentUpon>
-    </Compile>
-    <Compile Update="ResourceStreamText.cs">
-      <DependentUpon>IResourceStreamText.cs</DependentUpon>
-    </Compile>
-    <Compile Update="XmlDatabase.cs">
-      <DependentUpon>IXmlDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Update="XmlSettings.cs">
-      <DependentUpon>IXmlSettings.cs</DependentUpon>
-    </Compile>
+    <None Update="Settings\ApplicationSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

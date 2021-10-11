@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using EvilBaschdi.Core;
 using JetBrains.Annotations;
 using Movie.Core.Models;
 
@@ -87,36 +86,5 @@ namespace Movie.Core
         /// <inheritdoc />
         public List<MovieRecord> Value => (from DataRowView dataRowView in _xmlDatabase.Value select _transformDataRowToMovieRecord.ValueFor(dataRowView.Row))
                                           .OrderBy(m => m.Name).ToList();
-    }
-
-    /// <inheritdoc />
-    public interface ITransformDataRowToMovieRecord : IValueFor<DataRow, MovieRecord>
-    {
-    }
-
-    /// <inheritdoc />
-    public class TransformDataRowToMovieRecord : ITransformDataRowToMovieRecord
-    {
-        /// <inheritdoc />
-        public MovieRecord ValueFor([NotNull] DataRow dataRow)
-        {
-            if (dataRow == null)
-            {
-                throw new ArgumentNullException(nameof(dataRow));
-            }
-
-            return new MovieRecord
-                   {
-                       Id = dataRow["Id"] != DBNull.Value ? dataRow["Id"].ToString() : string.Empty,
-                       Name = dataRow["Name"] != DBNull.Value ? dataRow["Name"].ToString() : string.Empty,
-                       Year = dataRow["Year"] != DBNull.Value ? dataRow["Year"].ToString() : string.Empty,
-                       Format = dataRow["Format"] != DBNull.Value ? dataRow["Format"].ToString() : string.Empty,
-                       Distributed =
-                           dataRow["Distributed"] != DBNull.Value ? dataRow["Distributed"].ToString() : string.Empty,
-                       DistributedTo =
-                           dataRow["DistributedTo"] != DBNull.Value ? dataRow["DistributedTo"].ToString() : string.Empty,
-                       Watched = dataRow["Watched"] != DBNull.Value ? dataRow["Watched"].ToString() : string.Empty
-                   };
-        }
     }
 }

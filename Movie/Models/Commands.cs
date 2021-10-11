@@ -8,6 +8,6 @@ namespace Movie.Models
     {
         /// <summary>
         /// </summary>
-        public static readonly RoutedCommand SelectToday = new RoutedCommand("Today", typeof(Commands));
+        public static readonly RoutedCommand SelectToday = new("Today", typeof(Commands));
     }
 }

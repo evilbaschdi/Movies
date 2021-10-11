@@ -52,7 +52,7 @@
     <!--  Grid  -->
     <Grid>
         <!--  DataGrid  -->
-        <DataGrid Name="MovieGrid" Margin="10,10,10,10" AutoGenerateColumns="False" CanUserAddRows="False"  Sorting="DataGridSorting"
+        <DataGrid Name="MovieGrid" Margin="10,10,10,10" AutoGenerateColumns="False" CanUserAddRows="False" Sorting="DataGridSorting"
                   CanUserDeleteRows="False" ColumnWidth="*" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}"
                   GridLinesVisibility="Horizontal" IsReadOnly="True" MouseDoubleClick="MovieGridOnMouseDoubleClick"
                   SelectionChanged="MovieGridSelectionChanged"
