@@ -1,15 +1,14 @@
-namespace Movie.Core
+namespace Movie.Core;
+
+/// <summary>
+/// </summary>
+public interface ISettings
 {
     /// <summary>
     /// </summary>
-    public interface ISettings
-    {
-        /// <summary>
-        /// </summary>
-        string DbType { get; set; }
+    string DbType { get; set; }
 
-        /// <summary>
-        /// </summary>
-        string FilePath { get; set; }
-    }
+    /// <summary>
+    /// </summary>
+    string FilePath { get; set; }
 }

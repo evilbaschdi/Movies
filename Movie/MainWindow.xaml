@@ -9,7 +9,7 @@
                       Width="1000"
                       TitleCharacterCasing="Normal"
                       Height="700" Icon="movie.ico" ShowIconOnTitleBar="False"
-                      GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}"
+
                       LeftWindowCommandsOverlayBehavior="Never"
                       RightWindowCommandsOverlayBehavior="Never"
                       WindowButtonCommandsOverlayBehavior="Never">
@@ -84,13 +84,16 @@
             <!--  ContextMenu  -->
             <DataGrid.ContextMenu>
                 <ContextMenu Name="MovieContextMenu" StaysOpen="True" HasDropShadow="True">
+                    <!-- ReSharper disable Xaml.RedundantResource -->
                     <MenuItem Name="WatchedFlyoutMenuItem" Click="ToggleWatchedFlyoutClick"
                               Header="Update date of watching" />
+
                     <MenuItem Name="DistributeMenuItem" Click="DistributeClick" Header="Distribute this one"
                               IsEnabled="True" />
                     <MenuItem Name="GotBackMenuItem" Click="GotBackClick" Header="Got back" />
                     <MenuItem Name="EditMenuItem" Click="EditClick" Header="Edit" />
                     <MenuItem Name="DeleteMenuItem" Click="DeleteClick" Header="Delete" />
+                    <!-- ReSharper restore Xaml.RedundantResource -->
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <!--  GroupStyle  -->
@@ -128,7 +131,7 @@
         <controls:FlyoutsControl>
             <!--  Settings Flyout  -->
             <controls:Flyout Name="SettingsFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True"
-                             Header="settings" Position="Right" Theme="Accent">
+                             Header="settings" Position="Right" Theme="Adapt">
                 <StackPanel>
                     <!-- DbType -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
@@ -175,7 +178,7 @@
             </controls:Flyout>
             <!--  AddEdit Flyout  -->
             <controls:Flyout Name="AddEditFlyout" Height="350" AnimateOnPositionChange="True" AnimateOpacity="True"
-                             Header="add new " Position="Bottom" Theme="Accent">
+                             Header="add new " Position="Bottom" Theme="Adapt">
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Vertical">
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Name" />
@@ -211,7 +214,7 @@
             </controls:Flyout>
             <!--  Watched Flyout  -->
             <controls:Flyout Name="WatchedFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True"
-                             Header="last time of watching" Position="Left" Theme="Accent">
+                             Header="last time of watching" Position="Left" Theme="Adapt">
                 <StackPanel>
                     <!-- Date -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
@@ -261,7 +264,7 @@
             </controls:Flyout>
             <!--  Distributed Flyout  -->
             <controls:Flyout Name="DistributedFlyout" Width="500" AnimateOnPositionChange="True" AnimateOpacity="True"
-                             Header="distribute" Position="Left" Theme="Accent">
+                             Header="distribute" Position="Left" Theme="Adapt">
                 <StackPanel>
                     <!-- Distributed To -->
                     <StackPanel Margin="10,5,0,0" Orientation="Horizontal">

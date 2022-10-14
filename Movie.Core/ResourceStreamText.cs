@@ -1,25 +1,21 @@
-﻿using System;
-using System.IO;
+﻿namespace Movie.Core;
 
-namespace Movie.Core
+/// <inheritdoc />
+public class ResourceStreamText : IResourceStreamText
 {
     /// <inheritdoc />
-    public class ResourceStreamText : IResourceStreamText
+    public string ValueFor(string filename)
     {
-        /// <inheritdoc />
-        public string ValueFor(string filename)
+        if (filename == null)
         {
-            if (filename == null)
-            {
-                throw new ArgumentNullException(nameof(filename));
-            }
-
-            using var stream = GetType().Assembly.GetManifestResourceStream($"Movie.Core.{filename}");
-            // ReSharper disable AssignNullToNotNullAttribute
-            using var sr = new StreamReader(stream);
-            var result = sr.ReadToEnd();
-
-            return result;
+            throw new ArgumentNullException(nameof(filename));
         }
+
+        using var stream = GetType().Assembly.GetManifestResourceStream($"Movie.Core.{filename}");
+        // ReSharper disable AssignNullToNotNullAttribute
+        using var sr = new StreamReader(stream);
+        var result = sr.ReadToEnd();
+
+        return result;
     }
 }

@@ -1,23 +1,22 @@
-namespace Movie.Internal
+namespace Movie.Internal;
+
+/// <summary>
+/// </summary>
+public interface IAppBasic
 {
     /// <summary>
     /// </summary>
-    public interface IAppBasic
-    {
-        /// <summary>
-        /// </summary>
-        void Reset();
+    void Reset();
 
-        /// <summary>
-        /// </summary>
-        void Browse();
+    /// <summary>
+    /// </summary>
+    void Browse();
 
-        /// <summary>
-        /// </summary>
-        void Save();
+    /// <summary>
+    /// </summary>
+    void Save();
 
-        /// <summary>
-        /// </summary>
-        void SetComboBoxItems();
-    }
+    /// <summary>
+    /// </summary>
+    void SetComboBoxItems();
 }

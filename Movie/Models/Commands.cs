@@ -1,13 +1,12 @@
 using System.Windows.Input;
 
-namespace Movie.Models
+namespace Movie.Models;
+
+/// <summary>
+/// </summary>
+public class Commands
 {
     /// <summary>
     /// </summary>
-    public class Commands
-    {
-        /// <summary>
-        /// </summary>
-        public static readonly RoutedCommand SelectToday = new("Today", typeof(Commands));
-    }
+    public static readonly RoutedCommand SelectToday = new("Today", typeof(Commands));
 }

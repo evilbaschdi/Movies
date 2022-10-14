@@ -15,7 +15,19 @@
     <RepositoryUrl>https://github.com/evilbaschdi/movies</RepositoryUrl>
     <PackageIconUrl>https://github.com/evilbaschdi/Movies/blob/master/Movie/movie.ico</PackageIconUrl>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\DvdLibraryImport.xml</DocumentationFile>
+	  <EnableNETAnalyzers>true</EnableNETAnalyzers>
+	  <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Movie.Core\Movie.Core.csproj">
