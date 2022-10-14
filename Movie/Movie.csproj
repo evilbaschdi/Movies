@@ -36,15 +36,19 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+
 	<ItemGroup>
 		<AppDesigner Include="Properties\" />
 	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\Movie.Core\Movie.Core.csproj" />
 	</ItemGroup>
+
 	<ItemGroup>
 		<Resource Include="movie.ico" />
 	</ItemGroup>
+
 	<ItemGroup>
 		<Content Include="Movie.VisualElementsManifest.xml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -59,6 +63,7 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
+
 	<ItemGroup>
 		<Compile Update="Properties\Settings.Designer.cs">
 			<DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -66,6 +71,7 @@
 			<DependentUpon>Settings.settings</DependentUpon>
 		</Compile>
 	</ItemGroup>
+
 	<ItemGroup>
 		<None Update="Properties\Settings.settings">
 			<Generator>SettingsSingleFileGenerator</Generator>

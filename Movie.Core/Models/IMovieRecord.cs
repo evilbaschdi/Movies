@@ -13,7 +13,6 @@ public interface IMovieRecord
     string DistributedTo { get; set; }
 
     /// <remarks />
-
     string Format { get; set; }
 
     /// <remarks />

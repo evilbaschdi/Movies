@@ -27,6 +27,7 @@ public partial class MainWindow
     private readonly ICurrentFlyOuts _currentFlyOuts;
     private readonly IMovies _movies;
     private readonly ISettings _settings;
+    private readonly IApplicationStyle _style;
     private readonly IToggleFlyOut _toggleFlyOut;
     private string _currentId;
     private IMovieRecord _currentMovieRecord;
@@ -36,7 +37,6 @@ public partial class MainWindow
     private string _prevSortHeader;
     private SortDescription _sd;
     private string _sortHeader;
-    private readonly IApplicationStyle _style;
 
     /// <summary>
     ///     MainWindows.
@@ -297,7 +297,6 @@ public partial class MainWindow
     private async void DeleteData()
     {
         try
-
         {
             var delete =
                 await
