@@ -1,36 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
+	<PropertyGroup>
 
-    <OutputType>Exe</OutputType>
-    <RootNamespace>DvdLibraryImport</RootNamespace>
-    <AssemblyName>DvdLibraryImport</AssemblyName>
-    <TargetFramework>net6.0</TargetFramework>
-    <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))-develop</Version>
-    <Authors>Sebastian Walter</Authors>
-    <Company>evilbaschdi (Sebastian Walter)</Company>
-    <Product>Movie</Product>
-    <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
-    <LangVersion>preview</LangVersion>
-    <PackageProjectUrl>https://github.com/evilbaschdi/movies</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/evilbaschdi/movies</RepositoryUrl>
-    <PackageIconUrl>https://github.com/evilbaschdi/Movies/blob/master/Movie/movie.ico</PackageIconUrl>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\DvdLibraryImport.xml</DocumentationFile>
-	  <EnableNETAnalyzers>true</EnableNETAnalyzers>
-	  <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>DvdLibraryImport</RootNamespace>
+		<AssemblyName>DvdLibraryImport</AssemblyName>
+		<TargetFramework>net6.0</TargetFramework>
+		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))-develop</Version>
+		<Authors>Sebastian Walter</Authors>
+		<Company>evilbaschdi (Sebastian Walter)</Company>
+		<Product>Movie</Product>
+		<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
+		<LangVersion>preview</LangVersion>
+		<PackageProjectUrl>https://github.com/evilbaschdi/movies</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/evilbaschdi/movies</RepositoryUrl>
+		<PackageIconUrl>https://github.com/evilbaschdi/Movies/blob/master/Movie/movie.ico</PackageIconUrl>
+		<!-- ReSharper disable once UnknownProperty -->
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\DvdLibraryImport.xml</DocumentationFile>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Movie.Core\Movie.Core.csproj">
-    </ProjectReference>
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Movie.Core\Movie.Core.csproj">
+		</ProjectReference>
+	</ItemGroup>
 </Project>

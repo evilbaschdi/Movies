@@ -5,8 +5,11 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using EvilBaschdi.About.Core;
+using EvilBaschdi.About.Core.Models;
+using EvilBaschdi.About.Wpf;
+using EvilBaschdi.Core;
 using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.Controls.About;
 using EvilBaschdi.CoreExtended.FlyOut;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -27,7 +30,6 @@ public partial class MainWindow
     private readonly ICurrentFlyOuts _currentFlyOuts;
     private readonly IMovies _movies;
     private readonly ISettings _settings;
-    private readonly IApplicationStyle _style;
     private readonly IToggleFlyOut _toggleFlyOut;
     private string _currentId;
     private IMovieRecord _currentMovieRecord;
@@ -53,8 +55,8 @@ public partial class MainWindow
 
         InitializeComponent();
 
-        _style = new ApplicationStyle(true, true);
-        _style.Run();
+        IApplicationStyle applicationStyle = new ApplicationStyle(true);
+        applicationStyle.Run();
         _addEdit = new AddEdit(this, _movies);
         ValidateSettings();
         _appBasic.SetComboBoxItems();
@@ -66,7 +68,7 @@ public partial class MainWindow
     {
         ICurrentAssembly currentAssembly = new CurrentAssembly();
         IAboutContent aboutContent = new AboutContent(currentAssembly);
-        IAboutModel aboutModel = new AboutViewModel(aboutContent, _style);
+        IAboutModel aboutModel = new AboutViewModel(aboutContent);
         var aboutWindow = new AboutWindow(aboutModel);
 
         aboutWindow.ShowDialog();
