@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>movie.ico</ApplicationIcon>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))-develop</Version>
@@ -14,6 +14,7 @@
 		<PackageProjectUrl>https://github.com/evilbaschdi/movies</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/evilbaschdi/movies</RepositoryUrl>
 		<PackageIconUrl>https://github.com/evilbaschdi/Movies/blob/master/Movie/movie.ico</PackageIconUrl>
+		<PublishSingleFile>true</PublishSingleFile>
 		<!-- ReSharper disable once UnknownProperty -->
 		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -21,19 +22,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.Core.Wpf" Version="2023.2.20.2127-develop" />
-		<PackageReference Include="EvilBaschdi.About.Wpf" Version="2023.2.19.836-develop" />
-		<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
-		<PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="4.11.0" />
-		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="WpfAnalyzers" Version="4.1.1">
+		<PackageReference Include="EvilBaschdi.Core.Wpf" />
+		<PackageReference Include="EvilBaschdi.About.Wpf" />
+		<PackageReference Include="MahApps.Metro.IconPacks.Material" />
+		<PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" />
+		<PackageReference Include="WpfAnalyzers">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

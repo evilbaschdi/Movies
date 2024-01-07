@@ -55,8 +55,10 @@ public partial class MainWindow
 
         InitializeComponent();
 
-        IApplicationStyle applicationStyle = new ApplicationStyle(true);
+        IApplicationStyle applicationStyle = new ApplicationStyle();
+        IApplicationLayout applicationLayout = new ApplicationLayout();
         applicationStyle.Run();
+        applicationLayout.RunFor((true, false));
         _addEdit = new AddEdit(this, _movies);
         ValidateSettings();
         _appBasic.SetComboBoxItems();
@@ -70,7 +72,8 @@ public partial class MainWindow
         IAboutContent aboutContent = new AboutContent(currentAssembly);
         IAboutViewModel aboutModel = new AboutViewModel(aboutContent);
         IApplyMicaBrush applyMicaBrush = new ApplyMicaBrush();
-        var aboutWindow = new AboutWindow(aboutModel, applyMicaBrush);
+        IApplicationLayout applicationLayout = new ApplicationLayout();
+        var aboutWindow = new AboutWindow(aboutModel, applicationLayout, applyMicaBrush);
 
         aboutWindow.ShowDialog();
     }
