@@ -6,10 +6,7 @@ public class ResourceStreamText : IResourceStreamText
     /// <inheritdoc />
     public string ValueFor(string filename)
     {
-        if (filename == null)
-        {
-            throw new ArgumentNullException(nameof(filename));
-        }
+        ArgumentNullException.ThrowIfNull(filename);
 
         using var stream = GetType().Assembly.GetManifestResourceStream($"Movie.Core.{filename}");
         // ReSharper disable AssignNullToNotNullAttribute

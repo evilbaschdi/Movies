@@ -24,10 +24,7 @@ public class Movies : IMovies
     /// <inheritdoc />
     public IMovieRecord ValueById(string id)
     {
-        if (id == null)
-        {
-            throw new ArgumentNullException(nameof(id));
-        }
+        ArgumentNullException.ThrowIfNull(id);
 
         var dataRow = _xmlDatabase.ValueForId(id);
         return dataRow != null ? _transformDataRowToMovieRecord.ValueFor(dataRow) : null;
@@ -36,10 +33,7 @@ public class Movies : IMovies
     /// <inheritdoc />
     public IMovieRecord ValueByName(string name)
     {
-        if (name == null)
-        {
-            throw new ArgumentNullException(nameof(name));
-        }
+        ArgumentNullException.ThrowIfNull(name);
 
         var dataRow = _xmlDatabase.ValueForName(name);
         return dataRow != null ? _transformDataRowToMovieRecord.ValueFor(dataRow) : null;
@@ -48,10 +42,7 @@ public class Movies : IMovies
     /// <inheritdoc />
     public void Update(IMovieRecord movieRecord)
     {
-        if (movieRecord == null)
-        {
-            throw new ArgumentNullException(nameof(movieRecord));
-        }
+        ArgumentNullException.ThrowIfNull(movieRecord);
 
         _xmlDatabase.Update(movieRecord);
     }
@@ -59,10 +50,7 @@ public class Movies : IMovies
     /// <inheritdoc />
     public void Create(IMovieRecord movieRecord)
     {
-        if (movieRecord == null)
-        {
-            throw new ArgumentNullException(nameof(movieRecord));
-        }
+        ArgumentNullException.ThrowIfNull(movieRecord);
 
         _xmlDatabase.Create(movieRecord);
     }
@@ -70,10 +58,7 @@ public class Movies : IMovies
     /// <inheritdoc />
     public void Delete(string id)
     {
-        if (id == null)
-        {
-            throw new ArgumentNullException(nameof(id));
-        }
+        ArgumentNullException.ThrowIfNull(id);
 
         _xmlDatabase.Delete(id);
     }

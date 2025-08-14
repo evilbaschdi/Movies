@@ -5,6 +5,4 @@ using Movie.Core.Models;
 namespace Movie.Core;
 
 /// <inheritdoc />
-public interface ITransformDataRowToMovieRecord : IValueFor<DataRow, MovieRecord>
-{
-}
+public interface ITransformDataRowToMovieRecord : IValueFor<DataRow, MovieRecord>;

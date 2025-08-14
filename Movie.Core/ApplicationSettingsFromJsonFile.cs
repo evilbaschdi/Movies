@@ -1,5 +1,5 @@
-using EvilBaschdi.Settings;
-using EvilBaschdi.Settings.Writable;
+using EvilBaschdi.Core.Settings;
+using EvilBaschdi.Core.Settings.Writable;
 
 namespace Movie.Core;
 

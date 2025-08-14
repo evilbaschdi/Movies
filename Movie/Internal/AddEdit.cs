@@ -86,13 +86,7 @@ public class AddEdit : IAddEdit
         //_mainWindow.Load();
     }
 
-    private bool IsDuplicate()
-    {
-        return _movies.ValueByName(_movieRecord.Name) != null && Mode == "add";
-    }
+    private bool IsDuplicate() => _movies.ValueByName(_movieRecord.Name) != null && Mode == "add";
 
-    private bool IsValid()
-    {
-        return !string.IsNullOrWhiteSpace(_movieRecord.Name);
-    }
+    private bool IsValid() => !string.IsNullOrWhiteSpace(_movieRecord.Name);
 }

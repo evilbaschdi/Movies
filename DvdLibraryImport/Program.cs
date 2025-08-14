@@ -34,7 +34,7 @@ public class Program
         {
             foreach (var list in items.Select(item => item.Element("data")?.Elements().ToList()))
             {
-                if (list != null && list.Any())
+                if (list != null && list.Count != 0)
                 {
                     foreach (var item in list)
                     {

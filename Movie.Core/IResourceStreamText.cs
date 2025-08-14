@@ -3,6 +3,4 @@
 namespace Movie.Core;
 
 /// <inheritdoc />
-public interface IResourceStreamText : IValueFor<string, string>
-{
-}
+public interface IResourceStreamText : IValueFor<string, string>;

@@ -1,8 +1,6 @@
-using EvilBaschdi.Settings;
+using EvilBaschdi.Core.Settings;
 
 namespace Movie.Core;
 
 /// <inheritdoc />
-public interface IApplicationSettingsFromJsonFile : ISettingsFromJsonFile
-{
-}
+public interface IApplicationSettingsFromJsonFile : ISettingsFromJsonFile;

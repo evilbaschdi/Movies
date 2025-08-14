@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))-develop</Version>
+		<TargetFramework>net9.0</TargetFramework>
+		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.H))-develop</Version>
 		<Authors>Sebastian Walter</Authors>
 		<Company>evilbaschdi (Sebastian Walter)</Company>
 		<Product>Movie</Product>
@@ -12,7 +12,7 @@
 		<RepositoryUrl>https://github.com/evilbaschdi/movies</RepositoryUrl>
 		<PackageIconUrl>https://github.com/evilbaschdi/Movies/blob/master/Movie/movie.ico</PackageIconUrl>
 		<!-- ReSharper disable once UnknownProperty -->
-		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -28,7 +28,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.Core" />
-		<PackageReference Include="EvilBaschdi.Settings" />
+		<PackageReference Include="EvilBaschdi.Core.Settings" />
 	</ItemGroup>
 
 

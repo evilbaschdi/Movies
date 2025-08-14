@@ -10,10 +10,7 @@ public class TransformDataRowToMovieRecord : ITransformDataRowToMovieRecord
     /// <inheritdoc />
     public MovieRecord ValueFor([NotNull] DataRow dataRow)
     {
-        if (dataRow == null)
-        {
-            throw new ArgumentNullException(nameof(dataRow));
-        }
+        ArgumentNullException.ThrowIfNull(dataRow);
 
         return new()
                {

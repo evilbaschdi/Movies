@@ -56,10 +56,7 @@ public class XmlDatabase : IXmlDatabase
     /// </summary>
     public void Delete(string id)
     {
-        if (id == null)
-        {
-            throw new ArgumentNullException(nameof(id));
-        }
+        ArgumentNullException.ThrowIfNull(id);
 
         _dataView.RowFilter = $"Id='{id}'";
         _dataView.Sort = "Id";
@@ -73,10 +70,7 @@ public class XmlDatabase : IXmlDatabase
     /// </summary>
     public DataRow ValueForId(string id)
     {
-        if (id == null)
-        {
-            throw new ArgumentNullException(nameof(id));
-        }
+        ArgumentNullException.ThrowIfNull(id);
 
         _dataView.RowFilter = $"Id='{id}'";
         _dataView.Sort = "Id";
@@ -95,10 +89,7 @@ public class XmlDatabase : IXmlDatabase
     /// </summary>
     public DataRow ValueForName(string name)
     {
-        if (name == null)
-        {
-            throw new ArgumentNullException(nameof(name));
-        }
+        ArgumentNullException.ThrowIfNull(name);
 
         _dataView.RowFilter = $"Name='{name}'";
         _dataView.Sort = "Name";

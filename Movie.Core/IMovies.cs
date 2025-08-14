@@ -5,7 +5,7 @@ namespace Movie.Core;
 
 /// <summary>
 /// </summary>
-public interface IMovies : IValueOfList<MovieRecord>
+public interface IMovies : IListOf<MovieRecord>
 {
     /// <summary>
     /// </summary>
