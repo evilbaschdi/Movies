@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="global.json" />
+    <File Path="NuGet.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="DvdLibraryImport/DvdLibraryImport.csproj" />
+  <Project Path="Movie.Core/Movie.Core.csproj" />
+  <Project Path="Movie/Movie.csproj" />
+</Solution>
