@@ -4,7 +4,7 @@
 		<OutputType>Exe</OutputType>
 		<RootNamespace>DvdLibraryImport</RootNamespace>
 		<AssemblyName>DvdLibraryImport</AssemblyName>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.H))-develop</Version>
 		<Authors>Sebastian Walter</Authors>
 		<Company>evilbaschdi (Sebastian Walter)</Company>
