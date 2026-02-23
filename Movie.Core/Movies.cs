@@ -1,5 +1,3 @@
-using System.Data;
-using JetBrains.Annotations;
 using Movie.Core.Models;
 
 namespace Movie.Core;
@@ -7,18 +5,15 @@ namespace Movie.Core;
 /// <inheritdoc />
 public class Movies : IMovies
 {
-    private readonly ITransformDataRowToMovieRecord _transformDataRowToMovieRecord;
-    private readonly IXmlDatabase _xmlDatabase;
+    private readonly IJsonDatabase _jsonDatabase;
 
     /// <summary>
     ///     Constructor
     /// </summary>
-    /// <param name="xmlDatabase"></param>
-    /// <param name="transformDataRowToMovieRecord"></param>
-    public Movies(IXmlDatabase xmlDatabase, [NotNull] ITransformDataRowToMovieRecord transformDataRowToMovieRecord)
+    /// <param name="jsonDatabase"></param>
+    public Movies(IJsonDatabase jsonDatabase)
     {
-        _xmlDatabase = xmlDatabase ?? throw new ArgumentNullException(nameof(xmlDatabase));
-        _transformDataRowToMovieRecord = transformDataRowToMovieRecord ?? throw new ArgumentNullException(nameof(transformDataRowToMovieRecord));
+        _jsonDatabase = jsonDatabase ?? throw new ArgumentNullException(nameof(jsonDatabase));
     }
 
     /// <inheritdoc />
@@ -26,8 +21,7 @@ public class Movies : IMovies
     {
         ArgumentNullException.ThrowIfNull(id);
 
-        var dataRow = _xmlDatabase.ValueForId(id);
-        return dataRow != null ? _transformDataRowToMovieRecord.ValueFor(dataRow) : null;
+        return _jsonDatabase.ValueForId(id);
     }
 
     /// <inheritdoc />
@@ -35,8 +29,7 @@ public class Movies : IMovies
     {
         ArgumentNullException.ThrowIfNull(name);
 
-        var dataRow = _xmlDatabase.ValueForName(name);
-        return dataRow != null ? _transformDataRowToMovieRecord.ValueFor(dataRow) : null;
+        return _jsonDatabase.ValueForName(name);
     }
 
     /// <inheritdoc />
@@ -44,7 +37,7 @@ public class Movies : IMovies
     {
         ArgumentNullException.ThrowIfNull(movieRecord);
 
-        _xmlDatabase.Update(movieRecord);
+        _jsonDatabase.Update(movieRecord);
     }
 
     /// <inheritdoc />
@@ -52,7 +45,7 @@ public class Movies : IMovies
     {
         ArgumentNullException.ThrowIfNull(movieRecord);
 
-        _xmlDatabase.Create(movieRecord);
+        _jsonDatabase.Create(movieRecord);
     }
 
     /// <inheritdoc />
@@ -60,10 +53,9 @@ public class Movies : IMovies
     {
         ArgumentNullException.ThrowIfNull(id);
 
-        _xmlDatabase.Delete(id);
+        _jsonDatabase.Delete(id);
     }
 
     /// <inheritdoc />
-    public List<MovieRecord> Value => (from DataRowView dataRowView in _xmlDatabase.Value select _transformDataRowToMovieRecord.ValueFor(dataRowView.Row))
-                                      .OrderBy(m => m.Name).ToList();
+    public List<MovieRecord> Value => _jsonDatabase.GetValue().Select(m => (MovieRecord)m).OrderBy(m => m.Name).ToList();
 }

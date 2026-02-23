@@ -17,20 +17,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
-
-	<ItemGroup>
-		<None Remove="newMovieDb.xml" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="newMovieDb.xml" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.Core" />
 		<PackageReference Include="EvilBaschdi.Core.Settings" />
 	</ItemGroup>
-
 
 	<ItemGroup>
 		<None Update="Settings\ApplicationSettings.json">

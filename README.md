@@ -1,5 +1,7 @@
 Movies
-======
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 private project to manage my dvds and blurays.
 
 metro style: MahApps https://github.com/MahApps/MahApps.Metro

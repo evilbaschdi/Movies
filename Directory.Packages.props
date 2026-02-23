@@ -1,15 +1,15 @@
 <Project>
-  <PropertyGroup>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2026.1.13.18" />
-    <PackageVersion Include="EvilBaschdi.Core" Version="2025.12.9.20" />
-    <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2026.1.6.10" />
-    <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2026.1.27.19" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="6.2.1" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.MaterialDesign" Version="6.2.1" />
-    <PackageVersion Include="WpfAnalyzers" Version="4.1.1" />
-  </ItemGroup>
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageVersion Include="EvilBaschdi.About.Wpf" Version="2026.1.13.18" />
+		<PackageVersion Include="EvilBaschdi.Core" Version="2026.2.1.9" />
+		<PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2026.1.6.10" />
+		<PackageVersion Include="EvilBaschdi.Core.Settings" Version="2026.2.10.18" />
+		<PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="6.2.1" />
+		<PackageVersion Include="MahApps.Metro.IconPacks.MaterialDesign" Version="6.2.1" />
+		<PackageVersion Include="WpfAnalyzers" Version="4.1.1" />
+	</ItemGroup>
 </Project>

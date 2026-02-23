@@ -40,7 +40,7 @@ public class AddEdit : IAddEdit
                        {
                            Id = id,
                            Name = name,
-                           Year = year.ToString(),
+                           Year = Convert.ToInt32(year),
                            Format = format
                        };
     }

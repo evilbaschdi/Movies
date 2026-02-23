@@ -49,9 +49,8 @@ public partial class MainWindow
         IApplicationSettingsFromJsonFile applicationSettingsFromJsonFile = new ApplicationSettingsFromJsonFile();
         _settings = new Settings(applicationSettingsFromJsonFile);
         _appBasic = new AppBasic(this, _settings);
-        IXmlDatabase xmlDatabase = new XmlDatabase(_settings);
-        ITransformDataRowToMovieRecord transformDataRowToMovieRecord = new TransformDataRowToMovieRecord();
-        _movies = new Movies(xmlDatabase, transformDataRowToMovieRecord);
+        IJsonDatabase jsonDatabase = new JsonDatabase(_settings);
+        _movies = new Movies(jsonDatabase);
 
         InitializeComponent();
 
@@ -112,12 +111,10 @@ public partial class MainWindow
         _currentMovieRecord = (MovieRecord)MovieGrid.SelectedItem;
 
         _currentId = _currentMovieRecord.Id;
-        // ReSharper disable once UnusedVariable
-        //todo: repair
         var distributed = _currentMovieRecord.Distributed;
 
-        //DistributeMenuItem.SetCurrentValue(IsEnabledProperty, distributed != "True");
-        //GotBackMenuItem.SetCurrentValue(IsEnabledProperty, distributed == "True");
+        DistributeMenuItem.SetCurrentValue(IsEnabledProperty, !distributed);
+        GotBackMenuItem.SetCurrentValue(IsEnabledProperty, distributed);
     }
 
     #endregion DataGrid Logic
@@ -231,9 +228,7 @@ public partial class MainWindow
         }
 
         MovieName.SetCurrentValue(TextBox.TextProperty, _currentMovieRecord.Name);
-        Year.SetCurrentValue(NumericUpDown.ValueProperty, string.IsNullOrWhiteSpace(_currentMovieRecord.Year)
-            ? Year.Maximum
-            : Convert.ToDouble(_currentMovieRecord.Year));
+        Year.SetCurrentValue(NumericUpDown.ValueProperty, (double)_currentMovieRecord.Year);
         Format.SetCurrentValue(ComboBox.TextProperty, _currentMovieRecord.Format);
     }
 
@@ -359,7 +354,7 @@ public partial class MainWindow
             return;
         }
 
-        _currentMovieRecord.Distributed = "True";
+        _currentMovieRecord.Distributed = true;
         _currentMovieRecord.DistributedTo = DistributedTo.Text;
         _movies.Update(_currentMovieRecord);
         MovieGrid.SetCurrentValue(System.Windows.Controls.Primitives.Selector.SelectedItemProperty, null);
@@ -367,7 +362,7 @@ public partial class MainWindow
 
     private void GotBackClick(object sender, RoutedEventArgs e)
     {
-        _currentMovieRecord.Distributed = "False";
+        _currentMovieRecord.Distributed = false;
         _currentMovieRecord.DistributedTo = "";
         _movies.Update(_currentMovieRecord);
         MovieGrid.SetCurrentValue(System.Windows.Controls.Primitives.Selector.SelectedItemProperty, null);
@@ -394,9 +389,9 @@ public partial class MainWindow
         return category switch
         {
             "Name" => movieRecord.Name.Contains(text, StringComparison.InvariantCultureIgnoreCase),
-            "Year" => movieRecord.Year.Contains(text, StringComparison.InvariantCultureIgnoreCase),
+            "Year" => movieRecord.Year.ToString().Contains(text, StringComparison.InvariantCultureIgnoreCase),
             "Format" => movieRecord.Format.Contains(text, StringComparison.InvariantCultureIgnoreCase),
-            "Distributed" => movieRecord.Distributed.Contains(text, StringComparison.InvariantCultureIgnoreCase),
+            "Distributed" => movieRecord.Distributed.ToString().Contains(text, StringComparison.InvariantCultureIgnoreCase),
             _ => true
         };
     }

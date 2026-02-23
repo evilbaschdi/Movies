@@ -7,7 +7,7 @@ public interface IMovieRecord
 {
     // ReSharper disable UnusedMemberInSuper.Global
     /// <remarks />
-    string Distributed { get; set; }
+    bool Distributed { get; set; }
 
     /// <remarks />
     string DistributedTo { get; set; }
@@ -25,6 +25,6 @@ public interface IMovieRecord
     string Watched { get; set; }
 
     /// <remarks />
-    string Year { get; set; }
+    int Year { get; set; }
     // ReSharper restore UnusedMemberInSuper.Global
 }

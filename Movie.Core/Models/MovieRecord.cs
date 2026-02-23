@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Movie.Core.Models;
 
@@ -10,29 +11,36 @@ public class MovieRecord : IMovieRecord
 {
     /// <inheritdoc />
     [DataMember]
+    [JsonPropertyName("id")]
     public string Id { get; set; }
 
     /// <inheritdoc />
     [DataMember]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <inheritdoc />
     [DataMember]
-    public string Year { get; set; }
+    [JsonPropertyName("year")]
+    public int Year { get; set; }
 
     /// <inheritdoc />
     [DataMember]
+    [JsonPropertyName("format")]
     public string Format { get; set; }
 
     /// <inheritdoc />
     [DataMember]
-    public string Distributed { get; set; }
+    [JsonPropertyName("distributed")]
+    public bool Distributed { get; set; }
 
     /// <inheritdoc />
     [DataMember]
+    [JsonPropertyName("distributedTo")]
     public string DistributedTo { get; set; }
 
     /// <inheritdoc />
     [DataMember]
+    [JsonPropertyName("watched")]
     public string Watched { get; set; }
 }
