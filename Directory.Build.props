@@ -1,0 +1,34 @@
+<Project>
+
+	<PropertyGroup>
+		<Authors>Sebastian Walter</Authors>
+		<Company>evilbaschdi (Sebastian Walter)</Company>
+		<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>preview</LangVersion>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Using Include="EvilBaschdi.Core" />
+		<Using Include="EvilBaschdi.Core.Settings" />
+		<Using Include="JetBrains.Annotations" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="System.Linq" />
+	</ItemGroup>
+
+	<!-- For Avalonia UI project -->
+	<ItemGroup Condition="$(MSBuildProjectName.Contains('Avalonia'))">
+		<Using Include="EvilBaschdi.Core.Avalonia.Controls" />
+		<Using Include="EvilBaschdi.Core.Avalonia.Lifetime" />
+		<Using Include="EvilBaschdi.Core.Avalonia.Mvvm" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="EvilBaschdi.Core" />
+		<PackageReference Include="EvilBaschdi.Core.DependencyInjection" />
+		<PackageReference Include="EvilBaschdi.Core.Settings" />
+		<PackageReference Include="JetBrains.Annotations" />
+	</ItemGroup>
+
+</Project>

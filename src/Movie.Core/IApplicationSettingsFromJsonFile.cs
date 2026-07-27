@@ -1,5 +1,3 @@
-using EvilBaschdi.Core.Settings;
-
 namespace Movie.Core;
 
 /// <inheritdoc />

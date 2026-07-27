@@ -1,0 +1,37 @@
+using Avalonia.Controls;
+using Avalonia.Controls.Templates;
+using Movie.AvaloniaUI.ViewModels;
+
+namespace Movie.AvaloniaUI;
+
+/// <inheritdoc />
+public class ViewLocator : IDataTemplate
+{
+    /// <inheritdoc />
+    public Control Build([NotNull] object data)
+    {
+        ArgumentNullException.ThrowIfNull(data);
+        var name = data.GetType().FullName?.Replace("ViewModel", "View");
+
+        if (name is null)
+        {
+            return new TextBlock { Text = "View Not Found" };
+        }
+
+        var type = Type.GetType(name);
+
+        if (type is not null)
+        {
+            return (Control)Activator.CreateInstance(type)!;
+        }
+
+        return new TextBlock { Text = "Not Found: " + name };
+    }
+
+    /// <inheritdoc />
+    public bool Match(object data)
+    {
+        ArgumentNullException.ThrowIfNull(data);
+        return data is ViewModelBase;
+    }
+}

@@ -19,9 +19,7 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
-	<ItemGroup>
-	  <PackageReference Include="EvilBaschdi.Core" />
-	</ItemGroup>
+
 
 	<ItemGroup>
 		<ProjectReference Include="..\Movie.Core\Movie.Core.csproj">

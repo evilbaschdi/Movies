@@ -1,4 +1,4 @@
-﻿<Solution>
+<Solution>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
     <File Path="Directory.Packages.props" />
@@ -9,6 +9,6 @@
   <Folder Name="/src/">
     <Project Path="src/DvdLibraryImport/DvdLibraryImport.csproj" />
     <Project Path="src/Movie.Core/Movie.Core.csproj" />
-    <Project Path="src/Movie/Movie.csproj" />
+    <Project Path="src/Movie.AvaloniaUI/Movie.AvaloniaUI.csproj" />
   </Folder>
 </Solution>

@@ -1,4 +1,3 @@
-using EvilBaschdi.Core;
 using Movie.Core.Models;
 
 namespace Movie.Core;

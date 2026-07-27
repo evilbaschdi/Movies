@@ -1,0 +1,126 @@
+<windowing:FAAppWindow xmlns="https://github.com/avaloniaui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+                       xmlns:viewModels="clr-namespace:Movie.AvaloniaUI.ViewModels"
+                       xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
+                       xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
+                       x:Class="Movie.AvaloniaUI.Views.MainWindow"
+                       x:DataType="viewModels:MainWindowViewModel" mc:Ignorable="d"
+                       d:DesignWidth="1000" d:DesignHeight="700" Width="1000" Height="700"
+                       Title="{Binding TitleText}">
+
+    <Panel Name="RootPanel">
+
+        <!-- ReSharper disable once Xaml.PathError -->
+        <evilBaschdi:TitleBarControl Icon="/Assets/movie.ico" Name="TitleBarControl" />
+
+        <Panel Name="MainPanel" Margin="0,30,0,0">
+            <Panel Name="ContentPanel" Margin="0,0,0,0">
+                <Grid Margin="7" RowDefinitions="*,1,46">
+
+                    <DataGrid Grid.Row="0" Name="MovieGrid" ItemsSource="{Binding DataGridCollectionViewMovies}" AutoGenerateColumns="False" ColumnWidth="*"
+                              GridLinesVisibility="Horizontal" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMovie}" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                              DoubleTapped="MovieGrid_DoubleTapped">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Year" Binding="{Binding Year}" Width="100" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Format" Binding="{Binding Format}" Width="150" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Watched" Binding="{Binding Watched}" Width="150" FontSize="12" IsReadOnly="True" />
+                            <DataGridTemplateColumn Header="Distributed" Width="105" IsReadOnly="True" SortMemberPath="Distributed">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
+                                        <CheckBox IsChecked="{Binding Distributed}" IsEnabled="False"
+                                                  ToolTip.Tip="{Binding DistributedTo}"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Update date of watching" Command="{Binding WatchedCommand}" IsEnabled="{Binding IsMovieSelected}" />
+                                <MenuItem Header="Distribute this one" Command="{Binding DistributeCommand}" IsEnabled="{Binding IsNotDistributed}" />
+                                <MenuItem Header="Got back" Command="{Binding GotBackCommand}" IsEnabled="{Binding IsDistributed}" />
+                                <MenuItem Header="Edit" Command="{Binding EditMovieCommand}" IsEnabled="{Binding IsMovieSelected}" />
+                                <MenuItem Header="Delete" Command="{Binding DeleteMovieCommand}" IsEnabled="{Binding IsMovieSelected}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+
+                    <Separator Grid.Row="1" />
+
+                    <controls:FACommandBar Grid.Row="2" Margin="0" HorizontalAlignment="Center">
+                        <controls:FACommandBar.PrimaryCommands>
+                            <!-- Search Category -->
+                            <controls:FACommandBarElementContainer>
+                                <ComboBox Width="120" ItemsSource="{Binding SearchCategoryItems}" SelectedItem="{Binding SearchCategory}" VerticalAlignment="Center" />
+                            </controls:FACommandBarElementContainer>
+                            <!-- Search Filter -->
+                            <controls:FACommandBarElementContainer>
+                                <TextBox Width="250" Text="{Binding SearchFilterText, Mode=TwoWay}" PlaceholderText="enter search term" VerticalAlignment="Center" />
+                            </controls:FACommandBarElementContainer>
+                            <controls:FACommandBarSeparator />
+                            <!-- Add New -->
+                            <controls:FACommandBarElementContainer>
+                                <Button Command="{Binding AddMovieCommand}">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <controls:FASymbolIcon Symbol="Add" FontSize="18" />
+                                        <TextBlock Text="{Binding NewContentText}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </controls:FACommandBarElementContainer>
+                            <controls:FACommandBarSeparator />
+                            <!-- Settings -->
+                            <controls:FACommandBarElementContainer>
+                                <Button ToolTip.Tip="Settings">
+                                    <Button.Flyout>
+                                        <Flyout Placement="Top">
+                                            <StackPanel Width="300" Spacing="10">
+                                                <TextBlock Text="Settings" FontWeight="Bold" FontSize="16" />
+                                                <StackPanel Spacing="5">
+                                                    <TextBlock Text="Type" />
+                                                    <ComboBox SelectedItem="{Binding DbType}" HorizontalAlignment="Stretch">
+                                                        <ComboBoxItem Content="movie" />
+                                                        <ComboBoxItem Content="music" />
+                                                    </ComboBox>
+                                                </StackPanel>
+                                                <StackPanel Spacing="5">
+                                                    <TextBlock Text="Path" />
+                                                    <TextBox Text="{Binding DbPath}" IsReadOnly="True" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
+                                                    <Button Content="Browse" Command="{Binding BrowseSettingsAsync}" />
+                                                    <Button Content="Save" Command="{Binding SaveSettings}" />
+                                                    <Button Content="Reset DB" Command="{Binding ResetSettingsAsync}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:FASymbolIcon Symbol="Settings" FontSize="18" />
+                                    </StackPanel>
+                                </Button>
+                            </controls:FACommandBarElementContainer>
+                            <controls:FACommandBarSeparator />
+                            <!-- About -->
+                            <controls:FACommandBarElementContainer>
+                                <Button Command="{Binding AboutWindowCommand}" ToolTip.Tip="About">
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:FASymbolIcon Symbol="More" FontSize="18" />
+                                    </StackPanel>
+                                </Button>
+                            </controls:FACommandBarElementContainer>
+                        </controls:FACommandBar.PrimaryCommands>
+                    </controls:FACommandBar>
+
+                </Grid>
+            </Panel>
+        </Panel>
+    </Panel>
+
+</windowing:FAAppWindow>

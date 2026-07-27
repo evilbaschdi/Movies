@@ -1,0 +1,41 @@
+<windowing:FAAppWindow xmlns="https://github.com/avaloniaui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:viewModels="clr-namespace:Movie.AvaloniaUI.ViewModels"
+                       xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
+                       xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
+                       x:Class="Movie.AvaloniaUI.Views.DistributeDialog"
+                       x:DataType="viewModels:DistributeViewModel" mc:Ignorable="d"
+                       d:DesignWidth="450" d:DesignHeight="250" Width="450" Height="250" ShowAsDialog="True"
+                       Title="Distribute"
+                       WindowStartupLocation="CenterOwner">
+
+    <Panel Name="RootPanel">
+
+        <!-- ReSharper disable once Xaml.PathError -->
+        <evilBaschdi:TitleBarControl Icon="/Assets/movie.ico" Name="TitleBarControl" />
+
+        <Panel Name="MainPanel" Margin="0,30,0,0">
+            <Panel Name="ContentPanel" Margin="15">
+                <StackPanel Spacing="10">
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="Distribute:" FontWeight="Bold" />
+                        <TextBlock Text="{Binding MovieName}" TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="Name" />
+                        <TextBox Text="{Binding DistributedTo, Mode=TwoWay}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,15,0,0" HorizontalAlignment="Right">
+                        <Button Content="Save" Command="{Binding SaveCommand}" HotKey="Enter" />
+                        <Button Content="Cancel" Command="{Binding CancelCommand}" HotKey="Escape" />
+                    </StackPanel>
+                </StackPanel>
+            </Panel>
+        </Panel>
+    </Panel>
+
+</windowing:FAAppWindow>

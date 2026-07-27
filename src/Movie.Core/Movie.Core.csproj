@@ -17,10 +17,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.Core" />
-		<PackageReference Include="EvilBaschdi.Core.Settings" />
-	</ItemGroup>
+
 
 	<ItemGroup>
 		<None Update="Settings\ApplicationSettings.json">
