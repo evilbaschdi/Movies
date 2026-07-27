@@ -1,4 +1,4 @@
-<Solution>
+﻿<Solution>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
     <File Path="Directory.Packages.props" />
@@ -6,7 +6,9 @@
     <File Path="NuGet.config" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="DvdLibraryImport/DvdLibraryImport.csproj" />
-  <Project Path="Movie.Core/Movie.Core.csproj" />
-  <Project Path="Movie/Movie.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/DvdLibraryImport/DvdLibraryImport.csproj" />
+    <Project Path="src/Movie.Core/Movie.Core.csproj" />
+    <Project Path="src/Movie/Movie.csproj" />
+  </Folder>
 </Solution>
