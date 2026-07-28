@@ -18,18 +18,106 @@
 
         <Panel Name="MainPanel" Margin="0,30,0,0">
             <Panel Name="ContentPanel" Margin="0,0,0,0">
-                <Grid Margin="7" RowDefinitions="*,1,46">
+                <Grid Margin="7" RowDefinitions="Auto,*,1,46">
+                    <Border Grid.Row="0"
+                            Name="GroupByPanel"
+                            Margin="0,0,0,7"
+                            Padding="8,6"
+                            MinHeight="40"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            DragDrop.AllowDrop="True">
+                        <Grid>
+                            <TextBlock Text="Drag a column header here to group by that column"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                       VerticalAlignment="Center"
+                                       IsVisible="{Binding !ActiveGroupChips.Count}" />
 
-                    <DataGrid Grid.Row="0" Name="MovieGrid" ItemsSource="{Binding DataGridCollectionViewMovies}" AutoGenerateColumns="False" ColumnWidth="*"
+                            <ItemsControl ItemsSource="{Binding ActiveGroupChips}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" Spacing="6" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{DynamicResource AccentFillColorDefaultBrush}"
+                                                CornerRadius="4"
+                                                Padding="8,4">
+                                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                                <TextBlock Text="{Binding DisplayName}"
+                                                           Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="12" />
+                                                <Button Content="✕"
+                                                        Padding="2,0"
+                                                        Margin="2,0,0,0"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                                                        Command="{Binding $parent[Window].((viewModels:MainWindowViewModel)DataContext)?.RemoveGroupCommand}"
+                                                        CommandParameter="{Binding}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </Border>
+
+                    <DataGrid Grid.Row="1" Name="MovieGrid" ItemsSource="{Binding DataGridCollectionViewMovies}" AutoGenerateColumns="False" ColumnWidth="*"
                               GridLinesVisibility="Horizontal" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMovie}" ScrollViewer.VerticalScrollBarVisibility="Auto"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
                               DoubleTapped="MovieGrid_DoubleTapped">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" FontSize="12" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Year" Binding="{Binding Year}" Width="100" FontSize="12" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Format" Binding="{Binding Format}" Width="150" FontSize="12" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Watched" Binding="{Binding Watched}" Width="150" FontSize="12" IsReadOnly="True" />
-                            <DataGridTemplateColumn Header="Distributed" Width="105" IsReadOnly="True" SortMemberPath="Distributed">
+
+                            <!-- Name -->
+                            <DataGridTextColumn Binding="{Binding Name}" Width="*" FontSize="12" IsReadOnly="True">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Name" Tag="Name" PointerPressed="OnHeaderPointerPressed" />
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+
+                            <!-- Year -->
+                            <DataGridTextColumn Binding="{Binding Year}" Width="100" FontSize="12" IsReadOnly="True">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Year" Tag="Year" PointerPressed="OnHeaderPointerPressed" />
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+
+                            <!-- Format -->
+                            <DataGridTextColumn Binding="{Binding Format}" Width="150" FontSize="12" IsReadOnly="True">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Format" Tag="Format" PointerPressed="OnHeaderPointerPressed" />
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+
+                            <!-- Watched -->
+                            <DataGridTextColumn Binding="{Binding Watched}" Width="150" FontSize="12" IsReadOnly="True">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Watched" Tag="Watched" PointerPressed="OnHeaderPointerPressed" />
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+
+                            <!-- Distributed -->
+                            <DataGridTemplateColumn Width="105" IsReadOnly="True" SortMemberPath="Distributed">
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Distributed" Tag="Distributed" PointerPressed="OnHeaderPointerPressed" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.HeaderTemplate>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
@@ -41,6 +129,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
+
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Update date of watching" Command="{Binding WatchedCommand}" IsEnabled="{Binding IsMovieSelected}" />
@@ -52,9 +141,9 @@
                         </DataGrid.ContextMenu>
                     </DataGrid>
 
-                    <Separator Grid.Row="1" />
+                    <Separator Grid.Row="2" />
 
-                    <controls:FACommandBar Grid.Row="2" Margin="0" HorizontalAlignment="Center">
+                    <controls:FACommandBar Grid.Row="3" Margin="0" HorizontalAlignment="Center">
                         <controls:FACommandBar.PrimaryCommands>
                             <!-- Search Category -->
                             <controls:FACommandBarElementContainer>

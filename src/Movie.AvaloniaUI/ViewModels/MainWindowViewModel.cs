@@ -1,4 +1,6 @@
+using System.Collections.ObjectModel;
 using Avalonia.Collections;
+using Avalonia.Platform.Storage;
 using Movie.AvaloniaUI.ViewModels.Internal;
 using Movie.Core;
 using Movie.Core.Models;
@@ -19,6 +21,13 @@ public class MainWindowViewModel : ViewModelBase
     private string _dbPath;
 
     /// <summary>
+    ///     Represents a group chip for filtering movies.
+    /// </summary>
+    /// <param name="PropertyName"></param>
+    /// <param name="DisplayName"></param>
+    public record GroupChip(string PropertyName, string DisplayName);
+
+    /// <summary>
     ///     Constructor
     /// </summary>
     public MainWindowViewModel(
@@ -36,6 +45,7 @@ public class MainWindowViewModel : ViewModelBase
 
         _dbType = !string.IsNullOrWhiteSpace(_settings.DbType) ? _settings.DbType : "movie";
         _dbPath = _settings.FilePath ?? string.Empty;
+        RemoveGroupCommand = ReactiveCommand.Create<GroupChip>(RemoveGroup);
 
         Run();
     }
@@ -108,7 +118,7 @@ public class MainWindowViewModel : ViewModelBase
     } = "Name";
 
     /// <summary />
-    public List<string> SearchCategoryItems { get; } = new() { "Name", "Year", "Format", "Distributed" };
+    public List<string> SearchCategoryItems { get; } = ["Name", "Year", "Format", "Distributed"];
 
     /// <summary />
     public string DbType
@@ -186,13 +196,13 @@ public class MainWindowViewModel : ViewModelBase
             return;
         }
 
-        var options = new Avalonia.Platform.Storage.FilePickerOpenOptions
+        var options = new FilePickerOpenOptions
                       {
                           Title = "Open XML Database",
-                          FileTypeFilter = new[]
-                                           {
-                                               new Avalonia.Platform.Storage.FilePickerFileType("XML Files") { Patterns = new[] { "*.xml" } }
-                                           },
+                          FileTypeFilter =
+                          [
+                              new("XML Files") { Patterns = ["*.xml"] }
+                          ],
                           AllowMultiple = false
                       };
 
@@ -220,15 +230,15 @@ public class MainWindowViewModel : ViewModelBase
             return;
         }
 
-        var options = new Avalonia.Platform.Storage.FilePickerSaveOptions
+        var options = new FilePickerSaveOptions
                       {
                           Title = "Save XML Database",
                           DefaultExtension = "xml",
                           SuggestedFileName = "Movie.xml",
-                          FileTypeChoices = new[]
-                                            {
-                                                new Avalonia.Platform.Storage.FilePickerFileType("XML Files") { Patterns = new[] { "*.xml" } }
-                                            }
+                          FileTypeChoices =
+                          [
+                              new("XML Files") { Patterns = ["*.xml"] }
+                          ]
                       };
 
         var result = await window.StorageProvider.SaveFilePickerAsync(options);
@@ -262,5 +272,52 @@ public class MainWindowViewModel : ViewModelBase
             "Distributed" => movieRecord.Distributed.ToString().Contains(text, StringComparison.InvariantCultureIgnoreCase),
             _ => true
         };
+    }
+
+    /// <summary>
+    ///     Gets the collection of active group chips.
+    /// </summary>
+    public ObservableCollection<GroupChip> ActiveGroupChips { get; } = [];
+
+    /// <summary>
+    ///     Gets the command to remove a group chip.
+    /// </summary>
+    public ReactiveCommand<GroupChip, RxVoid> RemoveGroupCommand { get; }
+
+    /// <summary>
+    ///     Adds a new group chip to the collection and updates the DataGridCollectionViewMovies with the corresponding
+    ///     group description.
+    /// </summary>
+    /// <param name="propertyName"></param>
+    /// <param name="displayName"></param>
+    public void AddGroup(string propertyName, string displayName)
+    {
+        if (ActiveGroupChips.Any(c => c.PropertyName == propertyName))
+        {
+            return;
+        }
+
+        ActiveGroupChips.Add(new GroupChip(propertyName, displayName));
+
+        DataGridCollectionViewMovies.GroupDescriptions.Add(new DataGridPathGroupDescription(propertyName));
+    }
+
+    private void RemoveGroup(GroupChip chip)
+    {
+        if (chip == null)
+        {
+            return;
+        }
+
+        ActiveGroupChips.Remove(chip);
+
+        var description = DataGridCollectionViewMovies.GroupDescriptions
+                                                      .OfType<DataGridPathGroupDescription>()
+                                                      .FirstOrDefault(d => d.PropertyName == chip.PropertyName);
+
+        if (description != null)
+        {
+            DataGridCollectionViewMovies.GroupDescriptions.Remove(description);
+        }
     }
 }

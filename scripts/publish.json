@@ -2,12 +2,12 @@
     "pipelineName": "Movie",
     "profiles": [
         {
-            "project": "Movie",
+            "project": "Movie.AvaloniaUI",
             "runtimes": [
                 "win-x64",
                 "win-arm64"
             ],
-            "targetFramework": "net10.0-windows",
+            "targetFramework": "net10.0",
             "selfContained": false,
             "withAppLauncher": true
         }
