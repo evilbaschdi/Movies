@@ -5,7 +5,7 @@ public class InitReactiveCommands(
     [NotNull] IAboutWindowReactiveCommand aboutWindowReactiveCommand,
     [NotNull] IAddMovieReactiveCommand addMovieReactiveCommand,
     [NotNull] IDeleteMovieReactiveCommand deleteMovieReactiveCommand,
-    [NotNull] IDistributeReactiveCommand distributeReactiveCommand,
+    [NotNull] ILendReactiveCommand lendReactiveCommand,
     [NotNull] IEditMovieReactiveCommand editMovieReactiveCommand,
     [NotNull] IGotBackReactiveCommand gotBackReactiveCommand,
     [NotNull] ISettingsReactiveCommand settingsReactiveCommand,
@@ -13,26 +13,34 @@ public class InitReactiveCommands(
 ) : IInitReactiveCommands
 {
     /// <inheritdoc />
-    public IAboutWindowReactiveCommand AboutWindowReactiveCommand { get; } = aboutWindowReactiveCommand ?? throw new ArgumentNullException(nameof(aboutWindowReactiveCommand));
+    public IAboutWindowReactiveCommand AboutWindowReactiveCommand { get; } =
+        aboutWindowReactiveCommand ?? throw new ArgumentNullException(nameof(aboutWindowReactiveCommand));
 
     /// <inheritdoc />
-    public IAddMovieReactiveCommand AddMovieReactiveCommand { get; } = addMovieReactiveCommand ?? throw new ArgumentNullException(nameof(addMovieReactiveCommand));
+    public IAddMovieReactiveCommand AddMovieReactiveCommand { get; } =
+        addMovieReactiveCommand ?? throw new ArgumentNullException(nameof(addMovieReactiveCommand));
 
     /// <inheritdoc />
-    public IDeleteMovieReactiveCommand DeleteMovieReactiveCommand { get; } = deleteMovieReactiveCommand ?? throw new ArgumentNullException(nameof(deleteMovieReactiveCommand));
+    public IDeleteMovieReactiveCommand DeleteMovieReactiveCommand { get; } =
+        deleteMovieReactiveCommand ?? throw new ArgumentNullException(nameof(deleteMovieReactiveCommand));
 
     /// <inheritdoc />
-    public IDistributeReactiveCommand DistributeReactiveCommand { get; } = distributeReactiveCommand ?? throw new ArgumentNullException(nameof(distributeReactiveCommand));
+    public ILendReactiveCommand LendReactiveCommand { get; } =
+        lendReactiveCommand ?? throw new ArgumentNullException(nameof(lendReactiveCommand));
 
     /// <inheritdoc />
-    public IEditMovieReactiveCommand EditMovieReactiveCommand { get; } = editMovieReactiveCommand ?? throw new ArgumentNullException(nameof(editMovieReactiveCommand));
+    public IEditMovieReactiveCommand EditMovieReactiveCommand { get; } =
+        editMovieReactiveCommand ?? throw new ArgumentNullException(nameof(editMovieReactiveCommand));
 
     /// <inheritdoc />
-    public IGotBackReactiveCommand GotBackReactiveCommand { get; } = gotBackReactiveCommand ?? throw new ArgumentNullException(nameof(gotBackReactiveCommand));
+    public IGotBackReactiveCommand GotBackReactiveCommand { get; } =
+        gotBackReactiveCommand ?? throw new ArgumentNullException(nameof(gotBackReactiveCommand));
 
     /// <inheritdoc />
-    public ISettingsReactiveCommand SettingsReactiveCommand { get; } = settingsReactiveCommand ?? throw new ArgumentNullException(nameof(settingsReactiveCommand));
+    public ISettingsReactiveCommand SettingsReactiveCommand { get; } =
+        settingsReactiveCommand ?? throw new ArgumentNullException(nameof(settingsReactiveCommand));
 
     /// <inheritdoc />
-    public IWatchedReactiveCommand WatchedReactiveCommand { get; } = watchedReactiveCommand ?? throw new ArgumentNullException(nameof(watchedReactiveCommand));
+    public IWatchedReactiveCommand WatchedReactiveCommand { get; } =
+        watchedReactiveCommand ?? throw new ArgumentNullException(nameof(watchedReactiveCommand));
 }

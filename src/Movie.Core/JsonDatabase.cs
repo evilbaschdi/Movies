@@ -9,11 +9,10 @@ public class JsonDatabase : IJsonDatabase
 {
     private readonly ISettings _settings;
     private List<MovieRecord> _movieRecords;
-    
+
     private class JsonRoot
     {
-        [JsonPropertyName("movies")]
-        public List<MovieRecord> Movies { get; set; }
+        [JsonPropertyName("movies")] public List<MovieRecord> Movies { get; set; }
     }
 
     /// <summary>
@@ -29,9 +28,9 @@ public class JsonDatabase : IJsonDatabase
     private void Load()
     {
         var options = new JsonSerializerOptions
-                      {
-                          PropertyNameCaseInsensitive = true
-                      };
+        {
+            PropertyNameCaseInsensitive = true
+        };
         var json = File.ReadAllText(_settings.FilePath);
         var jsonRoot = JsonSerializer.Deserialize<JsonRoot>(json, options);
         _movieRecords = jsonRoot?.Movies ?? new List<MovieRecord>();
@@ -41,16 +40,16 @@ public class JsonDatabase : IJsonDatabase
     public void Create(IMovieRecord movieRecord)
     {
         var newMovie = new MovieRecord
-                       {
-                           Id = Guid.NewGuid().ToString(),
-                           Name = movieRecord.Name,
-                           Year = movieRecord.Year,
-                           Format = movieRecord.Format,
-                           Distributed = movieRecord.Distributed,
-                           DistributedTo = movieRecord.DistributedTo,
-                           Watched = movieRecord.Watched
-                       };
-        
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = movieRecord.Name,
+            Year = movieRecord.Year,
+            Format = movieRecord.Format,
+            Lent = movieRecord.Lent,
+            LentTo = movieRecord.LentTo,
+            Watched = movieRecord.Watched
+        };
+
         _movieRecords.Add(newMovie);
         Save();
     }
@@ -64,13 +63,13 @@ public class JsonDatabase : IJsonDatabase
             existingRecord.Name = movieRecord.Name;
             existingRecord.Year = movieRecord.Year;
             existingRecord.Format = movieRecord.Format;
-            existingRecord.Distributed = movieRecord.Distributed;
-            existingRecord.DistributedTo = movieRecord.DistributedTo;
+            existingRecord.Lent = movieRecord.Lent;
+            existingRecord.LentTo = movieRecord.LentTo;
             existingRecord.Watched = movieRecord.Watched;
             Save();
         }
     }
-    
+
     /// <inheritdoc />
     public void Delete(string id)
     {
@@ -83,14 +82,14 @@ public class JsonDatabase : IJsonDatabase
             Save();
         }
     }
-    
+
     /// <inheritdoc />
     public IMovieRecord ValueForId(string id)
     {
         ArgumentNullException.ThrowIfNull(id);
         return _movieRecords.FirstOrDefault(m => m.Id == id);
     }
-    
+
     /// <inheritdoc />
     public IMovieRecord ValueForName(string name)
     {
@@ -103,7 +102,7 @@ public class JsonDatabase : IJsonDatabase
     {
         return _movieRecords.Cast<IMovieRecord>().ToList();
     }
-    
+
     private void Save()
     {
         var options = new JsonSerializerOptions { WriteIndented = true };

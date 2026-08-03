@@ -17,6 +17,6 @@ public partial class WatchedDialog : FAAppWindow
         ThemeEngine.ApplyThemeToWindow(this, false);
         var vm = ApplicationServices.GetRequiredService<WatchedViewModel>();
         DataContext = vm;
-        vm.CloseAction = () => Close();
+        vm.CloseAction = Close;
     }
 }

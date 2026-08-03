@@ -6,17 +6,17 @@ using Movie.AvaloniaUI.ViewModels;
 namespace Movie.AvaloniaUI.Views;
 
 /// <inheritdoc />
-public partial class DistributeDialog : FAAppWindow
+public partial class LendDialog : FAAppWindow
 {
     /// <summary>
     ///     Constructor
     /// </summary>
-    public DistributeDialog()
+    public LendDialog()
     {
         InitializeComponent();
         ThemeEngine.ApplyThemeToWindow(this, false);
-        var vm = ApplicationServices.GetRequiredService<DistributeViewModel>();
+        var vm = ApplicationServices.GetRequiredService<LendViewModel>();
         DataContext = vm;
-        vm.CloseAction = () => Close();
+        vm.CloseAction = Close;
     }
 }

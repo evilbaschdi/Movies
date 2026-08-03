@@ -17,6 +17,6 @@ public partial class AddEditMovieDialog : FAAppWindow
         ThemeEngine.ApplyThemeToWindow(this, false);
         var vm = ApplicationServices.GetRequiredService<AddEditMovieViewModel>();
         DataContext = vm;
-        vm.CloseAction = () => Close();
+        vm.CloseAction = Close;
     }
 }

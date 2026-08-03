@@ -4,11 +4,10 @@
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:viewModels="clr-namespace:Movie.AvaloniaUI.ViewModels"
                        xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
-                       xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
-                       x:Class="Movie.AvaloniaUI.Views.DistributeDialog"
-                       x:DataType="viewModels:DistributeViewModel" mc:Ignorable="d"
-                       d:DesignWidth="450" d:DesignHeight="250" Width="450" Height="250" ShowAsDialog="True"
-                       Title="Distribute"
+                       xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia" x:Class="Movie.AvaloniaUI.Views.LendDialog"
+                       x:DataType="viewModels:LendViewModel" mc:Ignorable="d"
+                       d:DesignWidth="450" d:DesignHeight="230" Width="450" Height="230"
+                       ShowAsDialog="True" Title="Lend"
                        WindowStartupLocation="CenterOwner">
 
     <Panel Name="RootPanel">
@@ -20,13 +19,13 @@
             <Panel Name="ContentPanel" Margin="15">
                 <StackPanel Spacing="10">
                     <StackPanel Spacing="5">
-                        <TextBlock Text="Distribute:" FontWeight="Bold" />
+                        <TextBlock Text="Lend:" FontWeight="Bold" />
                         <TextBlock Text="{Binding MovieName}" TextWrapping="Wrap" />
                     </StackPanel>
 
                     <StackPanel Spacing="5">
-                        <TextBlock Text="Name" />
-                        <TextBox Text="{Binding DistributedTo, Mode=TwoWay}" />
+                        <TextBlock Text="To:" />
+                        <TextBox Text="{Binding LentTo, Mode=TwoWay}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,15,0,0" HorizontalAlignment="Right">

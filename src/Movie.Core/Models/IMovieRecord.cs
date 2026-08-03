@@ -7,10 +7,10 @@ public interface IMovieRecord
 {
     // ReSharper disable UnusedMemberInSuper.Global
     /// <remarks />
-    bool Distributed { get; set; }
+    bool Lent { get; set; }
 
     /// <remarks />
-    string DistributedTo { get; set; }
+    string LentTo { get; set; }
 
     /// <remarks />
     string Format { get; set; }

@@ -22,8 +22,8 @@ public class GotBackReactiveCommand(
         var movie = _currentMovie.Value;
         if (movie is not null)
         {
-            movie.Distributed = false;
-            movie.DistributedTo = string.Empty;
+            movie.Lent = false;
+            movie.LentTo = string.Empty;
             _movies.Update(movie);
 
             var mainWindow = _mainWindowByApplicationLifetime.Value;

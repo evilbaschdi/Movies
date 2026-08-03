@@ -15,7 +15,7 @@ public static class ConfigureReactiveCommandServices
         services.AddSingleton<IAboutWindowReactiveCommand, AboutWindowReactiveCommand>();
         services.AddSingleton<IAddMovieReactiveCommand, AddMovieReactiveCommand>();
         services.AddSingleton<IDeleteMovieReactiveCommand, DeleteMovieReactiveCommand>();
-        services.AddSingleton<IDistributeReactiveCommand, DistributeReactiveCommand>();
+        services.AddSingleton<ILendReactiveCommand, LendReactiveCommand>();
         services.AddSingleton<IEditMovieReactiveCommand, EditMovieReactiveCommand>();
         services.AddSingleton<IGotBackReactiveCommand, GotBackReactiveCommand>();
         services.AddSingleton<ISettingsReactiveCommand, SettingsReactiveCommand>();

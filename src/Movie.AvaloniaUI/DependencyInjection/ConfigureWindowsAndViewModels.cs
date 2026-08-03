@@ -16,8 +16,8 @@ public static class ConfigureWindowsAndViewModels
         services.AddSingleton<AddEditMovieViewModel>();
         services.AddTransient<AddEditMovieDialog>();
 
-        services.AddSingleton<DistributeViewModel>();
-        services.AddTransient<DistributeDialog>();
+        services.AddSingleton<LendViewModel>();
+        services.AddTransient<LendDialog>();
 
         services.AddSingleton<WatchedViewModel>();
         services.AddTransient<WatchedDialog>();

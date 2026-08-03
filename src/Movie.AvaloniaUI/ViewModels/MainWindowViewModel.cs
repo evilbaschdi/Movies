@@ -41,7 +41,8 @@ public class MainWindowViewModel : ViewModelBase
         _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         _currentMovie = currentMovie ?? throw new ArgumentNullException(nameof(currentMovie));
         _initReactiveCommands = initReactiveCommands ?? throw new ArgumentNullException(nameof(initReactiveCommands));
-        _mainWindowByApplicationLifetime = mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
+        _mainWindowByApplicationLifetime = mainWindowByApplicationLifetime ??
+                                           throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
         _dbType = !string.IsNullOrWhiteSpace(_settings.DbType) ? _settings.DbType : "movie";
         _dbPath = _settings.FilePath ?? string.Empty;
@@ -56,7 +57,7 @@ public class MainWindowViewModel : ViewModelBase
         AboutWindowCommand = _initReactiveCommands.AboutWindowReactiveCommand.Command;
         AddMovieCommand = _initReactiveCommands.AddMovieReactiveCommand.Command;
         DeleteMovieCommand = _initReactiveCommands.DeleteMovieReactiveCommand.Command;
-        DistributeCommand = _initReactiveCommands.DistributeReactiveCommand.Command;
+        LendCommand = _initReactiveCommands.LendReactiveCommand.Command;
         EditMovieCommand = _initReactiveCommands.EditMovieReactiveCommand.Command;
         GotBackCommand = _initReactiveCommands.GotBackReactiveCommand.Command;
         SettingsCommand = _initReactiveCommands.SettingsReactiveCommand.Command;
@@ -81,8 +82,8 @@ public class MainWindowViewModel : ViewModelBase
             _currentMovie.Value = value;
             this.RaisePropertyChanged();
             this.RaisePropertyChanged(nameof(IsMovieSelected));
-            this.RaisePropertyChanged(nameof(IsDistributed));
-            this.RaisePropertyChanged(nameof(IsNotDistributed));
+            this.RaisePropertyChanged(nameof(IsLent));
+            this.RaisePropertyChanged(nameof(IsNotLent));
         }
     }
 
@@ -90,10 +91,10 @@ public class MainWindowViewModel : ViewModelBase
     public bool IsMovieSelected => SelectedMovie != null;
 
     /// <summary />
-    public bool IsDistributed => SelectedMovie?.Distributed ?? false;
+    public bool IsLent => SelectedMovie?.Lent ?? false;
 
     /// <summary />
-    public bool IsNotDistributed => SelectedMovie is { Distributed: false };
+    public bool IsNotLent => SelectedMovie is { Lent: false };
 
     /// <summary />
     public string SearchFilterText
@@ -118,7 +119,7 @@ public class MainWindowViewModel : ViewModelBase
     } = "Name";
 
     /// <summary />
-    public List<string> SearchCategoryItems { get; } = ["Name", "Year", "Format", "Distributed"];
+    public List<string> SearchCategoryItems { get; } = ["Name", "Year", "Format", "Lent"];
 
     /// <summary />
     public string DbType
@@ -150,7 +151,7 @@ public class MainWindowViewModel : ViewModelBase
     public ReactiveCommand<RxVoid, RxVoid> DeleteMovieCommand { get; set; }
 
     /// <summary />
-    public ReactiveCommand<RxVoid, RxVoid> DistributeCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> LendCommand { get; set; }
 
     /// <summary />
     public ReactiveCommand<RxVoid, RxVoid> EditMovieCommand { get; set; }
@@ -178,8 +179,10 @@ public class MainWindowViewModel : ViewModelBase
         if (!string.IsNullOrWhiteSpace(_settings.FilePath) && File.Exists(_settings.FilePath))
         {
             var list = _movies.Value;
-            DataGridCollectionViewMovies = new DataGridCollectionView(list);
-            DataGridCollectionViewMovies.Filter = ValueFilter;
+            DataGridCollectionViewMovies = new DataGridCollectionView(list)
+                                           {
+                                               Filter = ValueFilter
+                                           };
         }
         else
         {
@@ -269,7 +272,7 @@ public class MainWindowViewModel : ViewModelBase
             "Name" => movieRecord.Name?.Contains(text, StringComparison.InvariantCultureIgnoreCase) ?? false,
             "Year" => movieRecord.Year.ToString().Contains(text, StringComparison.InvariantCultureIgnoreCase),
             "Format" => movieRecord.Format?.Contains(text, StringComparison.InvariantCultureIgnoreCase) ?? false,
-            "Distributed" => movieRecord.Distributed.ToString().Contains(text, StringComparison.InvariantCultureIgnoreCase),
+            "Lent" => movieRecord.Lent.ToString().Contains(text, StringComparison.InvariantCultureIgnoreCase),
             _ => true
         };
     }

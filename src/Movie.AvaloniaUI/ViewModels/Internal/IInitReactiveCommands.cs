@@ -13,7 +13,7 @@ public interface IInitReactiveCommands
     IDeleteMovieReactiveCommand DeleteMovieReactiveCommand { get; }
 
     /// <summary />
-    IDistributeReactiveCommand DistributeReactiveCommand { get; }
+    ILendReactiveCommand LendReactiveCommand { get; }
 
     /// <summary />
     IEditMovieReactiveCommand EditMovieReactiveCommand { get; }

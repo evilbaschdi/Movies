@@ -31,13 +31,13 @@ public class MovieRecord : IMovieRecord
 
     /// <inheritdoc />
     [DataMember]
-    [JsonPropertyName("distributed")]
-    public bool Distributed { get; set; }
+    [JsonPropertyName("lent")]
+    public bool Lent { get; set; }
 
     /// <inheritdoc />
     [DataMember]
-    [JsonPropertyName("distributedTo")]
-    public string DistributedTo { get; set; }
+    [JsonPropertyName("lentTo")]
+    public string LentTo { get; set; }
 
     /// <inheritdoc />
     [DataMember]

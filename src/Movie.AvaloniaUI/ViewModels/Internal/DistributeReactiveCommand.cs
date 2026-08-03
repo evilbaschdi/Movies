@@ -3,10 +3,11 @@ using Movie.AvaloniaUI.Views;
 
 namespace Movie.AvaloniaUI.ViewModels.Internal;
 
-/// <inheritdoc cref="IDistributeReactiveCommand" />
+/// <inheritdoc cref="ILendReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandRxVoidTask" />
-public class DistributeReactiveCommand(
-    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandRxVoidTask, IDistributeReactiveCommand
+public class LendReactiveCommand(
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime)
+    : ReactiveCommandRxVoidTask, ILendReactiveCommand
 {
     private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
@@ -14,8 +15,8 @@ public class DistributeReactiveCommand(
     /// <inheritdoc />
     public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        var distributeDialog = ApplicationServices.GetRequiredService<DistributeDialog>();
-        var viewModel = distributeDialog.DataContext as DistributeViewModel;
+        var lendDialog = ApplicationServices.GetRequiredService<LendDialog>();
+        var viewModel = lendDialog.DataContext as LendViewModel;
         if (viewModel is not null)
         {
             viewModel.LoadFromCurrentMovie();
@@ -24,7 +25,7 @@ public class DistributeReactiveCommand(
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         if (mainWindow is not null)
         {
-            await distributeDialog.ShowDialog(mainWindow);
+            await lendDialog.ShowDialog(mainWindow);
             var mainVm = mainWindow.DataContext as MainWindowViewModel;
             mainVm?.Load();
         }

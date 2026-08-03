@@ -7,7 +7,8 @@
                        xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
                        x:Class="Movie.AvaloniaUI.Views.WatchedDialog"
                        x:DataType="viewModels:WatchedViewModel" mc:Ignorable="d"
-                       d:DesignWidth="450" d:DesignHeight="250" Width="450" Height="250" ShowAsDialog="True"
+                       d:DesignWidth="450" d:DesignHeight="230" Width="450" Height="230"
+                       ShowAsDialog="True"
                        Title="Update date of watching"
                        WindowStartupLocation="CenterOwner">
 

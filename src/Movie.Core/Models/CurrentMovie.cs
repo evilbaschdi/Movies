@@ -43,17 +43,17 @@ public class CurrentMovie : CachedWritableValue<IMovieRecord>, ICurrentMovie
     }
 
     /// <inheritdoc />
-    public bool Distributed
+    public bool Lent
     {
-        get => Value?.Distributed ?? false;
-        set => Value.Distributed = value;
+        get => Value?.Lent ?? false;
+        set => Value.Lent = value;
     }
 
     /// <inheritdoc />
-    public string DistributedTo
+    public string LentTo
     {
-        get => Value?.DistributedTo;
-        set => Value.DistributedTo = value;
+        get => Value?.LentTo;
+        set => Value.LentTo = value;
     }
 
     /// <inheritdoc />

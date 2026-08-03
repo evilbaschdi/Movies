@@ -5,18 +5,18 @@ using Movie.Core.Models;
 namespace Movie.AvaloniaUI.ViewModels;
 
 /// <inheritdoc />
-public class DistributeViewModel : ViewModelBase
+public class LendViewModel : ViewModelBase
 {
     private readonly IMovies _movies;
     private readonly ICurrentMovie _currentMovie;
 
     private string _movieName = string.Empty;
-    private string _distributedTo = string.Empty;
+    private string _lentTo = string.Empty;
 
     /// <summary>
     ///     Constructor
     /// </summary>
-    public DistributeViewModel(IMovies movies, ICurrentMovie currentMovie)
+    public LendViewModel(IMovies movies, ICurrentMovie currentMovie)
     {
         _movies = movies ?? throw new ArgumentNullException(nameof(movies));
         _currentMovie = currentMovie ?? throw new ArgumentNullException(nameof(currentMovie));
@@ -36,10 +36,10 @@ public class DistributeViewModel : ViewModelBase
     }
 
     /// <summary />
-    public string DistributedTo
+    public string LentTo
     {
-        get => _distributedTo;
-        set => this.RaiseAndSetIfChanged(ref _distributedTo, value);
+        get => _lentTo;
+        set => this.RaiseAndSetIfChanged(ref _lentTo, value);
     }
 
     /// <summary />
@@ -55,13 +55,13 @@ public class DistributeViewModel : ViewModelBase
         if (movie is not null)
         {
             MovieName = movie.Name ?? string.Empty;
-            DistributedTo = movie.DistributedTo ?? string.Empty;
+            LentTo = movie.LentTo ?? string.Empty;
         }
     }
 
     private void Save()
     {
-        if (string.IsNullOrWhiteSpace(DistributedTo))
+        if (string.IsNullOrWhiteSpace(LentTo))
         {
             return;
         }
@@ -69,8 +69,8 @@ public class DistributeViewModel : ViewModelBase
         var movie = _currentMovie.Value;
         if (movie is not null)
         {
-            movie.Distributed = true;
-            movie.DistributedTo = DistributedTo;
+            movie.Lent = true;
+            movie.LentTo = LentTo;
             _movies.Update(movie);
         }
 
