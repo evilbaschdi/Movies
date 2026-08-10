@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
-private project to manage my dvds and blurays.
+Private project to manage my DVD and Blu-ray library.
 
 ## Features:
 
@@ -12,16 +12,19 @@ private project to manage my dvds and blurays.
 
 ## Package Feeds
 
-Default by NuGet.config is myget.org
+Default by `NuGet.config` is myget.org
 
-|                                | Feed Url                                                         |
+| Feed                           | Feed Url                                                         |
 | :----------------------------- | :--------------------------------------------------------------- |
 | ![myget.org][myGetBadge]       | <https://www.myget.org/F/evilbaschdi/api/v3/index.json>          |
 | ![codeberg.org][codebergBadge] | <https://codeberg.org/api/packages/evilbaschdi/nuget/index.json> |
 
-| main                                                         | develop                                                            |
-| :----------------------------------------------------------- | :----------------------------------------------------------------- |
-| [![CodeFactor][codeFactorMainBadge]][codeFactorMainOverview] | [![CodeFactor][codeFactorDevelopBadge]][codeFactorDevelopOverview] |
+## Quality & Activity
+
+| Branch                                | Status & Activity                                                                                                                                                        |
+| :------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Main Branch][mainBranchBadge]       | [![CodeFactor][codeFactorMainBadge]][codeFactorMainOverview] ![Commit Activity Main][commitActivityMainBadge] ![Last Commit Main][lastCommitMainBadge]                   |
+| ![Develop Branch][developBranchBadge] | [![CodeFactor][codeFactorDevelopBadge]][codeFactorDevelopOverview] ![Commit Activity Develop][commitActivityDevelopBadge] ![Last Commit Develop][lastCommitDevelopBadge] |
 
 ---
 
@@ -31,9 +34,18 @@ For older versions you needed your own themoviedb.org APIKey to use this. But th
 
 themoviedb.org api library: <https://github.com/LordMike/TMDbLib>
 
-[codeFactorMainBadge]: https://www.codefactor.io/repository/github/evilbaschdi/Movies/badge/main?style=for-the-badge
-[codeFactorMainOverview]: https://www.codefactor.io/repository/github/evilbaschdi/Movies/overview/main
-[codeFactorDevelopBadge]: https://www.codefactor.io/repository/github/evilbaschdi/Movies/badge/develop?style=for-the-badge
-[codeFactorDevelopOverview]: https://www.codefactor.io/repository/github/evilbaschdi/Movies/overview/develop
 [myGetBadge]: https://img.shields.io/badge/MyGet.org-gray?style=for-the-badge&logo=myget
 [codebergBadge]: https://img.shields.io/badge/Codeberg-gray?style=for-the-badge&logo=codeberg
+
+[mainBranchBadge]: https://img.shields.io/badge/branch-main-brightgreen?style=for-the-badge&logo=git&logoColor=white&color=c9ff00
+[developBranchBadge]: https://img.shields.io/badge/branch-develop-blue?style=for-the-badge&logo=git&logoColor=white&color=0080ff
+
+[codeFactorMainBadge]: https://www.codefactor.io/repository/github/evilbaschdi/Movies/badge/main?style=for-the-badge
+[codeFactorMainOverview]: https://www.codefactor.io/repository/github/evilbaschdi/Movies/overview/main
+[commitActivityMainBadge]: https://img.shields.io/github/commit-activity/m/evilbaschdi/Movies/main?style=for-the-badge
+[lastCommitMainBadge]: https://img.shields.io/github/last-commit/evilbaschdi/Movies/main?style=for-the-badge
+
+[codeFactorDevelopBadge]: https://www.codefactor.io/repository/github/evilbaschdi/Movies/badge/develop?style=for-the-badge
+[codeFactorDevelopOverview]: https://www.codefactor.io/repository/github/evilbaschdi/Movies/overview/develop
+[commitActivityDevelopBadge]: https://img.shields.io/github/commit-activity/m/evilbaschdi/Movies/develop?style=for-the-badge
+[lastCommitDevelopBadge]: https://img.shields.io/github/last-commit/evilbaschdi/Movies/develop?style=for-the-badge
