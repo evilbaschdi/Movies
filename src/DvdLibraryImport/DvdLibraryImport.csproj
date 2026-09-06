@@ -22,7 +22,6 @@
 
 
 	<ItemGroup>
-		<ProjectReference Include="..\Movie.Core\Movie.Core.csproj">
-		</ProjectReference>
+		<ProjectReference Include="..\Movie.Core\Movie.Core.csproj"/>
 	</ItemGroup>
 </Project>
